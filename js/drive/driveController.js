@@ -597,8 +597,14 @@ define(["app", "js/drive/driveView"], function (app, View) {
         console.log('map outting here');
     }
 
+    function reinit() {
+        console.log('reinitialising');
+        //  app.mainView.router
+    }
+
     return {
         init: init,
-        onOut: onOut
+        onOut: onOut,
+        reinit: reinit
     };
 });

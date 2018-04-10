@@ -76,9 +76,14 @@ define(["app", "js/changepassword/changepasswordView"], function (app, View) {
         console.log('change password outting');
     }
 
+    function reinit() {
+        console.log('reinitialising');
+    }
+
 
     return {
         init: init,
-        onOut: onOut
+        onOut: onOut,
+        reinit: reinit
     };
 });

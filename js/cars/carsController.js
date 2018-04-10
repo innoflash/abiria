@@ -19,6 +19,12 @@ define(["app", "js/cars/carsView"], function (app, View) {
         }*/
         console.log('add car outting');
     }
+
+    function reinit() {
+        console.log('reinitialising');
+        app.mainView.router.refreshPage();
+    }
+
     function loadCars() {
         user = Cookies.getJSON(cookienames.user);
         console.log(user);
@@ -52,6 +58,7 @@ define(["app", "js/cars/carsView"], function (app, View) {
 
     return {
         init: init,
-        onOut: onOut
+        onOut: onOut,
+        reinit: init
     };
 });

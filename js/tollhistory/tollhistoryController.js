@@ -32,6 +32,9 @@ define(["app", "js/tollhistory/tollhistoryView"], function (app, View) {
 
     return {
         init: init,
-        onOut: onOut
+        onOut: onOut,
+        reinit: function () {
+
+        }
     };
 });

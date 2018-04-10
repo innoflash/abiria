@@ -165,6 +165,7 @@ define(["app", "js/routedetails/routedetailsView"], function (app, View) {
 
     return {
         init: init,
-        onOut: onOut
+        onOut: onOut,
+        reinit: init
     };
 });

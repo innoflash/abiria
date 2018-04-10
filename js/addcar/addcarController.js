@@ -27,6 +27,10 @@ define(["app", "js/addcar/addcarView"], function (app, View) {
         console.log('add car outting');
     }
 
+    function reinit() {
+        console.log('reinitialising');
+    }
+
     function preparePage() {
         user = Cookies.getJSON(cookienames.user);
         View.fillImage();
@@ -87,6 +91,7 @@ define(["app", "js/addcar/addcarView"], function (app, View) {
 
     return {
         init: init,
-        onOut: onOut
+        onOut: onOut,
+        reinit: reinit
     };
 });

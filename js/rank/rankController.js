@@ -62,6 +62,9 @@ define(["app", "js/rank/rankView"], function (app, View) {
 
     return {
         init: init,
-        onOut: onOut
+        onOut: onOut,
+        reinit: function () {
+
+        }
     };
 });

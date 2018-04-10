@@ -89,11 +89,16 @@ define(["app", "js/car/carView"], function (app, View) {
     }
 
     function onOut() {
-       /* try {
-            app.f7.dialog.close();
-        } catch (e) {
-        }*/
+        /* try {
+             app.f7.dialog.close();
+         } catch (e) {
+         }*/
         console.log('add car outting');
+    }
+
+    function reinit() {
+        console.log('reinitialising');
+        app.mainView.router.refreshPage();
     }
 
     function preparePage() {
@@ -162,7 +167,7 @@ define(["app", "js/car/carView"], function (app, View) {
             console.log(journeys);
             if (journeys.data.length == 0) {
                 app.f7.dialog.alert('This car does not have any journeys on it as yet');
-            }else{
+            } else {
                 View.fillJourneys(journeys);
             }
         }).error(function () {
@@ -174,6 +179,7 @@ define(["app", "js/car/carView"], function (app, View) {
 
     return {
         init: init,
-        onOut: onOut
+        onOut: onOut,
+        reinit: reinit
     };
 });

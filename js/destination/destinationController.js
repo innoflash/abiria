@@ -56,6 +56,11 @@ define(["app", "js/destination/destinationView"], function (app, View) {
         }*/
     }
 
+    function reinit() {
+        console.log('reinitialising');
+        app.mainView.router.refreshPage();
+    }
+
     function restorePages() {
         $('#indexPage').show();
         $('#locationPage').show();
@@ -87,6 +92,7 @@ define(["app", "js/destination/destinationView"], function (app, View) {
 
     return {
         init: init,
-        onOut: onOut
+        onOut: onOut,
+        reinit: init
     };
 });

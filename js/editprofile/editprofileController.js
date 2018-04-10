@@ -75,9 +75,13 @@ define(["app", "js/editprofile/editprofileView"], function (app, View) {
         console.log('edit profile outting');
     }
 
+    function reinit() {
+        console.log('reinitialising');
+    }
 
     return {
         init: init,
-        onOut: onOut
+        onOut: onOut,
+        reinit: reinit
     };
 });

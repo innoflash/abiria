@@ -27,6 +27,10 @@ define(["app", "js/editcar/editcarView"], function (app, View) {
         console.log('edit car outting');
     }
 
+    function reinit() {
+        console.log('reinitialising');
+    }
+
     function preparePage() {
         user = Cookies.getJSON(cookienames.user);
         cars = JSON.parse(localStorage.getItem(cookienames.cars));
@@ -98,6 +102,7 @@ define(["app", "js/editcar/editcarView"], function (app, View) {
 
     return {
         init: init,
-        onOut: onOut
+        onOut: onOut,
+        reinit: reinit
     };
 });

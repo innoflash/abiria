@@ -25,9 +25,13 @@ define(["app", "js/contact/contactView"], function (app, View) {
         console.log('contact outting');
     }
 
+    function reinit() {
+        console.log('reinitialising');
+    }
 
     return {
         init: init,
-        onOut: onOut
+        onOut: onOut,
+        reinit: reinit
     };
 });

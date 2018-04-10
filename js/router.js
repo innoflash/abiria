@@ -15,9 +15,11 @@ define(function () {
         })
     }
 
-    function reinit(refresh) {
+    function reinit() {
         $(document).on('page:reinit', function (e) {
             console.log(e);
+            var page = e.detail;
+            reload(page.name, page.route.query);
         })
     }
 
@@ -45,11 +47,18 @@ define(function () {
         });
     }
 
+    function reload(controllerName, query) {
+        require(['js/' + controllerName + '/' + controllerName + 'Controller'], function (controller) {
+            controller.reinit(query);
+        });
+    }
+
     return {
         init: init,
         load: load,
         onOut: onOut,
         remove: remove,
-        reinit: reinit
+        reinit: reinit,
+        reload: reload
     };
 });

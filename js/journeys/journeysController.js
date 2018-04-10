@@ -63,9 +63,13 @@ define(["app", "js/journeys/journeysView"], function (app, View) {
         console.log('journeys outting');
     }
 
+    function reinit() {
+        console.log('reinitialising');
+    }
 
     return {
         init: init,
-        onOut: onOut
+        onOut: onOut,
+        reinit: init
     };
 });

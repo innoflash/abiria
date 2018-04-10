@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="zw.co.flashtech.abiri" version="1.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="zw.co.flashtech.abiri" version="1.0.1" xmlns="http://www.w3.org/ns/widgets"
+        xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Abiri</name>
     <description>
         An Abiri travel app
@@ -7,50 +8,50 @@
     <author email="innocentmazando@gmail.com" href="http://flashtech.co.zw">
         Innocent Mazando
     </author>
-    <content src="index.html" />
-    <access origin="*" />
-    <allow-intent href="http://*/*" />
-    <allow-intent href="https://*/*" />
-    <allow-intent href="tel:*" />
-    <allow-intent href="sms:*" />
-    <allow-intent href="mailto:*" />
-    <allow-intent href="geo:*" />
+    <content src="index.html"/>
+    <access origin="*"/>
+    <allow-intent href="http://*/*"/>
+    <allow-intent href="https://*/*"/>
+    <allow-intent href="tel:*"/>
+    <allow-intent href="sms:*"/>
+    <allow-intent href="mailto:*"/>
+    <allow-intent href="geo:*"/>
     <platform name="android">
-        <allow-intent href="market:*" />
+        <allow-intent href="market:*"/>
     </platform>
     <platform name="ios">
-        <allow-intent href="itms:*" />
-        <allow-intent href="itms-apps:*" />
+        <allow-intent href="itms:*"/>
+        <allow-intent href="itms-apps:*"/>
     </platform>
-    <engine name="browser" spec="^5.0.3" />
-    <icon src="img/abiri.png" />
-    <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
-    <plugin name="cordova-plugin-geolocation" spec="^4.0.1" />
-    <plugin name="cordova-plugin-vibration" spec="^3.0.1" />
-    <plugin name="cordova-plugin-contacts" spec="^3.0.1" />
+    <engine name="browser" spec="^5.0.3"/>
+    <icon src="img/abiri.png"/>
+    <plugin name="cordova-plugin-whitelist" spec="^1.3.3"/>
+    <plugin name="cordova-plugin-geolocation" spec="^4.0.1"/>
+    <plugin name="cordova-plugin-vibration" spec="^3.0.1"/>
+    <plugin name="cordova-plugin-contacts" spec="^3.0.1"/>
     <!--    <plugin name="cordova-plugin-googleplus" spec="^5.2.1">
             <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.257461127383-u88cduhulhocmdrg2rfm0mgk5f0u7sqa" />
             <variable name="PLAY_SERVICES_VERSION" value="11.8.0" />
         </plugin>-->
-    <plugin name="cordova-plugin-x-socialsharing" spec="^5.3.2" />
-    <plugin name="cordova-plugin-device-motion" spec="^2.0.0" />
-    <plugin name="cordova-plugin-device-orientation" spec="^2.0.0" />
-    <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
+    <plugin name="cordova-plugin-x-socialsharing" spec="^5.3.2"/>
+    <plugin name="cordova-plugin-device-motion" spec="^2.0.0"/>
+    <plugin name="cordova-plugin-device-orientation" spec="^2.0.0"/>
+    <plugin name="cordova-plugin-file-transfer" spec="^1.7.1"/>
     <plugin name="cordova-plugin-googlemaps" spec="^2.2.8">
-        <variable name="API_KEY_FOR_ANDROID" value="AIzaSyBUKTGpzkjGXMgusGo_S9Ghn_5pSpA6BmI" />
-        <variable name="API_KEY_FOR_IOS" value="AIzaSyAQ2IzzIAtk9s9_1Nvnb1e9hojXAnA5q70" />
-        <variable name="PLAY_SERVICES_VERSION" value="11.8.0" />
-        <variable name="ANDROID_SUPPORT_V4_VERSION" value="24.1.0" />
-        <variable name="LOCATION_WHEN_IN_USE_DESCRIPTION" value="Maps in use" />
-        <variable name="LOCATION_ALWAYS_USAGE_DESCRIPTION" value="maps always used" />
+        <variable name="API_KEY_FOR_ANDROID" value="AIzaSyBUKTGpzkjGXMgusGo_S9Ghn_5pSpA6BmI"/>
+        <variable name="API_KEY_FOR_IOS" value="AIzaSyAQ2IzzIAtk9s9_1Nvnb1e9hojXAnA5q70"/>
+        <variable name="PLAY_SERVICES_VERSION" value="11.8.0"/>
+        <variable name="ANDROID_SUPPORT_V4_VERSION" value="24.1.0"/>
+        <variable name="LOCATION_WHEN_IN_USE_DESCRIPTION" value="Maps in use"/>
+        <variable name="LOCATION_ALWAYS_USAGE_DESCRIPTION" value="maps always used"/>
     </plugin>
     <plugin name="cordova-plugin-facebook4" source="npm" spec="1.7.4">
-        <variable name="APP_ID" value="199200654168957" />
-        <variable name="APP_NAME" value="Abiri" />
+        <variable name="APP_ID" value="199200654168957"/>
+        <variable name="APP_NAME" value="Abiri"/>
     </plugin>
-    <plugin name="cordova-plugin-local-notification" spec="^0.9.0-beta.2" />
-    <plugin name="cordova-plugin-camera" spec="^4.0.2" />
-    <preference name="phonegap-version" value="cli-7.1.0" />
-    <preference name="AndroidPersistentFileLocation" value="Compatibility" />
-    <preference name="CameraUsesGeolocation" value="false" />
+    <plugin name="cordova-plugin-local-notification" spec="^0.9.0-beta.3"/>
+    <plugin name="cordova-plugin-camera" spec="^4.0.2"/>
+    <preference name="phonegap-version" value="cli-7.1.0"/>
+    <preference name="AndroidPersistentFileLocation" value="Compatibility"/>
+    <preference name="CameraUsesGeolocation" value="false"/>
 </widget>

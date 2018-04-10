@@ -160,6 +160,9 @@ define(["app", "js/settings/settingsView"], function (app, View) {
 
     return {
         init: init,
-        onOut: onOut
+        onOut: onOut,
+        reinit: function () {
+
+        }
     };
 });

@@ -79,7 +79,11 @@ define(["app", "js/index/indexView"], function (app, View) {
         View.render({
             bindings: bindings
         });
+    }
 
+    function reinit() {
+        console.log('reinitialising');
+        app.mainView.router.refreshPage();
     }
 
     function onOut() {
@@ -517,6 +521,7 @@ define(["app", "js/index/indexView"], function (app, View) {
 
     return {
         init: init,
-        onOut: onOut
+        onOut: onOut,
+        reinit: init
     };
 });

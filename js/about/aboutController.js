@@ -17,6 +17,10 @@ define(["app", "js/about/aboutView"], function (app, View) {
         });
     }
 
+    function reinit() {
+        console.log('reinitialising');
+    }
+
     function onOut() {
        /* app.f7.dialog.close();
         console.log(app.f7.dialog);
@@ -30,6 +34,7 @@ define(["app", "js/about/aboutView"], function (app, View) {
 
     return {
         init: init,
-        onOut: onOut
+        onOut: onOut,
+        reinit: reinit
     };
 });
