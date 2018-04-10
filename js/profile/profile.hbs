@@ -1,0 +1,69 @@
+{{#if this}}
+    <ul>
+        <li>
+            <a href="#" class="item-link item-content">
+                <div class="item-media"><i class="f7-icons">person</i></div>
+                <div class="item-inner">
+                    <div class="item-title">
+                        <div class="item-header">First Name</div>
+                        <b>
+                            {{ first_name }}
+                        </b>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="item-link item-content">
+                <div class="item-media"><i class="f7-icons">person</i></div>
+                <div class="item-inner">
+                    <div class="item-title">
+                        <div class="item-header">Last Name</div>
+                        <b>
+                            {{ last_name }}
+                        </b>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="item-link item-content">
+                <div class="item-media"><i class="f7-icons">email</i></div>
+                <div class="item-inner">
+                    <div class="item-title">
+                        <div class="item-header">Email</div>
+                        <b>
+                            {{ email }}
+                        </b>
+                    </div>
+                </div>
+            </a>
+        </li>
+         <li>
+            <a href="#" class="item-link item-content">
+                <div class="item-media"><i class="f7-icons">phone</i></div>
+                <div class="item-inner">
+                    <div class="item-title">
+                        <div class="item-header">Phone</div>
+                        <b>
+                            {{ phone }}
+                        </b>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="item-link item-content">
+                <div class="item-media"><i class="f7-icons">{{checkAuth auth_type}}</i></div>
+                <div class="item-inner">
+                    <div class="item-title">
+                        <div class="item-header">Authentication</div>
+                        <b>
+                            {{ auth_type }}
+                        </b>
+                    </div>
+                </div>
+            </a>
+        </li>
+    </ul>
+{{/if}}

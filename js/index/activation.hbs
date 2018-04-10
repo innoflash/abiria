@@ -1,0 +1,70 @@
+{{#if this}}
+    <div class="block inset">
+        <div class="block-strong">
+            <div class="list">
+                <ul>
+                    <li class="item-content item-input">
+                        <div class="item-media">
+                            <i class="icon f7-icons">person</i>
+                        </div>
+                        <div class="item-inner item-colors">
+                            <div class="item-input-wrap">
+                                <input type="text" value="{{ first_name }} {{ last_name }}" disabled>
+                                <span class="input-clear-button"></span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item-content item-input">
+                        <div class="item-media">
+                            <i class="icon f7-icons">email</i>
+                        </div>
+                        <div class="item-inner item-colors">
+                            <div class="item-input-wrap">
+                                <input type="text" id="act_email" value="{{ email }}" disabled>
+                                <span class="input-clear-button"></span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item-content item-input">
+                        <div class="item-media">
+                            <i class="icon f7-icons">phone</i>
+                        </div>
+                        <div class="item-inner item-colors">
+                            <div class="item-input-wrap">
+                                <input type="text" id="act_phone" value="{{ phone }}" disabled>
+                                <span class="input-clear-button"></span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item-divider"></li>
+                    <li class="item-content item-input">
+                        <div class="item-media">
+                            <i class="icon f7-icons">lock</i>
+                        </div>
+                        <div class="item-inner item-colors">
+                            <div class="item-input-wrap">
+                                <input type="number" id="activation_code"
+                                       placeholder="Activation code">
+                                <span class="input-clear-button"></span>
+                            </div>
+                        </div>
+                </ul>
+            </div>
+            <button class="button button-fill-ios color-green button-big-ios" id="btnActivate">
+                Activate
+            </button>
+            <div class="list-block-label">
+                <p style="color: #fff; text-align: center;">
+                    <a href="#" id="cancelAccount" class="link">Cancel Account</a>
+                    <br/>
+                </p>
+                <p style="color: #fff; text-align: center;">
+                    <a href="#" id="resendCode" class="link">
+                        Resend Activation Code
+                    </a>
+                    <br/>
+                </p>
+            </div>
+        </div>
+    </div>
+{{/if}}

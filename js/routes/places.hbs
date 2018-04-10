@@ -1,0 +1,20 @@
+{{#if this}}
+    <div class="list">
+        <ul>
+            {{#each this.predictions}}
+                <li class="item-content" id="getLocation" placeID="{{ place_id }}">
+                    <div class="item-media"><i class="fa fa-map-marker"></i></div>
+                    <div class="item-inner item-colors-details">
+                        <div class="pt10">
+                            <p>
+                                <a href="#">
+                                    {{ description }}
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+{{/if}}

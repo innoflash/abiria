@@ -1,0 +1,65 @@
+{{#if this}}
+    {{#each this.data}}
+        <div class="card demo-card-header-pic">
+            <div class="card-content card-content-padding">
+                <div class="list">
+                    <ul>
+                        <li>
+                            <a href="/journey/{{ id }}" class="item-link item-content">
+                                <div class="item-media"><i class="f7-icons">compass</i></div>
+                                <div class="item-inner">
+                                    <div class="item-title">
+                                        <div class="item-header">
+                                            {{ date }}
+                                        </div>
+                                        <div class="item-footer">
+                                            <b style="color: #000000;">From :</b> {{ from }}
+                                        </div>
+                                        <div class="item-footer">
+                                            <b style="color: #000000;">To:</b> {{ to }}
+                                        </div>
+                                    </div>
+                                    <div class="item-after">
+                                        <span class="badge color-orange">
+                                            {{ distance }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="chip">
+                    <div class="chip-media bg-color-blue">
+                        <i class="icon f7-icons ios-only color-white">stopwatch</i>
+                    </div>
+                    <div class="chip-label">
+                        {{ duration }}
+                    </div>
+                </div>
+                <div class="chip">
+                    <div class="chip-media bg-color-orange">
+                        <i class="icon fa fa-car ios-only color-white"></i>
+                    </div>
+                    <div class="chip-label">
+                        {{ car }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+    <div id="moreJourneys">
+
+    </div>
+    {{#compare this.meta.pagination.current_page "!=" this.meta.pagination.total_pages }}
+        <div class="row">
+            <div class="col"></div>
+            <button class="col button button-fill" id="loadMoreJourneys" next="{{ this.meta.pagination.links.next }}">
+                LOAD MORE
+            </button>
+            <div class="col"></div>
+        </div>
+    {{/compare}}
+{{/if}}

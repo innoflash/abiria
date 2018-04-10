@@ -1,0 +1,12 @@
+.car .item-media .fa{
+    color: #0074BD;
+}
+#myCar .item-title, #myCar .item-media{
+    color: #0074BD;
+}
+.navbar .title {
+    color: #0074BD;
+}
+.page-previous{
+    display: none;
+}

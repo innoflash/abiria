@@ -1,0 +1,42 @@
+{{#if this}}
+    <div class="card-radius-0 card">
+        <div class="list accordion-list">
+            <ul id="theRoutes">
+                {{#each this.routes}}
+                    <li class="accordion-item">
+                        <a href="#" class="item-content item-link">
+                            <div class="item-media"><i class="fa fa-car"></i></div>
+                            <div class="item-inner item-colors-details">
+                                <div class="pt10">
+                                    <p>
+                                    <p>
+                                        vai {{ summary }}
+                                    </p>
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="accordion-item-content">
+                            <div class="block">
+
+                                {{#each legs}}
+                                    <p>{{ duration.text }} approx</p>
+                                    <p>{{ distance.text }} approx</p>
+                                    <p class="badge color-green">
+                                        This route must be having e-tolls
+                                    </p>
+                                {{/each}}
+
+                                <p class="row">
+                                    <button class="button button-outline col-50" id="rankRouteDetails">Details</button>
+                                    <button class="button button-fill col-50 color-green" id="rankGotoRoute">Goto</button>
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                {{/each}}
+
+            </ul>
+        </div>
+    </div>
+{{/if}}

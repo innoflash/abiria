@@ -1,0 +1,36 @@
+{{#if this}}
+    <div class="block-title">Here Are your cars</div>
+        {{#each this}}
+            <div class="card car">
+                <div class="card-content card-content-padding">
+                    <div class="list">
+                        <ul>
+                            <li>
+                                <a href="/carview/{{ id }}" class="item-link item-content">
+                                    <div class="item-media"><i class="icon fa fa-car"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title">
+                                            <div class="item-header">{{ brand }} {{ model }}</div>
+                                            | {{ registration_number }}
+                                            <div class="item-footer">Class {{ car_class }}</div>
+                                        </div>
+                                        <div class="item-after">
+                                            {{{isDefault id}}}
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="/editcar/{{ id }}" class="link">
+                        Edit
+                    </a>
+                    <a href="#" class="link">
+                        Remove
+                    </a>
+                </div>
+            </div>
+        {{/each}}
+{{/if}}

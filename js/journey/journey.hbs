@@ -1,0 +1,193 @@
+{{#if this}}
+    <div class="block-title">
+        BASIC DETAILS
+    </div>
+    <div class="card-radius-0 card">
+        <div class="card-content">
+            <div class="list">
+                <ul>
+                    <li class="item-content">
+                        <div class="item-media"><i class="fa fa-calendar-o"></i></div>
+                        <div class="item-inner item-colors-details">
+                            <div class="item-title">
+                                <!--Started -->{{ data.when }}
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item-content">
+                        <div class="item-media"><i class="fa fa-times-circle-o"></i></div>
+                        <div class="item-inner item-colors-details">
+                            <div class="item-title">
+                                <!--Started -->{{journeyFinished data.finished }}
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item-content">
+                        <div class="item-media"><i class="fa fa-map"></i></div>
+                        <div class="item-inner item-colors-details">
+                            <div class="item-title">
+                                <!--Distance: -->{{ data.distance }}
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item-content">
+                        <div class="item-media"><i class="fa fa-clock-o"></i></div>
+                        <div class="item-inner item-colors-details">
+                            <div class="item-title">
+                                <!--Duration: -->{{ data.duration }}
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item-content">
+                        <div class="item-media"><i class="fa fa-car"></i></div>
+                        <div class="item-inner item-colors-details">
+                            <div class="item-title">
+                                {{ data.car }}
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item-content">
+                        <div class="item-media"><i class="fa fa-car"></i></div>
+                        <div class="item-inner item-colors-details">
+                            <div class="item-title">
+                                {{ data.car_reg }}
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="block-title">
+        DEPARTURE
+    </div>
+    <div class="card-radius-0 card">
+        <div class="card-content">
+            <div class="list">
+                <ul>
+                    <li class="item-content">
+                        <div class="item-media"><i class="fa fa-map-marker"></i></div>
+                        <div class="item-inner item-colors-details">
+                            <div class="pt10">
+                                <p>
+                                    {{ data.from }}
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item-content">
+                        <div class="item-media"><i class="fa fa-map-marker"></i></div>
+                        <div class="item-inner item-colors-details">
+                            <div class="item-title">
+                                {{ data.from_coords }}
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item-content">
+                        <div class="item-media"><i class="fa fa-clock-o"></i></div>
+                        <div class="item-inner item-colors-details">
+                            <div class="item-title">
+                                <div class="chip">
+                                    <div class="chip-media bg-color-green">
+                                        <i class="icon f7-icons ios-only">stopwatch</i>
+                                        <i class="icon material-icons md-only">location_on</i>
+                                    </div>
+                                    <div class="chip-label">
+                                        {{ data.start_time }}
+                                    </div>
+                                </div>
+                                <div class="chip">
+                                    <div class="chip-media bg-color-green">
+                                        <i class="icon f7-icons ios-only">calendar</i>
+                                        <i class="icon material-icons md-only">location_on</i>
+                                    </div>
+                                    <div class="chip-label">
+                                        {{ data.start_date }}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="block-title">
+        ARRIVAL
+    </div>
+    <div class="card-radius-0 card">
+        <div class="card-content">
+            <div class="list">
+                <ul>
+                    <li class="item-content">
+                        <div class="item-media"><i class="fa fa-map-marker"></i></div>
+                        <div class="item-inner item-colors-details">
+                            <div class="pt10">
+                                <p>
+                                    {{ data.to }}
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item-content">
+                        <div class="item-media"><i class="fa fa-map-marker"></i></div>
+                        <div class="item-inner item-colors-details">
+                            <div class="item-title">
+                                {{ data.to_coords }}
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item-content">
+                        <div class="item-media"><i class="fa fa-clock-o"></i></div>
+                        <div class="item-inner item-colors-details">
+                            <div class="item-title">
+                                <div class="chip">
+                                    <div class="chip-media bg-color-green">
+                                        <i class="icon f7-icons ios-only">stopwatch</i>
+                                        <i class="icon material-icons md-only">location_on</i>
+                                    </div>
+                                    <div class="chip-label">
+                                        {{ data.finish_time }}
+                                    </div>
+                                </div>
+                                <div class="chip">
+                                    <div class="chip-media bg-color-green">
+                                        <i class="icon f7-icons ios-only">calendar</i>
+                                        <i class="icon material-icons md-only">location_on</i>
+                                    </div>
+                                    <div class="chip-label">
+                                        {{ data.finsh_date }}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="list inset">
+        <ul class="inset">
+            <li>
+                <a href="/map"
+                   class="item-link list-button"
+                   id="mapLink">
+                    VIEW MAP
+                </a>
+            </li>
+<!--            <li>
+                <a href="/tollhistory/{{ data.id }}"
+                   class="item-link list-button"
+                   id="tollLink">
+                    TOLL HISTORY
+                </a>
+            </li>-->
+        </ul>
+    </div>
+{{/if}}

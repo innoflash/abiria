@@ -1,0 +1,103 @@
+<div class="page" data-name="settings">
+    <!-- Top Navbar -->
+    <div class="navbar no-hairline">
+        <div class="navbar-inner">
+            <div class="left">
+                <a href="#" class="back link">
+                    <i class="icon icon-back"></i>
+                    <span>Back</span>
+                </a>
+            </div>
+            <div class="title">SETTINGS</div>
+            <div class="right">
+                <a href="javascript:void(0)" class="link icon-only" id="restoreDefaults">
+                    <i class="f7-icons">settings</i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="page-content">
+        <div class="block">
+            <button class="button button-big" id="reloadTollgates">
+                RELOAD TOLLGATES
+            </button>
+            <br/>
+            <!--            <button class="button button-big" id="reloadEtolls">
+                            RELOAD E-TOLLS
+                        </button>
+                        <br/>-->
+            <button class="button button-big" id="reloadRanks">
+                RELOAD TAXI RANKS
+            </button>
+
+            <div class="block-title">
+                TOLLGATE OPTIONS
+            </div>
+            <div class="list">
+                <ul>
+                    <li>
+                        <label class="item-radio item-content">
+                            <input type="radio" name="toll_options" value="my_route"/>
+                            <i class="icon icon-radio"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Show toll gates on my route</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="item-radio item-content">
+                            <input type="radio" name="toll_options" value="all_tolls"/>
+                            <i class="icon icon-radio"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Show all tollgates</div>
+                            </div>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <!--
+                        <div class="block-title">
+                            SHOW E-TOLLS ON DRIVE
+                        </div>
+                        <div class="list">
+                            <ul>
+                                <li>
+                                    <label class="item-checkbox item-content">
+                                        <input type="checkbox" name="etolls_options"/>
+                                        <i class="icon icon-checkbox"></i>
+                                        <div class="item-inner">
+                                            <div class="item-title">Show e-tolls on drive</div>
+                                        </div>
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>-->
+
+            <div class="block-title">TAXI RANK RADIUS</div>
+            <div class="list no-hairlines-md">
+                <ul>
+                    <li class="item-content item-input">
+                        <div class="item-media">
+                            <i class="icon f7-icons">navigation</i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title item-label">
+                                Radius (km)
+                            </div>
+                            <div class="item-input-wrap">
+                                <input type="number" placeholder="Rank radius" id="rankRadius">
+                                <span class="input-clear-button"></span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <button class="button button-fill button-big color-green" id="resetSettings">
+                RESTORE DEFAULT SETTINGS
+            </button>
+
+        </div>
+
+    </div>
+</div>

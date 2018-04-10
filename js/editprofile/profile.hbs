@@ -1,0 +1,80 @@
+{{#if this}}
+    <div class="list no-hairlines-md inset" id="myCar">
+        <ul>
+            <li class="item-content item-input">
+                <div class="item-media">
+                    <i class="icon fa fa-user"></i>
+                </div>
+                <div class="item-inner">
+                    <div class="item-title item-floating-label">First name
+                    </div>
+                    <div class="item-input-wrap">
+                        <input type="text"
+                               name="First name"
+                               value="{{ first_name }}"
+                               placeholder="First name"
+                               id="d_first_name">
+                        <span class="input-clear-button"></span>
+                    </div>
+                </div>
+            </li>
+            <li class="item-content item-input">
+                <div class="item-media">
+                    <i class="icon fa fa-user"></i>
+                </div>
+                <div class="item-inner">
+                    <div class="item-title item-floating-label">Last name
+                    </div>
+                    <div class="item-input-wrap">
+                        <input type="text"
+                               value="{{ last_name }}"
+                               name="Last name"
+                               placeholder="Last name"
+                               id="d_last_name">
+                        <span class="input-clear-button"></span>
+                    </div>
+                </div>
+            </li>
+            <li class="item-content item-input">
+                <div class="item-media">
+                    <i class="icon fa fa-inbox"></i>
+                </div>
+                <div class="item-inner">
+                    <div class="item-title item-floating-label">Email</div>
+                    <div class="item-input-wrap">
+                        <input type="email"
+                               value="{{ email }}"
+                               name="Email"
+                               placeholder="Email"
+                               id="d_email">
+                        <span class="input-clear-button"></span>
+                    </div>
+                </div>
+            </li>
+            <li class="item-content item-input">
+                <div class="item-media">
+                    <i class="icon fa fa-phone"></i>
+                </div>
+                <div class="item-inner">
+                    <div class="item-title item-floating-label">Phone</div>
+                    <div class="item-input-wrap">
+                        <input type="text"
+                               name="Phone"
+                               value="{{ phone }}"
+                               placeholder="Phone"
+                               id="d_phone">
+                        <span class="input-clear-button"></span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="block">
+        <div class="row">
+            <button class="col button button-fill button-big" id="updateProfile">
+                UPDATE PROFILE
+            </button>
+        </div>
+    </div>
+{{/if}}

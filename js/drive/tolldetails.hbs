@@ -1,0 +1,58 @@
+{{#if this}}
+    <ul>
+        <li>
+            <a href="#" class="item-link item-content">
+                <div class="item-media"><i class="f7-icons">layers</i></div>
+                <div class="item-inner">
+                    <div class="item-title">
+                        <div class="item-header">Name</div>
+                        | {{ name }}
+                    </div>
+                    <div class="item-after"></div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="item-link item-content">
+                <div class="item-media"><i class="f7-icons">world</i></div>
+                <div class="item-inner">
+                    <div class="item-title">
+                        <div class="item-header">
+                            Coordinates
+                        </div>
+                        | {{ coordinates }}
+                    </div>
+                    <div class="item-after"></div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="item-link item-content">
+                <div class="item-media"><i class="f7-icons">ticket</i></div>
+                <div class="item-inner">
+                    <div class="item-title">
+                        <div class="item-header">
+                            Type
+                        </div>
+                        | {{ type }}
+                    </div>
+                    <div class="item-after"></div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="item-link item-content">
+                <div class="item-media"><i class="f7-icons">money_dollar</i></div>
+                <div class="item-inner">
+                    <div class="item-title">
+                        <div class="item-header">
+                            Amount
+                        </div>
+                        R {{chooseClass class_1_fee class_2_fee class_3_fee class_4_fee }}
+                    </div>
+                    <div class="item-after"></div>
+                </div>
+            </a>
+        </li>
+    </ul>
+{{/if}}
