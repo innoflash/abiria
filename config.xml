@@ -37,7 +37,7 @@
     <plugin name="cordova-plugin-device-motion" spec="^2.0.0"/>
     <plugin name="cordova-plugin-device-orientation" spec="^2.0.0"/>
     <plugin name="cordova-plugin-file-transfer" spec="^1.7.1"/>
-    <plugin name="cordova-plugin-googlemaps" spec="^2.2.8">
+    <plugin name="cordova-plugin-googlemaps" spec="2.2.8">
         <variable name="API_KEY_FOR_ANDROID" value="AIzaSyBUKTGpzkjGXMgusGo_S9Ghn_5pSpA6BmI"/>
         <variable name="API_KEY_FOR_IOS" value="AIzaSyAQ2IzzIAtk9s9_1Nvnb1e9hojXAnA5q70"/>
         <variable name="PLAY_SERVICES_VERSION" value="11.8.0"/>
@@ -51,6 +51,7 @@
     </plugin>
     <plugin name="cordova-plugin-local-notification" spec="^0.9.0-beta.3"/>
     <plugin name="cordova-plugin-camera" spec="^4.0.2"/>
+    <plugin name="cordova-plugin-x-toast" spec="^2.6.2" />
     <preference name="phonegap-version" value="cli-7.1.0"/>
     <preference name="AndroidPersistentFileLocation" value="Compatibility"/>
     <preference name="CameraUsesGeolocation" value="false"/>

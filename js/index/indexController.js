@@ -47,6 +47,10 @@ define(["app", "js/index/indexView"], function (app, View) {
             element: '#gotoJourney',
             event: 'click',
             handler: gotoJourney
+        }, {
+            element: '#endJourney',
+            event: 'click',
+            handler: endJourney
         }
     ];
 
@@ -96,6 +100,35 @@ define(["app", "js/index/indexView"], function (app, View) {
         console.log('will go to the current journey');
         app.mainView.router.navigate({
             url: '/drive/' + Cookies.get(cookienames.position)
+        });
+    }
+
+    function endJourney() {
+        app.f7.fab.close('.fab-morph');
+        console.log('ending current journey');
+        app.f7.dialog.preloader("Ending journey");
+        $.ajax({
+            url: app_apis.abiri + 'abiri-updatejourney',
+            method: 'POST',
+            timeout: 3000,
+            data: {
+                j_id: Cookies.get(cookienames.journey_id),
+                state: 1
+            }
+        }).success(function (data) {
+            console.log(data);
+            app.f7.dialog.alert(data.message, function () {
+                if (data.success) {
+                    Cookies.set(cookienames.journey_started, false);
+                    Cookies.set(cookienames.journey_id, 0);
+                    Cookies.remove(cookienames.journey_id);
+                }
+            });
+        }).error(function (error) {
+            console.log(error);
+            app.f7.dialog.alert(messages.server_error);
+        }).always(function () {
+            app.f7.dialog.close();
         });
     }
 

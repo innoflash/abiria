@@ -105,7 +105,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
                     lat: startLat,
                     lng: startLng
                 },
-                title: "",
+                title: "Me",
                 snippet: 'my current position',
                 icon: 'green',
                 animation: plugin.google.maps.Animation.BOUNCE
@@ -175,19 +175,22 @@ define(["app", "js/drive/driveView"], function (app, View) {
                         lat: startLat,
                         lng: startLng
                     },
-                    title: "",
+                    title: "Me",
                     snippet: 'my current position',
                     icon: 'green',
                     animation: plugin.google.maps.Animation.BOUNCE
                 }, function (marker) {
                     positionMarker = marker;
                     marker.showInfoWindow();
-                    refreshPosition();
+
                 });
                 j_id = data.j_id;
+                refreshPosition();
                 Cookies.set(cookienames.journey_started, true);
                 Cookies.set(cookienames.journey_id, data.j_id);
                 Cookies.set(cookienames.position, position);
+
+                window.plugins.toast.showShortBottom('Your journey has been started...');
                 var notification = app.f7.notification.create({
                     icon: '<i class="f7-icons">chat</i>',
                     subtitle: 'Journey alert !!!',
