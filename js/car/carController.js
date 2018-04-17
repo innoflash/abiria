@@ -98,7 +98,7 @@ define(["app", "js/car/carView"], function (app, View) {
 
     function reinit() {
         console.log('reinitialising');
-        app.mainView.router.refreshPage();
+        init();
     }
 
     function preparePage() {

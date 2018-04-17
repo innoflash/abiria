@@ -8,7 +8,7 @@ define(["app", "js/editcar/editcarView"], function (app, View) {
 
     var bindings = [
         {
-            element: '#editCar',
+            element: '#reditCar',
             event: 'click',
             handler: editCar
         }
@@ -55,18 +55,35 @@ define(["app", "js/editcar/editcarView"], function (app, View) {
             ]
         });
 
+        app.f7.picker.create({
+            inputEl: '#car_weight',
+            cols: [
+                {
+                    textAlign: 'center',
+                    values: [
+                        'Light',
+                        'Medium',
+                        'Heavy'
+                    ]
+                }
+            ]
+        });
+
         $('#vehicle_brand').val(car.brand);
         $('#vehicle_model').val(car.model);
         $('#vehicle_class').val(car.car_class);
         $('#vehicle_reg').val(car.registration_number);
+        $('#car_weight').val(car.weight);
     }
 
     function editCar() {
+        console.log('this button has been hit');
         var VF = [
             $('#vehicle_brand'),
             $('#vehicle_model'),
             $('#vehicle_class'),
-            $('#vehicle_reg')
+            $('#vehicle_reg'),
+            $('#car_weight')
         ];
 
         if (functions.isFieldsValid(VF, app)) {
@@ -80,7 +97,8 @@ define(["app", "js/editcar/editcarView"], function (app, View) {
                     model: $('#vehicle_model').val(),
                     brand: $('#vehicle_brand').val(),
                     reg_num: $('#vehicle_reg').val(),
-                    car_class: $('#vehicle_class').val()
+                    car_class: $('#vehicle_class').val(),
+                    weight: $('#car_weight').val()
                 }
             }).success(function (data) {
                 app.f7.dialog.alert(data.message, function (e) {

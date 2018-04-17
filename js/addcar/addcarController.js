@@ -20,10 +20,10 @@ define(["app", "js/addcar/addcarView"], function (app, View) {
     }
 
     function onOut() {
-      /*  try {
-            app.f7.dialog.close();
-        } catch (e) {
-        }*/
+        /*  try {
+              app.f7.dialog.close();
+          } catch (e) {
+          }*/
         console.log('add car outting');
     }
 
@@ -48,6 +48,19 @@ define(["app", "js/addcar/addcarView"], function (app, View) {
                 }
             ]
         });
+        app.f7.picker.create({
+            inputEl: '#vehicle_weight',
+            cols: [
+                {
+                    textAlign: 'center',
+                    values: [
+                        'Light',
+                        'Medium',
+                        'Heavy'
+                    ]
+                }
+            ]
+        });
     }
 
     function addCar() {
@@ -55,7 +68,8 @@ define(["app", "js/addcar/addcarView"], function (app, View) {
             $('#car_brand'),
             $('#car_model'),
             $('#car_class'),
-            $('#reg_num')
+            $('#reg_num'),
+            $('#vehicle_weight')
         ];
 
         if (functions.isFieldsValid(VF, app)) {
@@ -69,7 +83,8 @@ define(["app", "js/addcar/addcarView"], function (app, View) {
                     model: $('#car_model').val(),
                     brand: $('#car_brand').val(),
                     reg_num: $('#reg_num').val(),
-                    car_class: $('#car_class').val()
+                    car_class: $('#car_class').val(),
+                    weight: $('#vehicle_weight').val()
                 }
             }).success(function (data) {
                 app.f7.dialog.alert(data.message, function (e) {

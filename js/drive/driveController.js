@@ -84,7 +84,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
             method: 'POST',
             timeout: 3000,
             data: {
-                brand: car.brand,
+                weight: car.weight,
                 distance: route.legs[0].distance.value,
                 car_class: car.car_class
             }
