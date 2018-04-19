@@ -23,14 +23,14 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
     function preparePage() {
         app.f7.dialog.preloader('Getting your location');
         locationPopup = app.f7.popup.create({
-            el: '.popup-mylocation',
+            el: '.popup-mylocation2',
             animate: true,
             on: {
                 open: function () {
                     app.f7.searchbar.create({
-                        el: '.originSearchbar'
+                        el: '.originSearchbar2'
                     });
-                    $('#originSearch').keyup(function () {
+                    $('#originSearch2').keyup(function () {
                         searchResults();
                     });
                 }
@@ -62,9 +62,9 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
     }
 
     function searchResults() {
-        if ($$("#originSearch").val().length >= 5) {
+        if ($$("#originSearch2").val().length >= 5) {
             $.ajax({
-                url: google.findPlaces + $('#originSearch').val(),
+                url: google.findPlaces + $('#originSearch2').val(),
                 timeout: 3000,
                 method: 'GET'
             }).success(function (data) {
@@ -171,7 +171,7 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
     function populateTaxiRanks() {
         var hasRanks = Cookies.get(cookienames.has_taxi_ranks);
         window.plugins.toast.showShortTop('Populating ranks');
-        window.plugins.toast.showShortBottom(hasRanks);
+        window.plugins.toast.showLongBottom(hasRanks + ' is the result');
         if (hasRanks == true || hasRanks == "true") {
             showRanks();
         } else {

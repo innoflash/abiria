@@ -7,12 +7,12 @@ define(["hbs!js/taxiranks/places"], function (placesTemplate) {
     }
 
     function fillPlaces(places) {
-        $('#originSuggests').html(placesTemplate(places));
+        $('#originSuggests2').html(placesTemplate(places));
     }
 
 
     function emptyPlaces() {
-        $('*#originSuggests').html('');
+        $('*#originSuggests2').html('');
     }
 
     function bindEvents(bindings) {
