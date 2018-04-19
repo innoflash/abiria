@@ -109,6 +109,7 @@ define(["app", "js/routes/routesView"], function (app, View) {
         }).success(function (data) {
             console.log(data);
             locationPopup.close();
+           // View.emptyPlaces();
             getDestination({
                 lat: data.result.geometry.location.lat,
                 lng: data.result.geometry.location.lng
@@ -152,9 +153,10 @@ define(["app", "js/routes/routesView"], function (app, View) {
         }).success(function (data) {
             console.log(data);
             try {
-                map.remove();
+               removeMaps();
             } catch (e) {
             }
+            View.emptyPlaces();
             loadRoutes(origin, {
                 lat: data.result.geometry.location.lat,
                 lng: data.result.geometry.location.lng
@@ -185,6 +187,7 @@ define(["app", "js/routes/routesView"], function (app, View) {
     function removeMaps() {
         $('#routes').show();
         try {
+            map.clear();
             map.remove();
         } catch (e) {
         }

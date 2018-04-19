@@ -11,6 +11,10 @@ define(["hbs!js/taxiranks/places"], function (placesTemplate) {
     }
 
 
+    function emptyPlaces() {
+        $('*#originSuggests').html('');
+    }
+
     function bindEvents(bindings) {
         for (var i in bindings) {
             $$(bindings[i].element).on(bindings[i].event, bindings[i].handler);
@@ -19,7 +23,8 @@ define(["hbs!js/taxiranks/places"], function (placesTemplate) {
 
     return {
         render: render,
-        fillPlaces: fillPlaces
+        fillPlaces: fillPlaces,
+        emptyPlaces: emptyPlaces
     };
 });
 

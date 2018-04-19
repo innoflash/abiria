@@ -97,6 +97,7 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
             console.log(data);
             locationPopup.close();
             console.log(data);
+            View.emptyPlaces();
             drawMap(data.result.geometry.location);
         }).error(function (error) {
             console.log(error);
@@ -156,11 +157,11 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
                     'strokeWidth': 3,
                     'fillColor': '#911750'
                 }, function (circle) {
-                    populateTaxiRanks();
+                  //  populateTaxiRanks();
                     map.moveCamera({
                         target: circle.getBounds()
                     }, function () {
-                       // populateTaxiRanks();
+                        populateTaxiRanks();
                     });
                 });
             });
@@ -169,11 +170,12 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
 
     function populateTaxiRanks() {
         var hasRanks = Cookies.get(cookienames.has_taxi_ranks);
-        if (hasRanks == true || hasRanks == "true") {
+        app.f7.dialog.alert('we here now');
+       /* if (hasRanks == true || hasRanks == "true") {
             showRanks();
         } else {
             getRanks();
-        }
+        }*/
     }
 
     function showRanks() {

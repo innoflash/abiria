@@ -18,6 +18,10 @@ define(['hbs!js/routes/routes', "hbs!js/routes/places"], function (routesTemplat
         $('#originSuggests').html(placesTemplate(places));
     }
 
+    function emptyPlaces() {
+        $('*#originSuggests').html('');
+    }
+
 
     function bindEvents(bindings) {
         for (var i in bindings) {
@@ -29,7 +33,8 @@ define(['hbs!js/routes/routes', "hbs!js/routes/places"], function (routesTemplat
         render: render,
         updateStatus: updateStatus,
         fillRoutes: fillRoutes,
-        fillPlaces: fillPlaces
+        fillPlaces: fillPlaces,
+        emptyPlaces: emptyPlaces
     };
 });
 
