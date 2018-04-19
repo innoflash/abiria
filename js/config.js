@@ -19,7 +19,8 @@ var cookienames = {
     journey_started: 'journey_started',
     journey_id: 'journey_id',
     rank_radius: 'rank_radius',
-    position: 'routePosition'
+    position: 'routePosition',
+    rank_routes: 'rank_routes'
 };
 
 var tollOptions = {

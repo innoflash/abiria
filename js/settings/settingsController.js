@@ -83,7 +83,16 @@ define(["app", "js/settings/settingsView"], function (app, View) {
         tollgateStaff();
         etollStaff();
         rankStaff();
+        rankRoutes();
+    }
 
+    function rankRoutes() {
+        var currentValue = Cookies.get(cookienames.rank_routes);
+        $('input[value=' + currentValue + '][type=radio]').prop('checked', true);
+        $('input[type=radio][name=enroute_rank]').change(function () {
+            console.log($(this).val());
+            Cookies.set(cookienames.rank_routes, $(this).val());
+        });
     }
 
     function rankStaff() {

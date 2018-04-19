@@ -36,5 +36,6 @@ var functions = {
         Cookies.set(cookienames.toll_options, tollOptions.my_route);
         Cookies.set(cookienames.etoll_options, false);
         Cookies.set(cookienames.rank_radius, 3);
+        Cookies.set(cookienames.rank_routes, "walking");
     }
 };
