@@ -78,13 +78,13 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
 
     function onMapReady() {
         map.animateCamera({
-            target: {lat: -26.137421, lng: 28.089455},
+            target: {lat: getMidPoint(startLat, endLat), lng: getMidPoint(startLng, endLng)},
             zoom: 12,
             /*     tilt: 20,
                    bearing: 140,*/
             duration: 3500
         }, function () {
-            /*//add path
+            //add path
             map.addPolyline({
                 points: getTurningPoints(),
                 'color': '#0c5806',
@@ -103,7 +103,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
                 // Show the info window
                 marker.showInfoWindow();
 
-            });*/
+            });
         });
     }
 
@@ -120,7 +120,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
             map.remove();
         } catch (e) {
         }
-        /* app.f7.dialog.close();*/
+       /* app.f7.dialog.close();*/
         console.log('rankRoute outting');
     }
 
