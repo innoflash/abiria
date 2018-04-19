@@ -28,8 +28,8 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
     }
 
     function loadMap() {
-        var div = document.getElementById("rank_map3");
-        mapDiv = $('#rank_map3');
+        var div = document.getElementById("rank_mapova");
+        mapDiv = $('#rank_mapova');
         map = plugin.google.maps.Map.getMap(div, {
             controls: {
                 myLocationButton: true
@@ -55,7 +55,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
 
 
         // Wait until the map is ready status.
-        map.one(plugin.google.maps.event.MAP_READY, onMapReady.bind(this));
+    //    map.one(plugin.google.maps.event.MAP_READY, onMapReady.bind(this));
     }
 
 
@@ -84,7 +84,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
                    bearing: 140,*/
             duration: 3500
         }, function () {
-            //add path
+            /*//add path
             map.addPolyline({
                 points: getTurningPoints(),
                 'color': '#0c5806',
@@ -103,7 +103,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
                 // Show the info window
                 marker.showInfoWindow();
 
-            });
+            });*/
         });
     }
 
