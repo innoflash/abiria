@@ -758,7 +758,7 @@ a[class*="col"] {
     color: #0074BD !important;
     font-size: 95px;
 }
-#map_canvas, #journey_canvas, #routeMaps, #rank_canvas, #rank_map{
+#map_canvas, #journey_canvas, #routeMaps, #rank_canvas, #rank_mapova{
     width: 100%;
     height: 100%;
    /* background-color: #0f0f0f;*/

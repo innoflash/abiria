@@ -55,7 +55,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
 
 
         // Wait until the map is ready status.
-    //    map.one(plugin.google.maps.event.MAP_READY, onMapReady.bind(this));
+        map.one(plugin.google.maps.event.MAP_READY, onMapReady.bind(this));
     }
 
 
@@ -78,7 +78,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
 
     function onMapReady() {
         map.animateCamera({
-            target: {lat: getMidPoint(startLat, endLat), lng: getMidPoint(startLng, endLng)},
+            target: {lat: -26.137421, lng: 28.089455},
             zoom: 12,
             /*     tilt: 20,
                    bearing: 140,*/
@@ -120,7 +120,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
             map.remove();
         } catch (e) {
         }
-       /* app.f7.dialog.close();*/
+        /* app.f7.dialog.close();*/
         console.log('rankRoute outting');
     }
 
