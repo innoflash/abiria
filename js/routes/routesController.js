@@ -50,7 +50,7 @@ define(["app", "js/routes/routesView"], function (app, View) {
             enableHighAccuracy: true, // use GPS as much as possible
             timeout: 3000
         };
-        plugin.google.maps.LocationService.getMyLocation(option, locationSuccess.bind(this), locationError.bind(this));
+        plugin.google.maps.LocationService.getMyLocation(option, locationSuccess.bind(this), positionError.bind(this));
     }
 
     function locationError(error) {
@@ -86,7 +86,8 @@ define(["app", "js/routes/routesView"], function (app, View) {
                         getOrigin(placeID);
                     });
                 } else {
-                    app.f7.dialog.alert(data.status);
+                    window.plugins.toast.showShortTop(data.status);
+                    //app.f7.dialog.alert(data.status);
                     //  View.updateStatus(data.status)
                 }
                 console.log(data);

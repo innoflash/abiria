@@ -75,7 +75,7 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
                         getOrigin(placeID);
                     });
                 } else {
-                    app.f7.dialog.alert(data.status);
+                    window.plugins.toast.showShortTop(data.status);
                 }
                 console.log(data);
             }).error(function (error) {
@@ -170,12 +170,13 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
 
     function populateTaxiRanks() {
         var hasRanks = Cookies.get(cookienames.has_taxi_ranks);
-        app.f7.dialog.alert('we here now');
-       /* if (hasRanks == true || hasRanks == "true") {
+        window.plugins.toast.showShortTop('Populating ranks');
+        window.plugins.toast.showShortBottom(hasRanks);
+        if (hasRanks == true || hasRanks == "true") {
             showRanks();
         } else {
             getRanks();
-        }*/
+        }
     }
 
     function showRanks() {

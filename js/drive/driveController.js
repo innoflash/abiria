@@ -117,7 +117,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
             });
         }
         refreshID = setInterval(function () {
-            window.plugins.toast.showShortTop('finding new location');
+            window.plugins.toast.showShortTop('updating your location');
             //pick current position and update on map
             map.getMyLocation(successCallback.bind(this), errorCallback.bind(this));
         }, 30000);
@@ -132,7 +132,9 @@ define(["app", "js/drive/driveView"], function (app, View) {
             enableHighAccuracy: true, // use GPS as much as possible
             timeout: 3000
         };
-        plugin.google.maps.LocationService.getMyLocation(option, successCallback.bind(this));
+        plugin.google.maps.LocationService.getMyLocation(option, successCallback.bind(this), function (error) {
+            window.plugins.toast.showShortBottom(JSON.stringify(error));
+        });
     }
 
     function calculateDistance() {
