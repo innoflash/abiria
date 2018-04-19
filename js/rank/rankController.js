@@ -9,10 +9,8 @@ define(["app", "js/rank/rankView"], function (app, View) {
     function preparePage() {
         origin = app.mainView.router.currentRoute.params.origin;
         destination = app.mainView.router.currentRoute.params.destination;
-        app.f7.dialog.alert('Origin : ' + origin, function () {
-            app.f7.dialog.alert('destination : ' + destination);
-        });
-        /*app.f7.dialog.preloader('Getting routes');
+
+        app.f7.dialog.preloader('Getting routes');
         $.ajax({
             url: google.getWalkingDirections(origin, destination),
             timeout: 3000,
@@ -46,7 +44,7 @@ define(["app", "js/rank/rankView"], function (app, View) {
             });
         }).always(function () {
             app.f7.dialog.close();
-        });*/
+        });
     }
 
 
