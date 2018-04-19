@@ -156,10 +156,11 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
                     'strokeWidth': 3,
                     'fillColor': '#911750'
                 }, function (circle) {
+                    populateTaxiRanks();
                     map.moveCamera({
                         target: circle.getBounds()
                     }, function () {
-                        populateTaxiRanks();
+                       // populateTaxiRanks();
                     });
                 });
             });

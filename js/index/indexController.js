@@ -122,6 +122,7 @@ define(["app", "js/index/indexView"], function (app, View) {
                     Cookies.set(cookienames.journey_started, false);
                     Cookies.set(cookienames.journey_id, 0);
                     Cookies.remove(cookienames.journey_id);
+                    app.mainView.router.refreshPage();
                 }
             });
         }).error(function (error) {
