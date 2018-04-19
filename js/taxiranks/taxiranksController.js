@@ -202,9 +202,9 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
 
     function promptWalk(rank) {
         app.f7.dialog.confirm('Do you want to get directions to this taxi rank?', function () {
-            console.log('will load the routes to the given coords from the current')
+            console.log('will load the routes to the given coords from the current');
             app.mainView.router.navigate({
-                url: '/rank/' + latLng + '/' + rank.coordinates,
+                url: '/rank/' + latLng.lat + ',' + latLng.lng + '/' + rank.coordinates,
                 reloadPrevious: false
             });
         });
