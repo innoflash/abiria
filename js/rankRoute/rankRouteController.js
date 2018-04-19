@@ -28,8 +28,8 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
     }
 
     function loadMap() {
-        var div = document.getElementById("journey_canvas");
-        mapDiv = $('#journey_canvas');
+        var div = document.getElementById("rank_map3");
+        mapDiv = $('#rank_map3');
         map = plugin.google.maps.Map.getMap(div, {
             controls: {
                 myLocationButton: true

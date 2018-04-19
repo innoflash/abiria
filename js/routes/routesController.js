@@ -87,14 +87,11 @@ define(["app", "js/routes/routesView"], function (app, View) {
                     });
                 } else {
                     window.plugins.toast.showShortTop(data.status);
-                    //app.f7.dialog.alert(data.status);
-                    //  View.updateStatus(data.status)
                 }
                 console.log(data);
             }).error(function (error) {
                 console.log(error);
-                //   View.updateStatus(messages.server_error);
-                app.f7.dialog.alert(messages.server_error);
+                window.plugins.toast.showShortTop(messages.server_error);
             }).always(function () {
 
             });

@@ -80,7 +80,7 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
                 console.log(data);
             }).error(function (error) {
                 console.log(error);
-                app.f7.dialog.alert(messages.server_error);
+                window.plugins.toast.showShortTop(messages.server_error);
             }).always(function () {
 
             });
