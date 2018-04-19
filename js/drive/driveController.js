@@ -124,6 +124,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
     }
 
     function successCallback(position) {
+        window.plugins.toast.showLongCenter(JSON.stringify(position));
         positionMarker.setPosition(position.latLng);
     }
 

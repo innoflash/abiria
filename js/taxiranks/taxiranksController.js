@@ -171,8 +171,9 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
     function populateTaxiRanks() {
         var hasRanks = Cookies.get(cookienames.has_taxi_ranks);
         window.plugins.toast.showShortTop('Populating ranks');
-        window.plugins.toast.showLongBottom(hasRanks + ' is the result');
-        if (hasRanks == true || hasRanks == "true") {
+
+        if (Cookies.get(cookienames.has_taxi_ranks) == true || Cookies.get(cookienames.has_taxi_ranks) == "true") {
+            window.plugins.toast.showLongBottom('should be showing ranks right now');
             showRanks();
         } else {
             getRanks();
@@ -181,7 +182,7 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
 
     function showRanks() {
         var ranks = JSON.parse(localStorage.getItem(cookienames.taxi_ranks));
-        app.f7.alert(JSON.stringify(ranks));
+        app.f7.dialog.alert(JSON.stringify(ranks));
         ranks.forEach(function (rank) {
             map.addMarker({
                 position: makeCoords(rank.coordinates),
