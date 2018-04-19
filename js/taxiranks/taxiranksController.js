@@ -157,7 +157,7 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
                     'strokeWidth': 3,
                     'fillColor': '#911750'
                 }, function (circle) {
-                  //  populateTaxiRanks();
+                    //  populateTaxiRanks();
                     map.moveCamera({
                         target: circle.getBounds()
                     }, function () {
@@ -173,7 +173,7 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
         window.plugins.toast.showShortTop('Populating ranks');
 
         if (Cookies.get(cookienames.has_taxi_ranks) == true || Cookies.get(cookienames.has_taxi_ranks) == "true") {
-            window.plugins.toast.showLongBottom('should be showing ranks right now');
+            // window.plugins.toast.showLongBottom('should be showing ranks right now');
             showRanks();
         } else {
             getRanks();
@@ -182,7 +182,7 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
 
     function showRanks() {
         var ranks = JSON.parse(localStorage.getItem(cookienames.taxi_ranks));
-        app.f7.dialog.alert(JSON.stringify(ranks));
+        // app.f7.dialog.alert(JSON.stringify(ranks));
         ranks.forEach(function (rank) {
             map.addMarker({
                 position: makeCoords(rank.coordinates),
@@ -190,9 +190,8 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
                 snippet: 'taxi rank',
                 animation: plugin.google.maps.Animation.BOUNCE
             }, function (marker) {
-                marker.showInfoWindow();
                 marker.addEventListener(plugin.google.maps.event.MARKER_CLICK, function () {
-                    promptWalk(rank);
+                    marker.showInfoWindow();
                 });
                 marker.addEventListener(plugin.google.maps.event.INFO_CLICK, function () {
                     promptWalk(rank);
