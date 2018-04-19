@@ -99,7 +99,8 @@ define(["app", "js/drive/driveView"], function (app, View) {
     }
 
     function refreshPosition() {
-        if (positionMarker == null) {
+        window.plugins.toast.showShortTop('am working');
+        /*if (positionMarker == null) {
             map.addMarker({
                 position: {
                     lat: startLat,
@@ -118,7 +119,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
         refreshID = setInterval(function () {
             //pick current position and update on map
             map.getMyLocation(successCallback.bind(this), errorCallback.bind(this));
-        }, 30000);
+        }, 3000);*/
     }
 
     function successCallback(position) {
