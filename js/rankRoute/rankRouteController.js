@@ -79,7 +79,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
     function onMapReady() {
         map.animateCamera({
             target: {lat: getMidPoint(startLat, endLat), lng: getMidPoint(startLng, endLng)},
-            zoom: 12,
+            zoom: 18,
             /*     tilt: 20,
                    bearing: 140,*/
             duration: 3500

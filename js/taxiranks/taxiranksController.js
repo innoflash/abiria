@@ -98,7 +98,13 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
             locationPopup.close();
             console.log(data);
             View.emptyPlaces();
-            drawMap(data.result.geometry.location);
+            try {
+                map.clear();
+                latLng = data.result.geometry.location;
+                onMapReady();
+            } catch (e) {
+                drawMap(data.result.geometry.location);
+            }
         }).error(function (error) {
             console.log(error);
             app.f7.dialog.alert(messages.server_error);

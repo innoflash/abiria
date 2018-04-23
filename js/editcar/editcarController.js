@@ -69,11 +69,25 @@ define(["app", "js/editcar/editcarView"], function (app, View) {
             ]
         });
 
+        app.f7.picker.create({
+            inputEl: '#car_fuel_type',
+            cols: [
+                {
+                    textAlign: 'center',
+                    values: [
+                        'Petrol',
+                        'Diesel'
+                    ]
+                }
+            ]
+        });
+
         $('#vehicle_brand').val(car.brand);
         $('#vehicle_model').val(car.model);
         $('#vehicle_class').val(car.car_class);
         $('#vehicle_reg').val(car.registration_number);
         $('#car_weight').val(car.weight);
+        $('#car_fuel_type').val(car.fuel_type);
     }
 
     function editCar() {
@@ -83,7 +97,8 @@ define(["app", "js/editcar/editcarView"], function (app, View) {
             $('#vehicle_model'),
             $('#vehicle_class'),
             $('#vehicle_reg'),
-            $('#car_weight')
+            $('#car_weight'),
+            $('#car_fuel_type'),
         ];
 
         if (functions.isFieldsValid(VF, app)) {
@@ -98,6 +113,7 @@ define(["app", "js/editcar/editcarView"], function (app, View) {
                     brand: $('#vehicle_brand').val(),
                     reg_num: $('#vehicle_reg').val(),
                     car_class: $('#vehicle_class').val(),
+                    fuel_type: $('#car_fuel_type').val(),
                     weight: $('#car_weight').val()
                 }
             }).success(function (data) {

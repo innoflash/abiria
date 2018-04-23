@@ -61,6 +61,18 @@ define(["app", "js/addcar/addcarView"], function (app, View) {
                 }
             ]
         });
+        app.f7.picker.create({
+            inputEl: '#fuel_type',
+            cols: [
+                {
+                    textAlign: 'center',
+                    values: [
+                        'Petrol',
+                        'Diesel'
+                    ]
+                }
+            ]
+        });
     }
 
     function addCar() {
@@ -69,7 +81,8 @@ define(["app", "js/addcar/addcarView"], function (app, View) {
             $('#car_model'),
             $('#car_class'),
             $('#reg_num'),
-            $('#vehicle_weight')
+            $('#vehicle_weight'),
+            $('#fuel_type')
         ];
 
         if (functions.isFieldsValid(VF, app)) {
@@ -84,7 +97,8 @@ define(["app", "js/addcar/addcarView"], function (app, View) {
                     brand: $('#car_brand').val(),
                     reg_num: $('#reg_num').val(),
                     car_class: $('#car_class').val(),
-                    weight: $('#vehicle_weight').val()
+                    weight: $('#vehicle_weight').val(),
+                    fuel_type: $('#fuel_type').val()
                 }
             }).success(function (data) {
                 app.f7.dialog.alert(data.message, function (e) {

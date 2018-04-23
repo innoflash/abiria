@@ -86,10 +86,11 @@ define(["app", "js/drive/driveView"], function (app, View) {
             data: {
                 weight: car.weight,
                 distance: route.legs[0].distance.value,
-                car_class: car.car_class
+                car_class: car.car_class,
+                fuel_type: car.fuel_type
             }
         }).success(function (data) {
-            app.f7.dialog.alert('This journey is estimated to use ' + data.min.toFixed(2) + ' to ' + data.max.toFixed(2) + ' litres of fuel');
+            app.f7.dialog.alert('This journey is estimated to use \n' + data.min.toFixed(2) + ' to ' + data.max.toFixed(2) + ' litres \nof fuel and \n' + data.cost.toFixed(2) + ' in fuel costing');
         }).error(function (error) {
             console.log(error);
             app.f7.dialog.alert(messages.server_error);

@@ -29,8 +29,8 @@ var tollOptions = {
 };
 
 var app_apis = {
-    //abiri: 'http://localhost:8001/api/'
-    abiri: 'https://api.abiri.net/api/'
+    abiri: 'http://localhost:8001/api/'
+    //abiri: 'https://api.abiri.net/api/'
 };
 
 var messages = {
