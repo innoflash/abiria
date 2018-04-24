@@ -118,14 +118,16 @@ define(["app", "js/drive/driveView"], function (app, View) {
             });
         }
         refreshID = setInterval(function () {
-            window.plugins.toast.showShortTop('updating your location');
+            // window.plugins.toast.showShortTop('updating your location');
             //pick current position and update on map
             map.getMyLocation(successCallback.bind(this), errorCallback.bind(this));
         }, 30000);
     }
 
     function successCallback(position) {
-        window.plugins.toast.showLongCenter(JSON.stringify(position));
+        // window.plugins.toast.showLongCenter(JSON.stringify(position));
+        map.setCameraZoom(20);
+        map.setCameraTarget(position.latLng);
         positionMarker.setPosition(position.latLng);
     }
 
@@ -141,6 +143,47 @@ define(["app", "js/drive/driveView"], function (app, View) {
 
     function calculateDistance() {
         console.log('calculating distance');
+        app.f7.dialog.preloader('Getting your location');
+        var option = {
+            enableHighAccuracy: true, // use GPS as much as possible
+            timeout: 3000
+        };
+        plugin.google.maps.LocationService.getMyLocation(option, locationSuccess.bind(this), locationError.bind(this));
+    }
+
+    function locationError(error) {
+        app.f7.dialog.close();
+        app.f7.toast.create({
+            text: 'Failed to pick your current location, please make sure GPS is turned on',
+            closeTimeout: 2000
+        });
+    }
+
+    function locationSuccess(position) {
+        app.f7.dialog.close();
+        app.f7.dialog.preloader('Calculating distance');
+        $.ajax({
+            method: 'GET',
+            url: google.distanceBetween(stringifyCoords(position.latLng), selectedToll.coordinates),
+            timeout: 3000
+        }).success(function (data) {
+            var distanceNotification = app.f7.notification.create({
+                icon: '<i class="f7-icons">chat</i>',
+                title: 'ABIRI',
+                subtitle: 'Approximated distance and time',
+                text: data.rows[0].elements[0].distance.text + ' (' + (data.rows[0].elements[0].distance.value) / 1000 + 'km \n in )' + data.rows[0].elements[0].duration.text,
+                closeButton: true
+            });
+            distanceNotification.open();
+        }).error(function (error) {
+            console.log(error);
+            app.f7.toast.create({
+                text: messages.server_error,
+                closeTimeout: 2000
+            });
+        }).always(function () {
+            app.f7.dialog.close();
+        });
     }
 
     function cancelJourney() {
@@ -196,6 +239,12 @@ define(["app", "js/drive/driveView"], function (app, View) {
                 Cookies.set(cookienames.journey_id, data.j_id);
                 Cookies.set(cookienames.position, position);
 
+                map.setCameraZoom(20);
+                map.setCameraTarget({
+                    lat: startLat,
+                    lng: startLng
+                });
+
                 window.plugins.toast.showShortBottom('Your journey has been started...');
                 var notification = app.f7.notification.create({
                     icon: '<i class="f7-icons">chat</i>',
@@ -206,24 +255,23 @@ define(["app", "js/drive/driveView"], function (app, View) {
                     on: {
                         close: function () {
                             if (data.success) {
-                                cordova.plugins.notification.local.schedule({
-                                    id: j_id,
-                                    title: 'Abiri',
-                                    text: 'A journey in progress',
-                                    foreground: true,
-                                    icon: 'img/abiri.png',
-                                    smallIcon: 'img/abiri.png',
-                                    badge: 1,
-                                    data: notificationData,
-                                    actions: [{
-                                        id: 'gotoJourney',
-                                        type: 'button',
-                                        title: 'Go to journey'
-                                    }]
-                                });
-
-                                cordova.plugins.notification.local.on('click', gotoJourney, this);
-                                cordova.plugins.notification.local.on('gotoJourney', gotoJourney, this);
+                                /*  cordova.plugins.notification.local.schedule({
+                                      id: j_id,
+                                      title: 'Abiri',
+                                      text: 'A journey in progress',
+                                      foreground: true,
+                                      icon: 'img/abiri.png',
+                                      smallIcon: 'img/abiri.png',
+                                      badge: 1,
+                                      data: notificationData,
+                                      actions: [{
+                                          id: 'gotoJourney',
+                                          type: 'button',
+                                          title: 'Go to journey'
+                                      }]
+                                  });
+                                  cordova.plugins.notification.local.on('click', gotoJourney, this);
+                                  cordova.plugins.notification.local.on('gotoJourney', gotoJourney, this);*/
                             }
                         }
                     }
@@ -398,6 +446,28 @@ define(["app", "js/drive/driveView"], function (app, View) {
                 });
             });
             app.f7.dialog.close();
+            app.f7.dialog.confirm('Would you like to know how much in tollgates you should be probably be expecting to use?', function () {
+                var total = 0;
+                validTolls.forEach(function (tollgate) {
+                    if (car.car_class == 1) {
+                        total += tollgate.class_1_fee;
+                    } else if (car.car_class == 2) {
+                        total += tollgate.class_2_fee;
+                    } else if (car.car_class == 3) {
+                        total += tollgate.class_3_fee;
+                    } else {
+                        total += tollgate.class_4_fee;
+                    }
+                });
+                var totalNotification = app.f7.notification.create({
+                    icon: '<i class="f7-icons">chat</i>',
+                    title: 'ABIRI',
+                    subtitle: 'Approximated total tollgates cost',
+                    text: 'R ' + total,
+                    closeButton: true
+                });
+                totalNotification.open();
+            });
         }
     }
 
@@ -424,6 +494,10 @@ define(["app", "js/drive/driveView"], function (app, View) {
             lat: +coords[0],
             lng: +coords[1]
         };
+    }
+
+    function stringifyCoords(latLng) {
+        return latLng.lat + ',' + latLng.lng;
     }
 
     function getTollgates() {

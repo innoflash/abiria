@@ -29,8 +29,8 @@ var tollOptions = {
 };
 
 var app_apis = {
-    abiri: 'http://localhost:8001/api/'
-    //abiri: 'https://api.abiri.net/api/'
+    //abiri: 'http://localhost:8001/api/'
+    abiri: 'https://api.abiri.net/api/'
 };
 
 var messages = {
@@ -61,5 +61,8 @@ var google = {
     },
     getWalkingDirections: function (origin, destination) {
         return 'https://maps.googleapis.com/maps/api/directions/json?origin=' + origin + '&destination=' + destination + '&key=' + keys.google_maps + '&alternatives=true&units=metric&mode=walking';
+    },
+    distanceBetween: function (origin, destination) {
+        return 'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=' + origin + '&destinations=' + destination + '&key=' + keys.google_maps + '&units=metric';
     }
 };
