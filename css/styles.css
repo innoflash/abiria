@@ -738,10 +738,10 @@ li.item-content.item-link  .fa{
 }
 
 a[class*="col"] {
-    background: #fff;
+   /* background: #fff;*/
     text-align: center;
     color: #000;
-    border: 1px solid #ddd;
+   /* border: 1px solid #ddd;*/
     padding: 5px;
     margin-bottom: 15px;
     font-size: 12px;

@@ -10,3 +10,10 @@
 .page-previous{
     display: none;
 }
+.indexPage {
+    background: url(../img/index_bg.jpg) no-repeat center fixed;
+    background-size: cover;
+}
+.home-icons{
+    width: 100%;
+}

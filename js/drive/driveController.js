@@ -171,7 +171,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
                 icon: '<i class="f7-icons">chat</i>',
                 title: 'ABIRI',
                 subtitle: 'Approximated distance and time',
-                text: data.rows[0].elements[0].distance.text + ' (' + (data.rows[0].elements[0].distance.value) / 1000 + 'km \n in )' + data.rows[0].elements[0].duration.text,
+                text: data.rows[0].elements[0].distance.text + ' (' + (data.rows[0].elements[0].distance.value / 1000).toFixed(2) + 'km \n in )' + data.rows[0].elements[0].duration.text,
                 closeButton: true
             });
             distanceNotification.open();
