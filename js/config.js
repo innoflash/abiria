@@ -47,7 +47,7 @@ var auth_side = {
     google: 2
 };
 var keys = {
-    google_maps: 'AIzaSyBsG1vXwZM2_AJq_yddR7iy5_Vd7rgofNc'
+    google_maps: 'AIzaSyDk4ypmDfkMhJ9QGwmhO2YgqBRjtjSYzmQ'
 };
 var google = {
     // findPlaces: 'https://maps.googleapis.com/maps/api/place/textsearch/json?key=' + keys.google_maps + '&query=',
