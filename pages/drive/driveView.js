@@ -1,9 +1,13 @@
-define([], function () {
+define(['hbs!pages/drive/tolldetails'], function (tollgateTemplate) {
     var $$ = Dom7;
     var $ = jQuery;
 
     function render(params) {
         bindEvents(params.bindings);
+    }
+
+    function fillTollgate(tollgate) {
+        $('#mytollDetails').html(tollgateTemplate(tollgate));
     }
 
     function bindEvents(bindings) {
@@ -13,7 +17,8 @@ define([], function () {
     }
 
     return {
-        render: render
+        render: render,
+        fillTollgate: fillTollgate
     };
 });
 

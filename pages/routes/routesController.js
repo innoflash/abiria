@@ -1,4 +1,4 @@
-define(["app", "js/routes/routesView"], function (app, View) {
+define(["www/app", "pages/routes/routesView"], function (app, View) {
     var $ = jQuery;
     var $$ = Dom7;
     var user = {};
@@ -8,18 +8,29 @@ define(["app", "js/routes/routesView"], function (app, View) {
 
     var bindings = [];
 
+    function init() {
+        preparePage();
+        View.render({
+            bindings: bindings
+        });
+    }
+
+    function onOut() {
+        /*app.f7.dialog.close();*/
+        console.log('routes outting');
+        try {
+            map.remove();
+        } catch (e) {
+        }
+        $('#destinationPage').show();
+        $('.page-previous').show();
+    }
+
     function preparePage() {
         user = Cookies.getJSON(cookienames.user);
         place_id = app.mainView.router.currentRoute.params.place_id;
         console.log(app.mainView.router.currentRoute.params);
 
-        navigator.geolocation.getCurrentPosition(locationSuccess.bind(this),
-            locationError.bind(this),
-            {
-                maximumAge: 3000,
-                timeout: 5000,
-                enableHighAccuracy: true
-            });
         locationPopup = app.f7.popup.create({
             el: '.popup-mylocation',
             animate: true,
@@ -35,6 +46,30 @@ define(["app", "js/routes/routesView"], function (app, View) {
             }
         });
         app.f7.dialog.preloader('Picking your location');
+        var option = {
+            enableHighAccuracy: true, // use GPS as much as possible
+            timeout: 3000
+        };
+        plugin.google.maps.LocationService.getMyLocation(option, locationSuccess.bind(this), positionError.bind(this));
+    }
+
+    function locationError(error) {
+        var map = this;
+        app.f7.dialog.close();
+        var mapDiv = document.getElementById("routeMaps");
+        map = plugin.google.maps.Map.getMap(mapDiv, {
+            controls: {
+                myLocationButton: true,
+                myLocation: true
+            },
+            gestures: {
+                'scroll': true,
+                'tilt': true,
+                'rotate': true,
+                'zoom': true
+            }
+        });
+        map.one(plugin.google.maps.event.MAP_READY, onMapReady);
     }
 
     function searchResults() {
@@ -72,7 +107,7 @@ define(["app", "js/routes/routesView"], function (app, View) {
         }).success(function (data) {
             console.log(data);
             locationPopup.close();
-            // View.emptyPlaces();
+           // View.emptyPlaces();
             getDestination({
                 lat: data.result.geometry.location.lat,
                 lng: data.result.geometry.location.lng
@@ -85,23 +120,26 @@ define(["app", "js/routes/routesView"], function (app, View) {
         });
     }
 
-    function locationSuccess(position) {
-        console.log(position);
-        app.f7.dialog.close();
-        getDestination({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-        });
-    }
-
-    function locationError(error) {
-        console.log(error);
-        app.f7.dialog.close();
-        app.f7.dialog.confirm('Failed to auto pick your location, pick your location manually', function () {
-            locationPopup.open();
+    function onMapReady() {
+        var map = this;
+        map.animateCamera({
+            target: {lat: -26.129903, lng: 28.105539},
+            zoom: 10,
+            tilt: 20,
+            bearing: 140,
+            duration: 1000
         }, function () {
-            app.mainView.router.back();
+            var option = {
+                enableHighAccuracy: true, // use GPS as much as possible
+                timeout: 3000
+            };
+            try {
+                map.getMyLocation(option, locationSuccess.bind(map), positionError.bind(map));
+            } catch (e) {
+
+            }
         });
+
     }
 
     function getDestination(origin) {
@@ -112,11 +150,61 @@ define(["app", "js/routes/routesView"], function (app, View) {
             method: 'GET'
         }).success(function (data) {
             console.log(data);
+            try {
+               removeMaps();
+            } catch (e) {
+            }
             View.emptyPlaces();
             loadRoutes(origin, {
                 lat: data.result.geometry.location.lat,
                 lng: data.result.geometry.location.lng
             });
+        }).error(function (error) {
+            app.f7.dialog.alert(messages.server_error);
+        }).always(function () {
+            app.f7.dialog.close();
+        });
+    }
+
+    function locationSuccess(location) {
+
+        /*        map.addMarker({
+                    position: location.latLng,
+                    title: location.latLng.toUrlValue()
+                }, function(marker) {
+                    marker.showInfoWindow();
+                });*/
+        removeMaps();
+        app.f7.dialog.close();
+        getDestination({
+            lat: location.latLng.lat,
+            lng: location.latLng.lng
+        });
+    }
+
+    function removeMaps() {
+        $('#routes').show();
+        try {
+            map.clear();
+            map.remove();
+        } catch (e) {
+        }
+        //       $('#routeMaps').hide();
+    }
+
+    function positionSuccess(position) {
+        console.log(position);
+        app.f7.dialog.close();
+        //getRequiredLatandLng
+        //get the place coordinates
+        app.f7.dialog.preloader('Getting place details');
+        $.ajax({
+            url: google.findPlace + place_id,
+            timeout: 3000,
+            method: 'GET'
+        }).success(function (data) {
+            console.log(data);
+            loadRoutes(position, data);
         }).error(function (error) {
             app.f7.dialog.alert(messages.server_error);
         }).always(function () {
@@ -177,31 +265,20 @@ define(["app", "js/routes/routesView"], function (app, View) {
         });
     }
 
-    function init() {
-        preparePage();
-        View.render({
-            bindings: bindings
+    function positionError(error) {
+        app.f7.dialog.close();
+        console.log(error);
+        app.f7.dialog.confirm('Failed to auto pick your location, pick your location manually', function () {
+            locationPopup.open();
+            removeMaps();
+        }, function () {
+            app.mainView.router.back();
         });
     }
-
-    function reinit() {
-        console.log('reinitialising routes2');
-    }
-
-    function onOut() {
-        /* app.f7.dialog.close();
-         console.log(app.f7.dialog);
-         try {
-             app.f7.dialog.close();
-         } catch (e) {
-         }*/
-        console.log('routes2 outting');
-    }
-
 
     return {
         init: init,
         onOut: onOut,
-        reinit: reinit
+        reinit: init
     };
 });

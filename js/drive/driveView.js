@@ -1,4 +1,4 @@
-define(['hbs!js/drive/tolldetails'], function (tollgateTemplate) {
+define(['hbs!pages/drive/tolldetails'], function (tollgateTemplate) {
     var $$ = Dom7;
     var $ = jQuery;
 
