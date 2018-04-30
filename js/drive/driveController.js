@@ -302,7 +302,8 @@ define(["app", "js/drive/driveView"], function (app, View) {
             timeout: 3000,
             data: {
                 j_id: j_id,
-                state: state
+                state: state,
+                driver_id: user.id
             }
         }).success(function (data) {
             console.log(data);
@@ -450,13 +451,13 @@ define(["app", "js/drive/driveView"], function (app, View) {
                 var total = 0;
                 validTolls.forEach(function (tollgate) {
                     if (car.car_class == 1) {
-                        total += tollgate.class_1_fee;
+                        total += +tollgate.class_1_fee;
                     } else if (car.car_class == 2) {
-                        total += tollgate.class_2_fee;
+                        total += +tollgate.class_2_fee;
                     } else if (car.car_class == 3) {
-                        total += tollgate.class_3_fee;
+                        total += +tollgate.class_3_fee;
                     } else {
-                        total += tollgate.class_4_fee;
+                        total += +tollgate.class_4_fee;
                     }
                 });
                 var totalNotification = app.f7.notification.create({
@@ -464,7 +465,8 @@ define(["app", "js/drive/driveView"], function (app, View) {
                     title: 'ABIRI',
                     subtitle: 'Approximated total tollgates cost',
                     text: 'R ' + total,
-                    closeButton: true
+                    closeButton: true,
+                    timeout: 5000
                 });
                 totalNotification.open();
             });

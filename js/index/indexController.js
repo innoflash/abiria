@@ -113,7 +113,8 @@ define(["app", "js/index/indexView"], function (app, View) {
             timeout: 3000,
             data: {
                 j_id: Cookies.get(cookienames.journey_id),
-                state: 1
+                state: 1,
+                driver_id: user.id
             }
         }).success(function (data) {
             console.log(data);

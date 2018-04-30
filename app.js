@@ -101,6 +101,9 @@ define('app', ['js/router'], function (Router) {
             }, {
                 path: '/rankRoute/:position',
                 url: 'pages/rankRoute.html'
+            }, {
+                path: '/testmap',
+                url: 'pages/testmap.html'
             }
         ],
         theme: 'ios',
