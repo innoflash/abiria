@@ -42,7 +42,7 @@ define(["app", "js/settings/settingsView"], function (app, View) {
                 expires: 21
             });
             app.f7.dialog.alert('Taxi ranks updated!');
-        }).error(function () {
+        }).error(function (error) {
             console.log(error);
         }).always(function () {
             app.f7.dialog.close();

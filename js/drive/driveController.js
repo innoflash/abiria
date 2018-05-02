@@ -146,13 +146,13 @@ define(["app", "js/drive/driveView"], function (app, View) {
                     Cookies.set(cookienames.journey_id, data.j_id);
                     Cookies.set(cookienames.position, position);
 
-                    map.setZoom(20);
+                    map.setZoom(18);
                     map.setCenter(new google.maps.LatLng({
                         lat: startLat,
                         lng: startLng
                     }));
 
-//                   window.plugins.toast.showShortBottom('Your journey has been started...');
+                    window.plugins.toast.showShortBottom('Your journey has been started...');
                     var notification = app.f7.notification.create({
                         icon: '<i class="f7-icons">chat</i>',
                         subtitle: 'Journey alert !!!',
@@ -220,7 +220,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
                 });
             }
             refreshID = setInterval(function () {
-                // window.plugins.toast.showShortTop('updating your location');
+                window.plugins.toast.showShortTop('updating your location');
                 //pick current position and update on map
                 navigator.geolocation.getCurrentPosition(locationSuccess.bind(this),
                     locationError.bind(this),
@@ -237,13 +237,13 @@ define(["app", "js/drive/driveView"], function (app, View) {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             });
-            map.setZoom(20);
+            map.setZoom(18);
             map.setCenter(newPosition);
             positionMarker.setPosition(newPosition);
         }
 
         function locationError(error) {
-            //     window.plugins.toast.showShortBottom(JSON.stringify(error));
+            window.plugins.toast.showShortBottom(JSON.stringify(error));
         }
 
         function getTollgates() {

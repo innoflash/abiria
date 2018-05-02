@@ -4,15 +4,98 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
     var position = -1;
     var data = {};
     var route = {};
+    var directionsService, directionsDisplay = null;
+    var positionMarker, map = null;
 
     var bindings = [
         {
             element: '#openDetails',
             event: 'click',
-            handler: openDetails
+            handler: openOptions
         }
     ];
 
+    function openOptions() {
+        myOptions = app.f7.actions.create({
+            buttons: [
+                // First group
+                [
+                    {
+                        text: 'Journey Options',
+                        label: true
+                    },
+                    {
+                        text: 'Start journey',
+                        bold: true,
+                        onClick: function () {
+                            startJourney();
+                        }
+                    },
+                    {
+                        text: 'Details',
+                        bold: true,
+                        onClick: function () {
+                            openDetails();
+                        }
+                    }
+                ],
+                // Second group
+                [
+                    {
+                        text: 'Cancel',
+                        color: 'red'
+                    }
+                ]
+            ]
+        });
+        myOptions.open();
+    }
+
+    function startJourney() {
+        var currentPosition = new google.maps.LatLng({
+            lat: startLat,
+            lng: startLng
+        });
+        map.setZoom(18);
+        map.setCenter(currentPosition);
+        positionMarker = new google.maps.Marker({
+            position: currentPosition,
+            map: map,
+            title: "current position",
+            animation: google.maps.Animation.DROP,
+            icon: 'img/icons/me.png'
+        });
+        refreshPosition();
+    }
+
+    function refreshPosition() {
+        refreshID = setInterval(function () {
+            //         window.plugins.toast.showShortTop('updating your location');
+            //pick current position and update on map
+            console.log('updating position');
+            navigator.geolocation.getCurrentPosition(locationSuccess.bind(this),
+                locationError.bind(this),
+                {
+                    maximumAge: 3000,
+                    timeout: 5000,
+                    enableHighAccuracy: true
+                });
+        }, 3000);
+    }
+
+    function locationSuccess(position) {
+        var newPosition = new google.maps.LatLng({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+        });
+        map.setZoom(18);
+        map.setCenter(newPosition);
+        positionMarker.setPosition(newPosition);
+    }
+
+    function locationError(error) {
+        window.plugins.toast.showShortBottom(JSON.stringify(error));
+    }
 
     function openDetails() {
         app.mainView.router.navigate({
@@ -28,84 +111,109 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
     }
 
     function loadMap() {
-        var div = document.getElementById("rank_mapova");
-        mapDiv = $('#rank_mapova');
-        map = plugin.google.maps.Map.getMap(div, {
-            controls: {
-                myLocationButton: true
-            },
-            gestures: {
-                'scroll': true,
-                'tilt': true,
-                'rotate': true,
-                'zoom': true
-            }
+        directionsService = new google.maps.DirectionsService();
+        directionsDisplay = new google.maps.DirectionsRenderer();
+
+        startLat = data.routes[position].legs[0].start_location.lat;
+        startLng = data.routes[position].legs[0].start_location.lng;
+
+        endLat = data.routes[position].legs[0].end_location.lat;
+        endLng = data.routes[position].legs[0].end_location.lng;
+        address = data.routes[position].legs[0].end_address;
+
+        var map = new GoogleMap({
+            lat: startLat,
+            lng: startLng
+        }, {
+            lat: endLat,
+            lng: endLng
         });
-        map.setMyLocationEnabled(true);
-        map.setAllGesturesEnabled(true);
-
-        map.setMapTypeId(plugin.google.maps.MapTypeId.ROADMAP);
-
-        startLat = route.legs[0].start_location.lat;
-        startLng = route.legs[0].start_location.lng;
-
-        endLat = route.legs[0].end_location.lat;
-        endLng = route.legs[0].end_location.lng;
-        address = route.legs[0].end_address;
-
-
-        // Wait until the map is ready status.
-        map.one(plugin.google.maps.event.MAP_READY, onMapReady.bind(this));
+        map.initialize();
     }
 
+
+    function GoogleMap(origin, destination) {
+        mapDiv = $('#rank_mapova');
+        this.initialize = function () {
+            map = showMap();
+        };
+
+        var showMap = function () {
+            var mapOptions = {
+                zoom: getBoundsZoomLevel(null, {
+                    height: mapDiv.height(),
+                    width: mapDiv.width()
+                }),
+                center: new google.maps.LatLng(getMidPoint(startLat, endLat), getMidPoint(startLng, endLng)),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+            var map = new google.maps.Map(document.getElementById("rank_mapova"), mapOptions);
+            directionsDisplay.setMap(map);
+            calcRoute(directionsService, directionsDisplay, origin, destination);
+            return map;
+        };
+    }
+
+    function calcRoute(directionsService, directionsDisplay, origin, destination) {
+        var request = {
+            origin: origin,
+            destination: destination,
+            travelMode: 'DRIVING'
+        };
+        directionsService.route(request, function (result, status) {
+            if (status == 'OK') {
+                directionsDisplay.setDirections(result);
+            }
+            console.log(result);
+            console.log(status);
+        });
+    }
+
+    function getBoundsZoomLevel(bounds, mapDim) {
+        var WORLD_DIM = {height: 256, width: 256};
+        var ZOOM_MAX = 21;
+
+        function latRad(lat) {
+            var sin = Math.sin(lat * Math.PI / 180);
+            var radX2 = Math.log((1 + sin) / (1 - sin)) / 2;
+            return Math.max(Math.min(radX2, Math.PI), -Math.PI) / 2;
+        }
+
+        function zoom(mapPx, worldPx, fraction) {
+            return Math.floor(Math.log(mapPx / worldPx / fraction) / Math.LN2);
+        }
+
+        var ne = data.routes[position].bounds.northeast;
+        var sw = data.routes[position].bounds.southwest;
+
+        var latFraction = (latRad(ne.lat) - latRad(sw.lat)) / Math.PI;
+
+        var lngDiff = ne.lng - sw.lng;
+        var lngFraction = ((lngDiff < 0) ? (lngDiff + 360) : lngDiff) / 360;
+
+        var latZoom = zoom(mapDim.height, WORLD_DIM.height, latFraction);
+        var lngZoom = zoom(mapDim.width, WORLD_DIM.width, lngFraction);
+
+        return Math.min(latZoom, lngZoom, ZOOM_MAX);
+    }
 
     function getMidPoint(start, end) {
         var mid = (start + end) / 2;
-        return mid.toFixed(6);
+        console.log(mid.toFixed(5));
+        return mid.toFixed(5);
     }
 
-
-    function getTurningPoints() {
-        points = [];
-        route.legs[0].steps.forEach(function (value) {
-            points.push({
-                lat: value.start_location.lat,
-                lng: value.start_location.lng
-            });
+    function makeCoords(latLng) {
+        var coords = latLng.split(',');
+        var coordS = new google.maps.LatLng({
+            lat: +coords[0],
+            lng: +coords[1]
         });
-        return points;
+
+        return coordS;
     }
 
-    function onMapReady() {
-        map.animateCamera({
-            target: {lat: getMidPoint(startLat, endLat), lng: getMidPoint(startLng, endLng)},
-            zoom: 18,
-            /*     tilt: 20,
-                   bearing: 140,*/
-            duration: 3500
-        }, function () {
-            //add path
-            map.addPolyline({
-                points: getTurningPoints(),
-                'color': '#0c5806',
-                'width': 6,
-                'geodesic': true
-            });
-
-            // Add a maker
-            map.addMarker({
-                position: {lat: endLat, lng: endLng},
-                title: address,
-                snippet: 'my destination',
-                animation: plugin.google.maps.Animation.BOUNCE
-            }, function (marker) {
-
-                // Show the info window
-                marker.showInfoWindow();
-
-            });
-        });
-    }
 
     function init() {
         preparePage();
@@ -114,13 +222,15 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
         });
     }
 
+    function reinit() {
+        console.log('reinitialising');
+    }
+
     function onOut() {
         try {
-            map.clear();
-            map.remove();
+            clearInterval(refreshID);
         } catch (e) {
         }
-       /* app.f7.dialog.close();*/
         console.log('rankRoute outting');
     }
 
@@ -128,6 +238,6 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
     return {
         init: init,
         onOut: onOut,
-        reinit: init
+        reinit: reinit
     };
 });

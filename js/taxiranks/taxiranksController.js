@@ -3,7 +3,9 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
     var $$ = Dom7;
     var locationPopup = {};
     var latLng = {};
-    var map = {};
+    var map, mapBounds = {};
+    var positionCircle = null;
+    var positionMarker, rankMarker, myMarker, selectedRank = null;
 
     var bindings = [
         {
@@ -20,8 +22,11 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
         });
     }
 
+
     function preparePage() {
         app.f7.dialog.preloader('Getting your location');
+        positionMarker = 'img/icons/me.png';
+        rankMarker = 'img/icons/tollgate.png';
         locationPopup = app.f7.popup.create({
             el: '.popup-mylocation2',
             animate: true,
@@ -36,29 +41,14 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
                 }
             }
         });
-        var option = {
-            enableHighAccuracy: true, // use GPS as much as possible
-            timeout: 3000
-        };
-        try {
-            plugin.google.maps.LocationService.getMyLocation(option, locationSuccess.bind(this), locationError.bind(this));
-        } catch (e) {
-        }
-    }
 
-    function locationSuccess(location) {
-        app.f7.dialog.close();
-        drawMap(location.latLng);
-    }
-
-    function locationError(error) {
-        app.f7.dialog.close();
-        console.log(error);
-        app.f7.dialog.confirm('Failed to auto pick your location, pick your location manually', function () {
-            locationPopup.open();
-        }, function () {
-            app.mainView.router.back();
-        });
+        navigator.geolocation.getCurrentPosition(locationSuccess.bind(this),
+            locationError.bind(this),
+            {
+                maximumAge: 3000,
+                timeout: 5000,
+                enableHighAccuracy: true
+            });
     }
 
     function searchResults() {
@@ -98,12 +88,19 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
             locationPopup.close();
             console.log(data);
             View.emptyPlaces();
+            latLng = data.result.geometry.location;
+            var thisPosition = new google.maps.LatLng(latLng);
             try {
-                map.clear();
-                latLng = data.result.geometry.location;
-                onMapReady();
+                positionCircle.setMap(null);
+                myMarker.setMap(null);
+
+                console.log(latLng);
+                pinMe(new google.maps.LatLng(latLng));
             } catch (e) {
-                drawMap(data.result.geometry.location);
+                var map = new GoogleMap(thisPosition);
+                map.initialize();
+                pinMe(thisPosition);
+                // drawMap(data.result.geometry.location);
             }
         }).error(function (error) {
             console.log(error);
@@ -113,104 +110,86 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
         });
     }
 
-    function drawMap(latLngs) {
-        var div = document.getElementById("rank_canvas");
-        latLng = latLngs;
-        map = plugin.google.maps.Map.getMap(div, {
-            controls: {
-                myLocationButton: true,
-                myLocation: true
-            },
-            gestures: {
-                'scroll': true,
-                'tilt': true,
-                'rotate': true,
-                'zoom': true
-            }
-        });
-        map.setMyLocationEnabled(true);
-        map.setAllGesturesEnabled(true);
 
-        map.setMapTypeId(plugin.google.maps.MapTypeId.ROADMAP);
-        map.one(plugin.google.maps.event.MAP_READY, onMapReady);
-        console.log(latLngs);
+    function locationSuccess(position) {
+        app.f7.dialog.close();
+        var currentPosition = new google.maps.LatLng({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+        });
+        var map = new GoogleMap(currentPosition);
+        map.initialize();
+        pinMe(currentPosition);
     }
 
-    function onMapReady() {
-        map.animateCamera({
-            target: latLng,
-            zoom: 13,
-            tilt: 20,
-            bearing: 140,
-            duration: 3500
-        }, function () {
-            map.addMarker({
-                position: latLng,
-                title: 'My Current',
-                snippet: 'position',
-                animation: plugin.google.maps.Animation.BOUNCE
-            }, function (marker) {
-                marker.setIcon("blue");
-                marker.addEventListener(plugin.google.maps.event.MARKER_CLICK, function () {
-                    marker.showInfoWindow();
-                });
+    function pinMe(currentPosition) {
+        map.setCenter(currentPosition);
 
-                // circle the area
-                map.addCircle({
-                    'center': latLng,
-                    'radius': +Cookies.get(cookienames.rank_radius) * 1000,
-                    'strokeColor': '#1821ff',
-                    'strokeWidth': 3,
-                    'fillColor': '#911750'
-                }, function (circle) {
-                    //  populateTaxiRanks();
-                    map.moveCamera({
-                        target: circle.getBounds()
-                    }, function () {
-                        populateTaxiRanks();
-                    });
-                });
-            });
+        myMarker = new google.maps.Marker({
+            position: currentPosition,
+            map: map,
+            title: "current position",
+            animation: google.maps.Animation.DROP,
+            icon: positionMarker
         });
+        positionCircle = new google.maps.Circle({
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#FF0000',
+            fillOpacity: 0.35,
+            map: map,
+            center: currentPosition,
+            radius: +Cookies.get(cookienames.rank_radius) * 1000
+        });
+        console.log(positionCircle.getBounds());
+        drawRanks(positionCircle.getBounds())
     }
 
-    function populateTaxiRanks() {
+    function drawRanks(bounds) {
         var hasRanks = Cookies.get(cookienames.has_taxi_ranks);
-        window.plugins.toast.showShortTop('Populating ranks');
+//        window.plugins.toast.showShortTop('Populating ranks');
 
         if (Cookies.get(cookienames.has_taxi_ranks) == true || Cookies.get(cookienames.has_taxi_ranks) == "true") {
             // window.plugins.toast.showLongBottom('should be showing ranks right now');
-            showRanks();
+            showRanks(bounds);
         } else {
-            getRanks();
+            getRanks(bounds);
         }
     }
 
-    function showRanks() {
+    function showRanks(bounds) {
         var ranks = JSON.parse(localStorage.getItem(cookienames.taxi_ranks));
         // app.f7.dialog.alert(JSON.stringify(ranks));
-        ranks.forEach(function (rank) {
-            map.addMarker({
-                position: makeCoords(rank.coordinates),
-                title: rank.name,
-                snippet: 'taxi rank',
-                animation: plugin.google.maps.Animation.BOUNCE
-            }, function (marker) {
-                marker.addEventListener(plugin.google.maps.event.MARKER_CLICK, function () {
-                    marker.showInfoWindow();
+        ranks.forEach(function (rank, i) {
+            if (bounds.contains(makeCoords(rank.coordinates))) {
+                var rankIcon = new google.maps.Marker({
+                    position: makeCoords(rank.coordinates),
+                    map: map,
+                    title: rank.name,
+                    animation: google.maps.Animation.DROP
                 });
-                marker.addEventListener(plugin.google.maps.event.INFO_CLICK, function () {
-                    promptWalk(rank);
+                var div = document.createElement('div');
+                div.innerHTML = rank.name;
+                div.onclick = function () {
+                    promptWalk();
+                };
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: div
                 });
-            });
+                rankIcon.addListener('click', function () {
+                    selectedRank = rank;
+                    infowindow.open(map, rankIcon);
+                });
+            }
         });
     }
-
-    function promptWalk(rank) {
+    function promptWalk() {
         app.f7.dialog.confirm('Do you want to get directions to this taxi rank?', function () {
             console.log('will load the routes to the given coords from the current');
             app.mainView.router.navigate({
-                url: '/rank/' + latLng.lat + ',' + latLng.lng + '/' + rank.coordinates,
+                url: '/rank/' + latLng.lat + ',' + latLng.lng + '/' + selectedRank.coordinates,
                 reloadPrevious: false
             });
         });
@@ -218,13 +197,14 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
 
     function makeCoords(latLng) {
         var coords = latLng.split(',');
-        return {
+
+        return new google.maps.LatLng({
             lat: +coords[0],
             lng: +coords[1]
-        };
+        });
     }
 
-    function getRanks() {
+    function getRanks(bounds) {
         app.f7.dialog.preloader('Getting ranks');
         $.ajax({
             url: app_apis.abiri + 'abiri-taxiranks',
@@ -236,7 +216,7 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
                 expires: 21
             });
             app.f7.dialog.alert('Taxi ranks updated!', function () {
-                showRanks();
+                showRanks(bounds);
             });
         }).error(function () {
             console.log(error);
@@ -245,6 +225,35 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
         });
     }
 
+    function GoogleMap(latLng) {
+        mapDiv = $('#rank_canvas');
+        this.initialize = function () {
+            map = showMap();
+        };
+
+        var showMap = function () {
+            var mapOptions = {
+                zoom: 13,
+                center: latLng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+            var map = new google.maps.Map(document.getElementById("rank_canvas"), mapOptions);
+            return map;
+        };
+    }
+
+    function locationError(error) {
+        app.f7.dialog.close();
+        console.log(error);
+        app.f7.dialog.confirm('Failed to auto pick your location, pick your location manually', function () {
+            locationPopup.open();
+        }, function () {
+            app.mainView.router.back();
+        });
+    }
+
+
     function init() {
         preparePage();
         View.render({
@@ -252,12 +261,18 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
         });
     }
 
+    function reinit() {
+        init();
+        console.log('reinitialising');
+    }
+
     function onOut() {
-        /*app.f7.dialog.close();*/
-        try {
-            map.remove();
-        } catch (e) {
-        }
+        /* app.f7.dialog.close();
+         console.log(app.f7.dialog);
+         try {
+             app.f7.dialog.close();
+         } catch (e) {
+         }*/
         console.log('taxiranks outting');
     }
 
@@ -265,6 +280,6 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
     return {
         init: init,
         onOut: onOut,
-        reinit: init
+        reinit: reinit
     };
 });
