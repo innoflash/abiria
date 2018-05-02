@@ -119,6 +119,10 @@ define(["app", "js/editcar/editcarView"], function (app, View) {
             }).success(function (data) {
                 app.f7.dialog.alert(data.message, function (e) {
                     if (data.success == 1) {
+                        defaultcar = Cookies.getJSON(cookienames.default_car);
+                        if (defaultcar.id == car.id) {
+                            Cookies.set(cookienames.default_car, data.car);
+                        }
                         app.mainView.router.back({
                             force: true,
                             ignoreCache: true

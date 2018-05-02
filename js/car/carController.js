@@ -68,7 +68,7 @@ define(["app", "js/car/carView"], function (app, View) {
 
     function makeDefault() {
         app.f7.dialog.confirm('You want to se this car as your default car?', function () {
-            Cookies.set(cookienames.default_car, car)
+            Cookies.set(cookienames.default_car, car);
             app.mainView.router.back({
                 url: '/index',
                 force: true,
