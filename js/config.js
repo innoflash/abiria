@@ -34,7 +34,8 @@ var app_apis = {
 };
 
 var messages = {
-    server_error: 'Could not connect to the server, check your internet and try again'
+    server_error: 'Could not connect to the server, check your internet and try again',
+    location_error: 'Sorry, your device can`t pick your current location!'
 };
 
 var strings = {

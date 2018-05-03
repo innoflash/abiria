@@ -148,7 +148,7 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
 
     function drawRanks(bounds) {
         var hasRanks = Cookies.get(cookienames.has_taxi_ranks);
-//        window.plugins.toast.showShortTop('Populating ranks');
+        window.plugins.toast.showShortTop('Populating ranks');
 
         if (Cookies.get(cookienames.has_taxi_ranks) == true || Cookies.get(cookienames.has_taxi_ranks) == "true") {
             // window.plugins.toast.showLongBottom('should be showing ranks right now');

@@ -243,7 +243,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
         }
 
         function locationError(error) {
-            window.plugins.toast.showShortBottom(JSON.stringify(error));
+            window.plugins.toast.showShortBottom(messages.location_error);
         }
 
         function getTollgates() {

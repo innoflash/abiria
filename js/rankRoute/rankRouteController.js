@@ -80,7 +80,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
                     timeout: 5000,
                     enableHighAccuracy: true
                 });
-        }, 3000);
+        }, 30000);
     }
 
     function locationSuccess(position) {
@@ -94,7 +94,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
     }
 
     function locationError(error) {
-        window.plugins.toast.showShortBottom(JSON.stringify(error));
+        window.plugins.toast.showShortBottom(messages.location_error);
     }
 
     function openDetails() {
