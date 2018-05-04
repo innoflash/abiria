@@ -37,14 +37,14 @@
     <plugin name="cordova-plugin-device-motion" spec="^2.0.0"/>
     <plugin name="cordova-plugin-device-orientation" spec="^2.0.0"/>
     <plugin name="cordova-plugin-file-transfer" spec="^1.7.1"/>
-    <plugin name="cordova-plugin-googlemaps" spec="2.2.8">
+<!--    <plugin name="cordova-plugin-googlemaps" spec="2.2.8">
         <variable name="API_KEY_FOR_ANDROID" value="AIzaSyAFu1-IjUEqHjTih3S9RDsXoQcjWklMJ5A"/>
         <variable name="API_KEY_FOR_IOS" value="AIzaSyAXIlH8A18hdw0qJLqVwDdKyQaQqnLXD3w"/>
         <variable name="PLAY_SERVICES_VERSION" value="11.8.0"/>
         <variable name="ANDROID_SUPPORT_V4_VERSION" value="24.1.0"/>
         <variable name="LOCATION_WHEN_IN_USE_DESCRIPTION" value="Maps in use"/>
         <variable name="LOCATION_ALWAYS_USAGE_DESCRIPTION" value="maps always used"/>
-    </plugin>
+    </plugin>-->
     <plugin name="cordova-plugin-facebook4" source="npm" spec="1.7.4">
         <variable name="APP_ID" value="526123517788979"/>
         <variable name="APP_NAME" value="Abiri"/>
