@@ -49,11 +49,11 @@ define(["app", "js/destination/destinationView"], function (app, View) {
     }
 
     function onOut() {
-/*        if (app.f7.dialog.get() != undefined) {
-            app.f7.dialog.close();
-        }else{
-            console.log('is null');
-        }*/
+        /*        if (app.f7.dialog.get() != undefined) {
+                    app.f7.dialog.close();
+                }else{
+                    console.log('is null');
+                }*/
     }
 
     function reinit() {
@@ -71,7 +71,7 @@ define(["app", "js/destination/destinationView"], function (app, View) {
         if ($$("#destinationSearch").val().length >= 5) {
             View.updateStatus('Searching destination ....');
             $.ajax({
-                url: google.findPlaces + $('#destinationSearch').val(),
+                url: google.findPlaces($('#destinationSearch').val()),
                 method: 'GET',
                 timeout: 3000
             }).success(function (data) {

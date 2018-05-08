@@ -37,5 +37,6 @@ var functions = {
         Cookies.set(cookienames.etoll_options, false);
         Cookies.set(cookienames.rank_radius, 3);
         Cookies.set(cookienames.rank_routes, "walking");
+        Cookies.set(cookienames.default_country, coutries.south_africa);
     }
 };

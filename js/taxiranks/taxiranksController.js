@@ -54,7 +54,7 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
     function searchResults() {
         if ($$("#originSearch2").val().length >= 5) {
             $.ajax({
-                url: google.findPlaces + $('#originSearch2').val(),
+                url: google.findPlaces($('#originSearch2').val()),
                 timeout: 3000,
                 method: 'GET'
             }).success(function (data) {

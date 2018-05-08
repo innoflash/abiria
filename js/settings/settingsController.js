@@ -84,6 +84,38 @@ define(["app", "js/settings/settingsView"], function (app, View) {
         etollStaff();
         rankStaff();
         rankRoutes();
+        countryStaff();
+    }
+
+    function countryStaff() {
+        var theCountry = Cookies.get(cookienames.default_country);
+        $('#defaultCountry').val(theCountry);
+        console.log(theCountry);
+
+        app.f7.picker.create({
+            inputEl: '#defaultCountry',
+            rotateEffect: true,
+            on: {
+                change: function (picker, values, displayValues) {
+                    var currentCountry = values[0];
+                    Cookies.set(cookienames.default_country, currentCountry);
+                }
+            },
+            cols: [
+                {
+                    textAlign: 'center',
+                    values: [
+                        'South Africa',
+                        'Zimbabwe',
+                        'Namibia',
+                        'Botswana',
+                        'Mozambique',
+                        'Lesotho',
+                        'Swaziland'
+                    ]
+                }
+            ]
+        });
     }
 
     function rankRoutes() {
@@ -102,7 +134,7 @@ define(["app", "js/settings/settingsView"], function (app, View) {
             radius = $(this).val();
             if (radius.length != 0) {
                 Cookies.set(cookienames.rank_radius, radius);
-            }else{
+            } else {
                 Cookies.set(cookienames.rank_radius, 3);
             }
         });

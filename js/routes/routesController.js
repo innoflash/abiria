@@ -40,7 +40,7 @@ define(["app", "js/routes/routesView"], function (app, View) {
     function searchResults() {
         if ($$("#originSearch").val().length >= 5) {
             $.ajax({
-                url: google.findPlaces + $('#originSearch').val(),
+                url: google.findPlaces($('#originSearch').val()),
                 timeout: 3000,
                 method: 'GET'
             }).success(function (data) {
