@@ -63,7 +63,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
             map: map,
             title: "current position",
             animation: google.maps.Animation.DROP,
-            icon: 'img/icons/me.png'
+            icon: 'img/icons/pedestrian.png'
         });
         refreshPosition();
     }

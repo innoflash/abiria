@@ -513,7 +513,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
         }
 
         function preparePage() {
-            meIcon = 'img/icons/me.png';
+            meIcon = 'img/icons/car.png';
             tollgateIcon = 'img/icons/tollgate.png';
             routeGate = 'img/icons/route.png';
 

@@ -25,7 +25,7 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
 
     function preparePage() {
         app.f7.dialog.preloader('Getting your location');
-        positionMarker = 'img/icons/me.png';
+        positionMarker = 'img/icons/pedestrian.png';
         rankMarker = 'img/icons/tollgate.png';
         locationPopup = app.f7.popup.create({
             el: '.popup-mylocation2',
