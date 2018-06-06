@@ -229,7 +229,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
                         timeout: 5000,
                         enableHighAccuracy: true
                     });
-            }, 30000);
+            }, 2500);
         }
 
         function locationSuccess(position) {
