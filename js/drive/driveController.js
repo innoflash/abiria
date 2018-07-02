@@ -205,7 +205,10 @@ define(["app", "js/drive/driveView"], function (app, View) {
         }
 
         function refreshPosition() {
-
+            var interval = Cookies.get(cookienames.position_interval);
+            if (interval == undefined) {
+                interval = 1.5;
+            }
             if (positionMarker == null) {
                 positionMarker = new google.maps.Marker({
                     position: new google.maps.LatLng({
@@ -229,7 +232,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
                         timeout: 5000,
                         enableHighAccuracy: true
                     });
-            }, 2500);
+            }, interval * 1000);
         }
 
         function locationSuccess(position) {

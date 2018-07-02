@@ -21,7 +21,8 @@ var cookienames = {
     rank_radius: 'rank_radius',
     position: 'routePosition',
     rank_routes: 'rank_routes',
-    default_country: 'default_country'
+    default_country: 'default_country',
+    position_interval: 'position_interval'
 };
 
 var tollOptions = {

@@ -85,6 +85,21 @@ define(["app", "js/settings/settingsView"], function (app, View) {
         rankStaff();
         rankRoutes();
         countryStaff();
+        positioningStaff();
+    }
+
+    function positioningStaff() {
+        var interval = Cookies.get(cookienames.position_interval);
+        console.log(interval);
+        $('#positionInterval').val(interval);
+        $('#positionInterval').on('keyup', function () {
+            timer = $(this).val();
+            if (timer.length != 0) {
+                Cookies.set(cookienames.position_interval, parseFloat(timer));
+            } else {
+                Cookies.set(cookienames.position_interval, 1.5);
+            }
+        });
     }
 
     function countryStaff() {
