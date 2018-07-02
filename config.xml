@@ -62,4 +62,11 @@
     <preference name="phonegap-version" value="cli-7.1.0"/>
     <preference name="AndroidPersistentFileLocation" value="Compatibility"/>
     <preference name="CameraUsesGeolocation" value="false"/>
+    <preference name="AndroidLaunchMode" value="singleTask" />
+    <universal-links>
+        <host name="abiri.page.link" scheme="https" />
+        <host name="abiri-1516616618455.firebaseapp.com" scheme="https">
+            <path url="/__/auth/callback"/>
+        </host>
+    </universal-links>
 </widget>
