@@ -329,33 +329,24 @@ define(["app", "js/index/indexView"], function (app, View) {
 
 
     function fbAuthentication() {
-        facebookConnectPlugin.login(["public_profile", "email"], function (result) {
-            //calling api after login success
-            facebookConnectPlugin.api("/me?fields=email,name,picture",
-                ["public_profile", "email"]
-                , function (userData) {
-                    //API success callback
-                    app.f7.dialog.alert(JSON.stringify(userData));
-                }, function (error) {
-                    //API error callback
-                    app.f7.dialog.alert(JSON.stringify(error));
-                });
-        }, function (error) {
-            //authenication error callback
-            app.f7.dialog.alert(JSON.stringify(error));
+        console.log('doing facebook shit');
+        var facebookProvider = new firebase.auth.FacebookAuthProvider();
+        firebase.auth().signInWithRedirect(facebookProvider).then(function () {
+            return firebase.auth().getRedirectResult();
+        }).then(function (result) {
+            console.log(result);
+            app.f7.dialog.alert(JSON.stringify(result));
         });
     }
 
     function googleAuth() {
-        window.plugins.googleplus.login(
-            {},
-            function (obj) {
-                app.f7.dialog.alert(JSON.stringify(obj)); // do something useful instead of alerting
-            },
-            function (msg) {
-                app.f7.dialog.alert('error: ' + msg);
-            }
-        );
+        var googleProvider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signInWithRedirect(googleProvider).then(function () {
+            return firebase.auth().getRedirectResult();
+        }).then(function (result) {
+            console.log(result);
+            app.f7.dialog.alert(JSON.stringify(result));
+        });
     }
 
     function phoneAuth() {
