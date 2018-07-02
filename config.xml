@@ -37,6 +37,13 @@
     <plugin name="cordova-plugin-device-motion" spec="^2.0.0"/>
     <plugin name="cordova-plugin-device-orientation" spec="^2.0.0"/>
     <plugin name="cordova-plugin-file-transfer" spec="^1.7.1"/>
+    <plugin name="cordova-plugin-buildinfo" spec="^2.0.1" />
+    <plugin name="cordova-universal-links-plugin" spec="^1.2.1" />
+    <plugin name="cordova-plugin-browsertab" spec="^0.2.0" />
+    <plugin name="cordova-plugin-inappbrowser" spec="^3.0.0" />
+    <plugin name="cordova-plugin-customurlscheme" spec="^4.3.0">
+        <variable name="URL_SCHEME" value="zw.co.flashtech.abiri" />
+    </plugin>
 <!--    <plugin name="cordova-plugin-googlemaps" spec="2.2.8">
         <variable name="API_KEY_FOR_ANDROID" value="AIzaSyAFu1-IjUEqHjTih3S9RDsXoQcjWklMJ5A"/>
         <variable name="API_KEY_FOR_IOS" value="AIzaSyAXIlH8A18hdw0qJLqVwDdKyQaQqnLXD3w"/>
