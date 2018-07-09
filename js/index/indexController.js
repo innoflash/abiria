@@ -110,7 +110,7 @@ define(["app", "js/index/indexView"], function (app, View) {
         $.ajax({
             url: app_apis.abiri + 'abiri-updatejourney',
             method: 'POST',
-            timeout: 3000,
+            timeout: 5000,
             data: {
                 j_id: Cookies.get(cookienames.journey_id),
                 state: 1,
@@ -160,7 +160,7 @@ define(["app", "js/index/indexView"], function (app, View) {
         notification.open();
         $.ajax({
             url: app_apis.abiri + 'abiri-tollgates',
-            timeout: 3000,
+            timeout: 5000,
             method: 'POST'
         }).success(function (tollgates) {
             console.log(tollgates);
@@ -177,7 +177,7 @@ define(["app", "js/index/indexView"], function (app, View) {
     function getEtolls() {
         $.ajax({
             url: app_apis.abiri + 'abiri-etolls',
-            timeout: 3000,
+            timeout: 5000,
             method: 'POST'
         }).success(function (etolls) {
             localStorage.setItem(cookienames.etolls, JSON.stringify(etolls));
@@ -193,7 +193,7 @@ define(["app", "js/index/indexView"], function (app, View) {
     function getTaxiRanks() {
         $.ajax({
             url: app_apis.abiri + 'abiri-taxiranks',
-            timeout: 3000,
+            timeout: 5000,
             method: 'POST'
         }).success(function (taxiRanks) {
             localStorage.setItem(cookienames.taxi_ranks, JSON.stringify(taxiRanks));
@@ -208,7 +208,12 @@ define(["app", "js/index/indexView"], function (app, View) {
     function initPopups() {
         loginPopup = app.f7.popup.create({
             el: '.popup-login',
-            animate: true
+            animate: true,
+            on: {
+                open: function () {
+                    Cookies.set(cookienames.authenticated, false);
+                }
+            }
         });
         registerPopup = app.f7.popup.create({
             el: '.popup-signup',
@@ -242,7 +247,7 @@ define(["app", "js/index/indexView"], function (app, View) {
                 $.ajax({
                     url: app_apis.abiri + 'abiri-activate',
                     method: 'POST',
-                    timeout: 3000,
+                    timeout: 5000,
                     data: {
                         driver_id: user.id,
                         code: $('#activation_code').val()
@@ -276,7 +281,7 @@ define(["app", "js/index/indexView"], function (app, View) {
                 $.ajax({
                     url: app_apis.abiri + 'abiri-deleteprofile',
                     method: 'POST',
-                    timeout: 3000,
+                    timeout: 5000,
                     data: {
                         id: user.id
                     }
@@ -302,7 +307,7 @@ define(["app", "js/index/indexView"], function (app, View) {
                 $.ajax({
                     url: app_apis.abiri + 'abiri-reactivate',
                     method: 'POST',
-                    timeout: 3000,
+                    timeout: 5000,
                     data: {
                         driver_id: user.id
                     }
@@ -345,7 +350,39 @@ define(["app", "js/index/indexView"], function (app, View) {
             return firebase.auth().getRedirectResult();
         }).then(function (result) {
             console.log(result);
-            app.f7.dialog.alert(JSON.stringify(result));
+            //app.f7.dialog.alert(JSON.stringify(result));
+            var user = {};
+            user.first_name = result.additionalUserInfo.profile.given_name;
+            user.last_name = result.additionalUserInfo.profile.family_name;
+            user.phone = encodeUser(result.user.phoneNumber, result.additionalUserInfo.profile.id);
+            user.email = encodeUser(result.additionalUserInfo.profile.email, result.additionalUserInfo.profile.id);
+            user.image_url = result.additionalUserInfo.profile.picture;
+            user.social_id = result.additionalUserInfo.profile.id;
+            user.auth_type = 'Google Login';
+
+            app.f7.dialog.preloader('Signing you in...');
+            $.ajax({
+                method: 'POST',
+                url: app_apis.abiri + 'abiri-sociallogin',
+                timeout: 5000,
+                data: user
+            }).success(function (data) {
+                app.f7.dialog.alert(data.message);
+                if (data.success) {
+                    Cookies.set(cookienames.auth_side, auth_side.google);
+                    // Cookies.set(cookienames.authenticated, true);
+                    Cookies.set(cookienames.social_activate, true);
+                    Cookies.set(cookienames.user, data.user);
+                    openSocialActivate(data.user.phone);
+                }
+            }).error(function (error) {
+                console.log(e);
+                app.f7.dialog.alert(messages.server_error);
+            }).always(function () {
+                app.f7.dialog.close();
+            });
+        }).catch(function (reason) {
+            app.f7.dialog.alert(JSON.stringify(reason));
         });
     }
 
@@ -360,7 +397,7 @@ define(["app", "js/index/indexView"], function (app, View) {
             $.ajax({
                 method: 'POST',
                 url: app_apis.abiri + 'abiri-login',
-                timeout: 3000,
+                timeout: 5000,
                 data: {
                     email: $('#user_email').val(),
                     password: $('#user_password').val()
@@ -408,7 +445,7 @@ define(["app", "js/index/indexView"], function (app, View) {
                 $.ajax({
                     url: app_apis.abiri + 'abiri-forgot-password',
                     method: 'POST',
-                    timeout: 3000,
+                    timeout: 5000,
                     data: {
                         email: $('#forgot_email').val(),
                         phone: $('#forgot_phone').val()
@@ -448,7 +485,7 @@ define(["app", "js/index/indexView"], function (app, View) {
                     $.ajax({
                         method: 'POST',
                         url: app_apis.abiri + 'abiri-reg',
-                        timeout: 3000,
+                        timeout: 5000,
                         data: {
                             first_name: $('#first_name').val(),
                             last_name: $('#last_name').val(),
@@ -495,6 +532,10 @@ define(["app", "js/index/indexView"], function (app, View) {
         }
     }
 
+    function openSocialActivate(phone) {
+        //todo will wire up a social login number
+    }
+
     function logout() {
         var side = Cookies.get(cookienames.auth_side);
         app.f7.dialog.confirm('Are you sure you want to log out now?', function () {
@@ -503,16 +544,12 @@ define(["app", "js/index/indexView"], function (app, View) {
             Cookies.remove(cookienames.authenticated);
             if (side == auth_side.abiri_direct) {
                 loginPopup.open()
-            } else if (side == auth_side.google) {
-                window.plugins.googleplus.logout(
-                    function (msg) {
-                        app.f7.dialog.alert(msg, function () {
-                            loginPopup.open();
-                        });
-                    }
-                );
             } else {
-                //log facebook out
+                firebase.auth().signOut().then(function () {
+                    loginPopup.open();
+                }).catch(function (error) {
+                    // An error happened.
+                });
             }
         });
     }
@@ -543,6 +580,14 @@ define(["app", "js/index/indexView"], function (app, View) {
         };
 
         window.plugins.socialsharing.shareWithOptions(options, onSuccess, onError);
+    }
+
+    function encodeUser(expectedData, fallbackID) {
+        if (expectedData == null) {
+            return 'null' + fallbackID;
+        } else {
+            return expectedData;
+        }
     }
 
     return {
