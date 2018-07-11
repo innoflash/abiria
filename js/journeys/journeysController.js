@@ -19,7 +19,9 @@ define(["app", "js/journeys/journeysView"], function (app, View) {
             method: 'POST',
             timeout: 3000,
             data: {
-                driver_id: user.id
+                driver_id: user.id,
+                phone: user.phone,
+                email: user.email
             }
         }).success(function (data) {
             console.log(data);

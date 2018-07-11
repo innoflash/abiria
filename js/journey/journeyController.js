@@ -57,7 +57,9 @@ define(["app", "js/journey/journeyView"], function (app, View) {
             method: 'POST',
             timeout: 3000,
             data: {
-                id: id
+                id: id,
+                phone: user.phone,
+                email: user.email
             }
         }).success(function (journey) {
             console.log(journey);

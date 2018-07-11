@@ -79,7 +79,9 @@ define(["app", "js/reviews/reviewsView"], function (app, View) {
                 data: {
                     driver_id: user.id,
                     review: $('#myReview').val(),
-                    side: side
+                    side: side,
+                    phone: user.phone,
+                    email: user.email
                 }
             }).success(function (data) {
                 console.log(data);

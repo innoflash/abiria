@@ -41,7 +41,9 @@ define(["app", "js/car/carView"], function (app, View) {
                 timeout: 3000,
                 data: {
                     driver_id: user.id,
-                    car_id: _id
+                    car_id: _id,
+                    email: user.email,
+                    phone: user.phone
                 }
             }).success(function (data) {
                 app.f7.dialog.alert(data.message, function () {
@@ -161,7 +163,9 @@ define(["app", "js/car/carView"], function (app, View) {
             method: 'POST',
             timeout: 3000,
             data: {
-                car_id: car.id
+                car_id: car.id,
+                email: user.email,
+                phone: user.phone
             }
         }).success(function (journeys) {
             console.log(journeys);

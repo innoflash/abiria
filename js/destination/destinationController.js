@@ -1,6 +1,7 @@
 define(["app", "js/destination/destinationView"], function (app, View) {
     var $ = jQuery;
     var $$ = Dom7;
+    var user = {};
 
     var bindings = [
         {
@@ -11,6 +12,7 @@ define(["app", "js/destination/destinationView"], function (app, View) {
     ];
 
     function preparePage() {
+        user = Cookies.getJSON(cookienames.user);
         if (Cookies.get(cookienames.journey_started) == true || Cookies.get(cookienames.journey_started) == "true") {
             app.f7.dialog.confirm('You have a pending journey that you haven`t finished/cancelled, please deal with this one first before you make another', function () {
                 //goto the journey
@@ -73,7 +75,9 @@ define(["app", "js/destination/destinationView"], function (app, View) {
             $.ajax({
                 url: google.findPlaces($('#destinationSearch').val()),
                 method: 'GET',
-                timeout: 3000
+                timeout: 3000,
+                email: user.email,
+                phone: user.phone
             }).success(function (data) {
                 if (data.status == 'OK') {
                     View.fillPlaces(data);

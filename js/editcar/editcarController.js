@@ -114,7 +114,9 @@ define(["app", "js/editcar/editcarView"], function (app, View) {
                     reg_num: $('#vehicle_reg').val(),
                     car_class: $('#vehicle_class').val(),
                     fuel_type: $('#car_fuel_type').val(),
-                    weight: $('#car_weight').val()
+                    weight: $('#car_weight').val(),
+                    email: user.email,
+                    phone: user.phone
                 }
             }).success(function (data) {
                 app.f7.dialog.alert(data.message, function (e) {

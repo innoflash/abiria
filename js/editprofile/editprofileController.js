@@ -44,7 +44,7 @@ define(["app", "js/editprofile/editprofileView"], function (app, View) {
                 }).success(function (data) {
                     app.f7.dialog.alert(data.message, function () {
                         if (data.success == 1) {
-                            Cookies.set(cookienames.user, data.user);
+                            Cookies.set(cookienames.user, data.user.original);
                             app.mainView.router.back({
                                 force: true,
                                 ignoreCache: true

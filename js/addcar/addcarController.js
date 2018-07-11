@@ -98,7 +98,9 @@ define(["app", "js/addcar/addcarView"], function (app, View) {
                     reg_num: $('#reg_num').val(),
                     car_class: $('#car_class').val(),
                     weight: $('#vehicle_weight').val(),
-                    fuel_type: $('#fuel_type').val()
+                    fuel_type: $('#fuel_type').val(),
+                    email: user.email,
+                    phone: user.phone
                 }
             }).success(function (data) {
                 app.f7.dialog.alert(data.message, function (e) {

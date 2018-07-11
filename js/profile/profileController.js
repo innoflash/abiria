@@ -43,7 +43,11 @@ define(["app", "js/profile/profileView"], function (app, View) {
                         text: 'Change Picture',
                         bold: true,
                         onClick: function () {
-                            navigator.camera.getPicture(pictureSuccess, pictureError, cameraOptions);
+                            if (Cookies.get(cookienames.auth_side) == auth_side.abiri_direct) {
+                                navigator.camera.getPicture(pictureSuccess, pictureError, cameraOptions);
+                            } else {
+                                app.f7.dialog.alert('You have signed in using Social Platforms so you cannot change your picture here!');
+                            }
                         }
                     },
                     {
@@ -102,7 +106,9 @@ define(["app", "js/profile/profileView"], function (app, View) {
         options.httpMethod = 'POST';
 
         var params = {
-            id: user.id
+            id: user.id,
+            phone: user.phone,
+            email: user.email
         };
         options.params = params;
 
@@ -110,9 +116,9 @@ define(["app", "js/profile/profileView"], function (app, View) {
         var progress = 0;
         uploadDialog = app.f7.dialog.progress('Uploading image', progress);
         uploadDialog.setText('Please wait...');
-        ft.onprogress = function(progressEvent) {
+        ft.onprogress = function (progressEvent) {
             if (progressEvent.lengthComputable) {
-               // loadingStatus.setPercentage(progressEvent.loaded / progressEvent.total);
+                // loadingStatus.setPercentage(progressEvent.loaded / progressEvent.total);
                 uploadDialog.setProgress(progressEvent.loaded);
                 uploadDialog.setText(((progressEvent.loaded / progressEvent.total) * 100) + "% done");
                 if (progressEvent.loaded == progressEvent.total) {
@@ -158,7 +164,9 @@ define(["app", "js/profile/profileView"], function (app, View) {
                 method: 'POST',
                 timeout: 3000,
                 data: {
-                    id: user.id
+                    id: user.id,
+                    phone: user.phone,
+                    email: user.email
                 }
             }).success(function (data) {
                 app.f7.dialog.alert(data.message, function () {
@@ -185,7 +193,11 @@ define(["app", "js/profile/profileView"], function (app, View) {
     }
 
     function editProfile() {
-        app.mainView.router.navigate('/editprofile');
+        if (Cookies.get(cookienames.auth_side) == auth_side.abiri_direct) {
+            app.mainView.router.navigate('/editprofile');
+        } else {
+            app.f7.dialog.alert('You can`t edit your profile from here unfortunately because you have used social platform login');
+        }
     }
 
     function profileOptions() {

@@ -35,7 +35,11 @@ define(["app", "js/settings/settingsView"], function (app, View) {
         $.ajax({
             url: app_apis.abiri + 'abiri-taxiranks',
             timeout: 3000,
-            method: 'POST'
+            method: 'POST',
+            data: {
+                phone: user.phone,
+                email: user.email
+            }
         }).success(function (taxiRanks) {
             localStorage.setItem(cookienames.taxi_ranks, JSON.stringify(taxiRanks));
             Cookies.set(cookienames.has_taxi_ranks, true, {
@@ -54,7 +58,11 @@ define(["app", "js/settings/settingsView"], function (app, View) {
         $.ajax({
             url: app_apis.abiri + 'abiri-etolls',
             timeout: 3000,
-            method: 'POST'
+            method: 'POST',
+            data: {
+                phone: user.phone,
+                email: user.email
+            }
         }).success(function (etolls) {
             console.log(etolls);
             localStorage.setItem(cookienames.etolls, JSON.stringify(etolls));
@@ -184,7 +192,11 @@ define(["app", "js/settings/settingsView"], function (app, View) {
         $.ajax({
             url: app_apis.abiri + 'abiri-tollgates',
             timeout: 3000,
-            method: 'POST'
+            method: 'POST',
+            data: {
+                phone: user.phone,
+                email: user.email
+            }
         }).success(function (tollgates) {
             console.log(tollgates);
             localStorage.setItem(cookienames.tollgates, JSON.stringify(tollgates));

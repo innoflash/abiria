@@ -126,7 +126,9 @@ define(["app", "js/drive/driveView"], function (app, View) {
                     url: app_apis.abiri + 'abiri-makejourney',
                     method: 'POST',
                     timeout: 3000,
-                    data: data
+                    data: data,
+                    email: user.email,
+                    phone: user.phone
                 }).success(function (data) {
                     positionMarker = new google.maps.Marker({
                         position: new google.maps.LatLng({
@@ -184,7 +186,9 @@ define(["app", "js/drive/driveView"], function (app, View) {
                 data: {
                     j_id: j_id,
                     state: state,
-                    driver_id: user.id
+                    driver_id: user.id,
+                    email: user.email,
+                    phone: user.phone
                 }
             }).success(function (data) {
                 console.log(data);
@@ -254,7 +258,9 @@ define(["app", "js/drive/driveView"], function (app, View) {
             $.ajax({
                 url: app_apis.abiri + 'abiri-tollgates',
                 timeout: 3000,
-                method: 'POST'
+                method: 'POST',
+                email: user.email,
+                phone: user.phone
             }).success(function (tollgates) {
                 console.log(tollgates);
                 localStorage.setItem(cookienames.tollgates, JSON.stringify(tollgates));
@@ -502,7 +508,9 @@ define(["app", "js/drive/driveView"], function (app, View) {
                     weight: car.weight,
                     distance: route.legs[0].distance.value,
                     car_class: car.car_class,
-                    fuel_type: car.fuel_type
+                    fuel_type: car.fuel_type,
+                    email: user.email,
+                    phone: user.phone
                 }
             }).success(function (data) {
                 console.log(data);

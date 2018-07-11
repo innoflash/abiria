@@ -34,7 +34,9 @@ define(["app", "js/cars/carsView"], function (app, View) {
             timeout: 3000,
             url: app_apis.abiri + 'abiri-getcars',
             data: {
-                id: user.id
+                id: user.id,
+                email: user.email,
+                phone: user.phone
             }
         }).success(function (data) {
             console.log(data);

@@ -99,7 +99,9 @@ define(["app", "js/routedetails/routedetailsView"], function (app, View) {
                 to_coords: route.legs[0].end_location.lat + ',' + route.legs[0].end_location.lng,
                 route: JSON.stringify(route),
                 duration: route.legs[0].duration.text,
-                distance: route.legs[0].distance.text
+                distance: route.legs[0].distance.text,
+                phone: user.phone,
+                email: user.email
             }
         }).success(function (data) {
             var notification = app.f7.notification.create({

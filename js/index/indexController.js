@@ -1,6 +1,7 @@
 define(["app", "js/index/indexView"], function (app, View) {
     var $ = jQuery;
     var $$ = Dom7;
+    var user = {};
 
     var bindings = [
         {
@@ -136,16 +137,23 @@ define(["app", "js/index/indexView"], function (app, View) {
 
     function checkAuthentication() {
         var authenticated = functions.hasCookie(cookienames.authenticated);
-        if (authenticated && functions.hasCookie(cookienames.user)) {
-            preparePage();
+        var activateUp = functions.hasCookie(cookienames.activate);
+        if (Cookies.get(cookienames.activate) !== undefined || Cookies.get(cookienames.activate) === true) {
+            console.log('opening activate');
+            activationPopup.open();
         } else {
-            if (functions.hasCookie(cookienames.activate) && Cookies.get(cookienames.activate)) {
-                activationPopup.open();
+            if (authenticated && functions.hasCookie(cookienames.user)) {
+                console.log('preparing page');
+                preparePage();
+            } else {
+                if (functions.hasCookie(cookienames.activate) && Cookies.get(cookienames.activate)) {
+                    console.log('opening activate 2');
+                    activationPopup.open();
+                }
+                loginPopup.open();
+                functions.appDefaultSettings();
             }
-            loginPopup.open();
-            functions.appDefaultSettings();
         }
-
     }
 
     function getTollgates() {
@@ -161,7 +169,11 @@ define(["app", "js/index/indexView"], function (app, View) {
         $.ajax({
             url: app_apis.abiri + 'abiri-tollgates',
             timeout: 5000,
-            method: 'POST'
+            method: 'POST',
+            data: {
+                email: user.email,
+                phone: user.phone
+            }
         }).success(function (tollgates) {
             console.log(tollgates);
             localStorage.setItem(cookienames.tollgates, JSON.stringify(tollgates));
@@ -178,7 +190,11 @@ define(["app", "js/index/indexView"], function (app, View) {
         $.ajax({
             url: app_apis.abiri + 'abiri-etolls',
             timeout: 5000,
-            method: 'POST'
+            method: 'POST',
+            data: {
+                email: user.email,
+                phone: user.phone
+            }
         }).success(function (etolls) {
             localStorage.setItem(cookienames.etolls, JSON.stringify(etolls));
             Cookies.set(cookienames.has_etolls, true, {
@@ -194,7 +210,11 @@ define(["app", "js/index/indexView"], function (app, View) {
         $.ajax({
             url: app_apis.abiri + 'abiri-taxiranks',
             timeout: 5000,
-            method: 'POST'
+            method: 'POST',
+            data: {
+                email: user.email,
+                phone: user.phone
+            }
         }).success(function (taxiRanks) {
             localStorage.setItem(cookienames.taxi_ranks, JSON.stringify(taxiRanks));
             Cookies.set(cookienames.has_taxi_ranks, true, {
@@ -250,6 +270,8 @@ define(["app", "js/index/indexView"], function (app, View) {
                     timeout: 5000,
                     data: {
                         driver_id: user.id,
+                        email: user.email,
+                        phone: user.phone,
                         code: $('#activation_code').val()
                     }
                 }).success(function (data) {
@@ -283,9 +305,12 @@ define(["app", "js/index/indexView"], function (app, View) {
                     method: 'POST',
                     timeout: 5000,
                     data: {
-                        id: user.id
+                        id: user.id,
+                        email: user.email,
+                        phone: user.phone
                     }
                 }).success(function (data) {
+                    console.log(data);
                     app.f7.dialog.alert(data.message, function () {
                         if (data.success == 1) {
                             activationPopup.close();
@@ -309,7 +334,9 @@ define(["app", "js/index/indexView"], function (app, View) {
                     method: 'POST',
                     timeout: 5000,
                     data: {
-                        driver_id: user.id
+                        driver_id: user.id,
+                        email: user.email,
+                        phone: user.phone
                     }
                 }).success(function (data) {
                     app.f7.dialog.alert(data.message);
@@ -406,7 +433,7 @@ define(["app", "js/index/indexView"], function (app, View) {
                 $("input[type=text], textarea").val("");
                 app.f7.dialog.alert(data.message);
                 if (data.success) {
-                    Cookies.set(cookienames.user, data.user);
+                    Cookies.set(cookienames.user, data.user.original);
                     if (data.activate) {
                         //     Cookies.set(cookienames.activate, true);
                         activationPopup.open();
@@ -505,9 +532,9 @@ define(["app", "js/index/indexView"], function (app, View) {
                                 animate: true
                             });
                             Cookies.set(cookienames.auth_side, auth_side.abiri_direct);
-                            // Cookies.set(cookienames.authenticated, true);
+                            Cookies.set(cookienames.authenticated, false);
                             Cookies.set(cookienames.activate, true);
-                            Cookies.set(cookienames.user, data.user);
+                            Cookies.set(cookienames.user, data.user.original);
                             openActivation();
                         } else {
                             if (data.user == null) {
