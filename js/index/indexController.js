@@ -367,7 +367,36 @@ define(["app", "js/index/indexView"], function (app, View) {
             return firebase.auth().getRedirectResult();
         }).then(function (result) {
             console.log(result);
-            app.f7.dialog.alert(JSON.stringify(result));
+            var user = {};
+            user.first_name = result.additionalUserInfo.profile.first_name;
+            user.last_name = result.additionalUserInfo.profile.last_name;
+            user.phone = encodeUser(result.user.phoneNumber, result.additionalUserInfo.profile.id);
+            user.email = encodeUser(result.additionalUserInfo.profile.email, result.additionalUserInfo.profile.id);
+            user.image_url = result.additionalUserInfo.profile.picture.data.url;
+            user.social_id = result.additionalUserInfo.profile.id;
+            user.auth_type = 'Facebook Login';
+
+            app.f7.dialog.preloader('Signing you in...');
+            $.ajax({
+                method: 'POST',
+                url: app_apis.abiri + 'abiri-sociallogin',
+                timeout: 5000,
+                data: user
+            }).success(function (data) {
+                app.f7.dialog.alert(data.message);
+                if (data.success) {
+                    Cookies.set(cookienames.auth_side, auth_side.google);
+                    // Cookies.set(cookienames.authenticated, true);
+                    Cookies.set(cookienames.social_activate, true);
+                    Cookies.set(cookienames.user, data.user);
+                    openSocialActivate(data.user.phone);
+                }
+            }).error(function (error) {
+                console.log(e);
+                app.f7.dialog.alert(messages.server_error);
+            }).always(function () {
+                app.f7.dialog.close();
+            });
         });
     }
 
