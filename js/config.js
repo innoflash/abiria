@@ -64,7 +64,7 @@ var google = {
         return 'https://maps.googleapis.com/maps/api/directions/json?origin=place_id:' + origin + '&destination=place_id' + destination + '&key=' + keys.google_maps + '&alternatives=true&units=metric';
     },
     getWalkingDirections: function (origin, destination) {
-        return 'https://maps.googleapis.com/maps/api/directions/json?origin=' + origin + '&destination=' + destination + '&key=' + keys.google_maps + '&alternatives=true&units=metric&mode=walking';
+        return 'https://maps.googleapis.com/maps/api/directions/json?origin=' + origin + '&destination=' + destination + '&key=' + keys.google_maps + '&alternatives=true&units=metric&mode=walking&sensor=false';
     },
     distanceBetween: function (origin, destination) {
         return 'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=' + origin + '&destinations=' + destination + '&key=' + keys.google_maps + '&units=metric';
