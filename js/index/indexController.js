@@ -430,10 +430,11 @@ define(["app", "js/index/indexView"], function (app, View) {
                     password: $('#user_password').val()
                 }
             }).success(function (data) {
+                console.log(data);
                 $("input[type=text], textarea").val("");
                 app.f7.dialog.alert(data.message);
                 if (data.success) {
-                    Cookies.set(cookienames.user, data.user.original);
+                    Cookies.set(cookienames.user, data.user);
                     if (data.activate) {
                         //     Cookies.set(cookienames.activate, true);
                         activationPopup.open();
@@ -534,7 +535,7 @@ define(["app", "js/index/indexView"], function (app, View) {
                             Cookies.set(cookienames.auth_side, auth_side.abiri_direct);
                             Cookies.set(cookienames.authenticated, false);
                             Cookies.set(cookienames.activate, true);
-                            Cookies.set(cookienames.user, data.user.original);
+                            Cookies.set(cookienames.user, data.user);
                             openActivation();
                         } else {
                             if (data.user == null) {

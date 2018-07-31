@@ -144,6 +144,8 @@ define(["app", "js/profile/profileView"], function (app, View) {
             uploadDialog.close();
         } catch (e) {
         }
+        console.log(response);
+        Cookies.set(cookienames.user, response.response.user);
         app.f7.dialog.alert(JSON.stringify(response));
     }
 

@@ -8,7 +8,7 @@ define(['hbs!js/profile/profile'], function (profileTemplate) {
 
     function fillImage(user) {
         if (user.image_url != null) {
-            $('*#user_image').attr('src', user.img_url);
+            $('*#user_image').attr('src', user.image_url);
         }
     }
 
