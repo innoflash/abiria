@@ -38,6 +38,6 @@ var functions = {
         Cookies.set(cookienames.rank_radius, 3);
         Cookies.set(cookienames.rank_routes, "walking");
         Cookies.set(cookienames.default_country, coutries.south_africa);
-        Cookies.set(cookienames.position_interval, 1.5);
+        Cookies.set(cookienames.position_interval, 375);
     }
 };

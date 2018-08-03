@@ -38,7 +38,7 @@ var app_apis = {
 
 var messages = {
     server_error: 'Could not connect to the server, check your internet and try again',
-    location_error: 'Sorry, your device can`t pick your current location!'
+    location_error: 'Sorry, your device can`t pick your current location, can you allow this app to use your location services and if you will goto \"Settings\" and increase the postion interval!'
 };
 
 var strings = {

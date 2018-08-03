@@ -2,9 +2,9 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
     var $ = jQuery;
     var $$ = Dom7;
     var locationPopup = {};
-    var latLng = {};
-    var map, mapBounds = {};
-    var positionCircle = null;
+    var cPosition = {};
+    var map, mapBounds, cPosition = {};
+    var positionCircle, currentPosition = null;
     var positionMarker, rankMarker, myMarker, selectedRank = null;
 
     var bindings = [
@@ -88,14 +88,15 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
             locationPopup.close();
             console.log(data);
             View.emptyPlaces();
-            latLng = data.result.geometry.location;
-            var thisPosition = new google.maps.LatLng(latLng);
+            cPosition = data.result.geometry.location;
+            console.log(cPosition);
+            var thisPosition = new google.maps.LatLng(cPosition);
             try {
                 positionCircle.setMap(null);
                 myMarker.setMap(null);
 
-                console.log(latLng);
-                pinMe(new google.maps.LatLng(latLng));
+                console.log(cPosition);
+                pinMe(new google.maps.LatLng(cPosition));
             } catch (e) {
                 var map = new GoogleMap(thisPosition);
                 map.initialize();
@@ -112,13 +113,16 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
 
 
     function locationSuccess(position) {
+        cPosition.lat = position.coords.latitude;
+        cPosition.lng = position.coords.longitude;
         app.f7.dialog.close();
-        var currentPosition = new google.maps.LatLng({
+        currentPosition = new google.maps.LatLng({
             lat: position.coords.latitude,
             lng: position.coords.longitude
         });
         var map = new GoogleMap(currentPosition);
         map.initialize();
+        console.log(cPosition);
         pinMe(currentPosition);
     }
 
@@ -185,11 +189,13 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
             }
         });
     }
+
     function promptWalk() {
         app.f7.dialog.confirm('Do you want to get directions to this taxi rank?', function () {
             console.log('will load the routes to the given coords from the current');
             app.mainView.router.navigate({
-                url: '/rank/' + latLng.lat + ',' + latLng.lng + '/' + selectedRank.coordinates,
+                //   url: '/rank/' + latLng.lat + ',' + latLng.lng + '/' + selectedRank.coordinates,
+                url: '/rank/' + cPosition.lat + ',' + cPosition.lng + '/' + selectedRank.coordinates,
                 reloadPrevious: false
             });
         });
@@ -271,12 +277,6 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
     }
 
     function onOut() {
-        /* app.f7.dialog.close();
-         console.log(app.f7.dialog);
-         try {
-             app.f7.dialog.close();
-         } catch (e) {
-         }*/
         console.log('taxiranks outting');
     }
 

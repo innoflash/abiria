@@ -118,7 +118,9 @@ define(["app", "js/drive/driveView"], function (app, View) {
                 to_coords: route.legs[0].end_location.lat + ',' + route.legs[0].end_location.lng,
                 route: JSON.stringify(route),
                 duration: route.legs[0].duration.text,
-                distance: route.legs[0].distance.text
+                distance: route.legs[0].distance.text,
+                email: user.email,
+                phone: user.phone
             };
             if (j_id == 0) {
                 app.f7.dialog.preloader('Starting journey');
@@ -126,9 +128,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
                     url: app_apis.abiri + 'abiri-makejourney',
                     method: 'POST',
                     timeout: 3000,
-                    data: data,
-                    email: user.email,
-                    phone: user.phone
+                    data: data
                 }).success(function (data) {
                     positionMarker = new google.maps.Marker({
                         position: new google.maps.LatLng({
@@ -144,6 +144,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
 
                     j_id = data.j_id;
                     refreshPosition();
+                   // reloadPosition();
                     Cookies.set(cookienames.journey_started, true);
                     Cookies.set(cookienames.journey_id, data.j_id);
                     Cookies.set(cookienames.position, position);
@@ -154,7 +155,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
                         lng: startLng
                     }));
 
-                    window.plugins.toast.showShortBottom('Your journey has been started...');
+   //                 window.plugins.toast.showShortBottom('Your journey has been started...');
                     var notification = app.f7.notification.create({
                         icon: '<i class="f7-icons">chat</i>',
                         subtitle: 'Journey alert !!!',
@@ -197,6 +198,8 @@ define(["app", "js/drive/driveView"], function (app, View) {
                         Cookies.set(cookienames.journey_started, false);
                         Cookies.set(cookienames.journey_id, 0);
                         Cookies.remove(cookienames.journey_id);
+                        Cookies.remove(cookienames.journey_started);
+                        j_id = 0;
                         app.mainView.router.back('/index');
                     }
                 });
@@ -211,7 +214,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
         function refreshPosition() {
             var interval = Cookies.get(cookienames.position_interval);
             if (interval == undefined) {
-                interval = 1.5;
+                interval = 375;
             }
             if (positionMarker == null) {
                 positionMarker = new google.maps.Marker({
@@ -227,7 +230,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
                 });
             }
             refreshID = setInterval(function () {
-                window.plugins.toast.showShortTop('updating your location');
+//                window.plugins.toast.showShortTop('updating your location');
                 //pick current position and update on map
                 navigator.geolocation.getCurrentPosition(locationSuccess.bind(this),
                     locationError.bind(this),
@@ -236,17 +239,43 @@ define(["app", "js/drive/driveView"], function (app, View) {
                         timeout: 5000,
                         enableHighAccuracy: true
                     });
-            }, interval * 1000);
+            }, interval);
+        }
+
+        function reloadPosition() {
+            if (positionMarker == null) {
+                positionMarker = new google.maps.Marker({
+                    position: new google.maps.LatLng({
+                        lat: startLat,
+                        lng: startLng
+                    }),
+                    animation: google.maps.Animation.DROP,
+                    draggable: false,
+                    map: map,
+                    title: 'Me',
+                    icon: meIcon
+                });
+            }
+            navigator.geolocation.getCurrentPosition(locationSuccess.bind(this),
+                locationError.bind(this),
+                {
+                    maximumAge: 3000,
+                    timeout: 5000,
+                    enableHighAccuracy: true
+                });
         }
 
         function locationSuccess(position) {
+            console.log(position);
             var newPosition = new google.maps.LatLng({
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             });
             map.setZoom(18);
+            map.setTilt(15);
             map.setCenter(newPosition);
             positionMarker.setPosition(newPosition);
+          //  reloadPosition();
         }
 
         function locationError(error) {

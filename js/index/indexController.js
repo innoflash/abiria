@@ -115,7 +115,9 @@ define(["app", "js/index/indexView"], function (app, View) {
             data: {
                 j_id: Cookies.get(cookienames.journey_id),
                 state: 1,
-                driver_id: user.id
+                driver_id: user.id,
+                email: user.email,
+                phone: user.phone
             }
         }).success(function (data) {
             console.log(data);

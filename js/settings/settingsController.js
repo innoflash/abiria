@@ -1,6 +1,7 @@
 define(["app", "js/settings/settingsView"], function (app, View) {
     var $ = jQuery;
     var $$ = Dom7;
+    var user = {};
 
     var bindings = [
         {
@@ -88,6 +89,7 @@ define(["app", "js/settings/settingsView"], function (app, View) {
     }
 
     function preparePage() {
+        user = Cookies.getJSON(cookienames.user);
         tollgateStaff();
         etollStaff();
         rankStaff();
