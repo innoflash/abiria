@@ -17,7 +17,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
         var mapDiv;
         var map = null;
         var directionsService, directionsDisplay, startLat, startLng = null;
-        var meIcon, tollgateIcon, routeGate = null;
+        var meIcon, tollgateIcon, routeGate, watchID = null;
 
         var bindings = [
             {
@@ -259,15 +259,37 @@ define(["app", "js/drive/driveView"], function (app, View) {
                 });
             }
             if (updatePosition) {
-                navigator.geolocation.getCurrentPosition(locationSuccess.bind(this),
-                    locationError.bind(this),
-                    {
-                        maximumAge: 3000,
-                        timeout: 7000,
-                        enableHighAccuracy: true
-                    });
+                /* navigator.geolocation.getCurrentPosition(locationSuccess.bind(this),
+                     locationError.bind(this),
+                     {
+                         maximumAge: 3000,
+                         timeout: 7000,
+                         enableHighAccuracy: true
+                     });*/
+                watchID = navigator.geolocation.watchPosition(watchSuccess.bind(this), locationError.bind(this), {
+                    maximumAge: 3000,
+                    timeout: 7000,
+                    enableHighAccuracy: true
+                });
             }
 
+        }
+
+        function watchSuccess(position) {
+            console.log(position);
+            var newPosition = new google.maps.LatLng({
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            });
+            map.setZoom(18);
+            map.setTilt(15);
+            map.setCenter(newPosition);
+            positionMarker.setPosition(newPosition);
+            //  reloadPosition(true);
+        }
+
+        function watchFail(error) {
+            console.log(error);
         }
 
         function locationSuccess(position) {
@@ -280,7 +302,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
             map.setTilt(15);
             map.setCenter(newPosition);
             positionMarker.setPosition(newPosition);
-            reloadPosition(true);
+            //   reloadPosition(true);
         }
 
         function locationError(error) {
@@ -724,7 +746,8 @@ define(["app", "js/drive/driveView"], function (app, View) {
         function onOut() {
             updatePosition = false;
             try {
-                clearInterval(refreshID);
+                navigator.geolocation.clearWatch(watchID);
+                // clearInterval(refreshID);
             } catch (e) {
             }
             console.log('drive outting');
