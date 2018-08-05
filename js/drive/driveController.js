@@ -13,9 +13,10 @@ define(["app", "js/drive/driveView"], function (app, View) {
         var selectedToll = {};
         var tollPopup = {};
         var positionMarker = null;
+        var updatePosition = true;
         var mapDiv;
         var map = null;
-        var directionsService, directionsDisplay = null;
+        var directionsService, directionsDisplay, startLat, startLng = null;
         var meIcon, tollgateIcon, routeGate = null;
 
         var bindings = [
@@ -127,7 +128,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
                 $.ajax({
                     url: app_apis.abiri + 'abiri-makejourney',
                     method: 'POST',
-                    timeout: 3000,
+                    timeout: 5000,
                     data: data
                 }).success(function (data) {
                     positionMarker = new google.maps.Marker({
@@ -143,8 +144,8 @@ define(["app", "js/drive/driveView"], function (app, View) {
                     });
 
                     j_id = data.j_id;
-                    refreshPosition();
-                   // reloadPosition();
+                    //refreshPosition();
+                    reloadPosition(true);
                     Cookies.set(cookienames.journey_started, true);
                     Cookies.set(cookienames.journey_id, data.j_id);
                     Cookies.set(cookienames.position, position);
@@ -155,7 +156,10 @@ define(["app", "js/drive/driveView"], function (app, View) {
                         lng: startLng
                     }));
 
-   //                 window.plugins.toast.showShortBottom('Your journey has been started...');
+                    app.f7.toast.create({
+                        text: 'Your journey has been started...',
+                        closeTimeout: 2000,
+                    }).open();
                     var notification = app.f7.notification.create({
                         icon: '<i class="f7-icons">chat</i>',
                         subtitle: 'Journey alert !!!',
@@ -183,7 +187,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
             $.ajax({
                 url: app_apis.abiri + 'abiri-updatejourney',
                 method: 'POST',
-                timeout: 3000,
+                timeout: 5000,
                 data: {
                     j_id: j_id,
                     state: state,
@@ -230,8 +234,6 @@ define(["app", "js/drive/driveView"], function (app, View) {
                 });
             }
             refreshID = setInterval(function () {
-//                window.plugins.toast.showShortTop('updating your location');
-                //pick current position and update on map
                 navigator.geolocation.getCurrentPosition(locationSuccess.bind(this),
                     locationError.bind(this),
                     {
@@ -242,7 +244,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
             }, interval);
         }
 
-        function reloadPosition() {
+        function reloadPosition(state) {
             if (positionMarker == null) {
                 positionMarker = new google.maps.Marker({
                     position: new google.maps.LatLng({
@@ -256,13 +258,16 @@ define(["app", "js/drive/driveView"], function (app, View) {
                     icon: meIcon
                 });
             }
-            navigator.geolocation.getCurrentPosition(locationSuccess.bind(this),
-                locationError.bind(this),
-                {
-                    maximumAge: 3000,
-                    timeout: 5000,
-                    enableHighAccuracy: true
-                });
+            if (updatePosition) {
+                navigator.geolocation.getCurrentPosition(locationSuccess.bind(this),
+                    locationError.bind(this),
+                    {
+                        maximumAge: 3000,
+                        timeout: 7000,
+                        enableHighAccuracy: true
+                    });
+            }
+
         }
 
         function locationSuccess(position) {
@@ -275,18 +280,23 @@ define(["app", "js/drive/driveView"], function (app, View) {
             map.setTilt(15);
             map.setCenter(newPosition);
             positionMarker.setPosition(newPosition);
-          //  reloadPosition();
+            reloadPosition(true);
         }
 
         function locationError(error) {
-            window.plugins.toast.showShortBottom(messages.location_error);
+            console.log(error);
+            app.f7.toast.create({
+                text: messages.location_error,
+                closeTimeout: 2000,
+            }).open();
+            reloadPosition(true);
         }
 
         function getTollgates() {
             app.f7.dialog.preloader('Getting tollgates');
             $.ajax({
                 url: app_apis.abiri + 'abiri-tollgates',
-                timeout: 3000,
+                timeout: 5000,
                 method: 'POST',
                 email: user.email,
                 phone: user.phone
@@ -532,7 +542,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
             $.ajax({
                 url: app_apis.abiri + 'abiri-fuelconsumption',
                 method: 'POST',
-                timeout: 3000,
+                timeout: 5000,
                 data: {
                     weight: car.weight,
                     distance: route.legs[0].distance.value,
@@ -558,6 +568,8 @@ define(["app", "js/drive/driveView"], function (app, View) {
             routeGate = 'img/icons/route.png';
 
             data = JSON.parse(localStorage.getItem(cookienames.routes));
+            updatePosition = true;
+            console.log(data);
             position = app.mainView.router.currentRoute.params.position;
             route = data.routes[position];
             user = Cookies.getJSON(cookienames.user);
@@ -566,7 +578,8 @@ define(["app", "js/drive/driveView"], function (app, View) {
 
             if (Cookies.get(cookienames.journey_started) == true || Cookies.get(cookienames.journey_started) == "true") {
                 j_id = Cookies.get(cookienames.journey_id);
-                refreshPosition();
+                // refreshPosition();
+                reloadPosition(true);
             }
             console.log(route);
             console.log(car);
@@ -709,6 +722,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
         }
 
         function onOut() {
+            updatePosition = false;
             try {
                 clearInterval(refreshID);
             } catch (e) {

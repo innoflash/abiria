@@ -65,12 +65,18 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
                         getOrigin(placeID);
                     });
                 } else {
-                    window.plugins.toast.showShortTop(data.status);
+                    app.f7.toast.create({
+                        text: data.status,
+                        closeTimeout: 2000,
+                    }).open();
                 }
                 console.log(data);
             }).error(function (error) {
                 console.log(error);
-                window.plugins.toast.showShortTop(messages.server_error);
+                app.f7.toast.create({
+                    text: messages.server_error,
+                    closeTimeout: 2000,
+                }).open();
             }).always(function () {
 
             });
@@ -152,7 +158,10 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
 
     function drawRanks(bounds) {
         var hasRanks = Cookies.get(cookienames.has_taxi_ranks);
-        window.plugins.toast.showShortTop('Populating ranks');
+        app.f7.toast.create({
+            text: 'Populating ranks',
+            closeTimeout: 2000,
+        }).open();
 
         if (Cookies.get(cookienames.has_taxi_ranks) == true || Cookies.get(cookienames.has_taxi_ranks) == "true") {
             // window.plugins.toast.showLongBottom('should be showing ranks right now');
