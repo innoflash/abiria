@@ -99,7 +99,7 @@ define('app', ['js/router'], function (Router) {
                 path: '/rankDetails/:position',
                 url: 'pages/rankDetails.html'
             }, {
-                path: '/rankRoute/:position',
+                path: '/rankRoute/:rankname/:origin/:destination',
                 url: 'pages/rankRoute.html'
             }
         ],

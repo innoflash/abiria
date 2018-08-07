@@ -5,7 +5,8 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
     var data = {};
     var route = {};
     var directionsService, directionsDisplay = null;
-    var positionMarker, map = null;
+    var positionMarker, map, pedestrianIcon, watchID = null;
+    var origin, destination, rankname, user, routeResult = null;
 
     var bindings = [
         {
@@ -52,10 +53,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
     }
 
     function startJourney() {
-        var currentPosition = new google.maps.LatLng({
-            lat: startLat,
-            lng: startLng
-        });
+        var currentPosition = new google.maps.LatLng(makeCoords(origin));
         map.setZoom(18);
         map.setCenter(currentPosition);
         positionMarker = new google.maps.Marker({
@@ -63,27 +61,21 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
             map: map,
             title: "current position",
             animation: google.maps.Animation.DROP,
-            icon: 'img/icons/pedestrian.png'
+            icon: pedestrianIcon
         });
         refreshPosition();
     }
 
     function refreshPosition() {
-        refreshID = setInterval(function () {
-            //         window.plugins.toast.showShortTop('updating your location');
-            //pick current position and update on map
-            console.log('updating position');
-            navigator.geolocation.getCurrentPosition(locationSuccess.bind(this),
-                locationError.bind(this),
-                {
-                    maximumAge: 3000,
-                    timeout: 5000,
-                    enableHighAccuracy: true
-                });
-        }, 30000);
+        watchID = navigator.geolocation.watchPosition(locationSuccess.bind(this), locationError.bind(this), {
+            maximumAge: 3000,
+            timeout: 7000,
+            enableHighAccuracy: true
+        });
     }
 
     function locationSuccess(position) {
+        console.log(position);
         var newPosition = new google.maps.LatLng({
             lat: position.coords.latitude,
             lng: position.coords.longitude
@@ -94,19 +86,27 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
     }
 
     function locationError(error) {
-        window.plugins.toast.showShortBottom(messages.location_error);
+        console.log(error);
+        app.f7.toast.create({
+            text: messages.location_error,
+            closeTimeout: 2000,
+        }).open();
     }
 
     function openDetails() {
-        app.mainView.router.navigate({
-            url: '/rankDetails/' + position
-        });
+        app.f7.dialog.alert('Your route to ' + rankname +
+            ' via ' + routeResult.routes[0].summary +
+            ' is estimated to be ' + routeResult.routes[0].legs[0].distance.text +
+            ' and will probably take you ' + routeResult.routes[0].legs[0].duration.text, 'Hi ' + user.first_name);
     }
 
     function preparePage() {
-        position = app.mainView.router.currentRoute.params.position;
+        pedestrianIcon = 'img/icons/pedestrian.png';
+        origin = app.mainView.router.currentRoute.params.origin;
+        destination = app.mainView.router.currentRoute.params.destination;
+        rankname = app.mainView.router.currentRoute.params.rankname;
+        user = Cookies.getJSON(cookienames.user);
         data = JSON.parse(localStorage.getItem(cookienames.rankRoutes));
-        route = data.routes[position];
         loadMap();
     }
 
@@ -114,20 +114,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
         directionsService = new google.maps.DirectionsService();
         directionsDisplay = new google.maps.DirectionsRenderer();
 
-        startLat = data.routes[position].legs[0].start_location.lat;
-        startLng = data.routes[position].legs[0].start_location.lng;
-
-        endLat = data.routes[position].legs[0].end_location.lat;
-        endLng = data.routes[position].legs[0].end_location.lng;
-        address = data.routes[position].legs[0].end_address;
-
-        var map = new GoogleMap({
-            lat: startLat,
-            lng: startLng
-        }, {
-            lat: endLat,
-            lng: endLng
-        });
+        var map = new GoogleMap(makeCoords(origin), makeCoords(destination));
         map.initialize();
     }
 
@@ -140,11 +127,8 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
 
         var showMap = function () {
             var mapOptions = {
-                zoom: getBoundsZoomLevel(null, {
-                    height: mapDiv.height(),
-                    width: mapDiv.width()
-                }),
-                center: new google.maps.LatLng(getMidPoint(startLat, endLat), getMidPoint(startLng, endLng)),
+                zoom: 21,
+                center: midPoint(origin, destination),
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
 
@@ -159,11 +143,13 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
         var request = {
             origin: origin,
             destination: destination,
-            travelMode: 'DRIVING'
+            travelMode: 'WALKING'
         };
         directionsService.route(request, function (result, status) {
             if (status == 'OK') {
                 directionsDisplay.setDirections(result);
+                routeResult = result;
+                openDetails();
             }
             console.log(result);
             console.log(status);
@@ -204,6 +190,13 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
         return mid.toFixed(5);
     }
 
+    function midPoint(origin, destination) {
+        return {
+            lat: ((origin.lat + destination.lat) / 2).toFixed(5),
+            lng: ((origin.lng + destination.lng) / 2).toFixed(5),
+        }
+    }
+
     function makeCoords(latLng) {
         var coords = latLng.split(',');
         var coordS = new google.maps.LatLng({
@@ -228,7 +221,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
 
     function onOut() {
         try {
-            clearInterval(refreshID);
+            navigator.geolocation.clearWatch(watchID);
         } catch (e) {
         }
         console.log('rankRoute outting');

@@ -204,7 +204,7 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
             console.log('will load the routes to the given coords from the current');
             app.mainView.router.navigate({
                 //   url: '/rank/' + latLng.lat + ',' + latLng.lng + '/' + selectedRank.coordinates,
-                url: '/rank/' + cPosition.lat + ',' + cPosition.lng + '/' + selectedRank.coordinates,
+                url: '/rankRoute/' + selectedRank.name + '/' + cPosition.lat + ',' + cPosition.lng + '/' + selectedRank.coordinates,
                 reloadPrevious: false
             });
         });
