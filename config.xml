@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="net.innoflash.abiri" version="1.0.4" xmlns="http://www.w3.org/ns/widgets"
+<widget id="net.innoflash.abiri" version="1.0.5" xmlns="http://www.w3.org/ns/widgets"
 >
     <name>Abiri</name>
     <description>
@@ -52,7 +52,7 @@
     <preference name="CameraUsesGeolocation" value="false"/>
     <preference name="AndroidLaunchMode" value="singleTask"/>
     <universal-links>
-        <host name="abiri.page.link" scheme="https"/>
+        <host name="https://innoflash.page.link/eNh4" scheme="https"/>
         <host name="abiri-1516616618455.firebaseapp.com" scheme="https">
             <path url="/__/auth/callback"/>
         </host>

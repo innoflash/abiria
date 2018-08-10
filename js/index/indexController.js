@@ -413,6 +413,8 @@ define(["app", "js/index/indexView"], function (app, View) {
             }).always(function () {
                 app.f7.dialog.close();
             });
+        }).catch(function (reason) {
+            app.f7.dialog.alert(reason.message);
         });
     }
 
@@ -454,7 +456,7 @@ define(["app", "js/index/indexView"], function (app, View) {
                 app.f7.dialog.close();
             });
         }).catch(function (reason) {
-            app.f7.dialog.alert(JSON.stringify(reason));
+            app.f7.dialog.alert(reason.message);
         });
     }
 
