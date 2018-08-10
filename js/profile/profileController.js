@@ -13,6 +13,7 @@ define(["app", "js/profile/profileView"], function (app, View) {
 
     function preparePage() {
         user = Cookies.getJSON(cookienames.user);
+        console.log(user);
         View.fillProfile(user);
         View.fillImage(user);
         $('#profPic').hide();
@@ -105,12 +106,12 @@ define(["app", "js/profile/profileView"], function (app, View) {
         options.chunkedMode = false;
         options.httpMethod = 'POST';
 
-        var params = {
+        options.params = {
             id: user.id,
             phone: user.phone,
             email: user.email
         };
-        options.params = params;
+        console.log(options);
 
         var ft = new FileTransfer();
         var progress = 0;
@@ -145,8 +146,8 @@ define(["app", "js/profile/profileView"], function (app, View) {
         } catch (e) {
         }
         console.log(response);
-        Cookies.set(cookienames.user, response.response.user);
-        app.f7.dialog.alert(JSON.stringify(response));
+        Cookies.set(cookienames.user, JSON.parse(response.response).user);
+        app.f7.dialog.alert(JSON.parse(response.response).message);
     }
 
     function pictureError() {
