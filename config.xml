@@ -53,7 +53,7 @@
     <preference name="AndroidLaunchMode" value="singleTask"/>
     <universal-links>
         <host name="https://innoflash.page.link/eNh4" scheme="https"/>
-        <host name="abiri-1516616618455.firebaseapp.com" scheme="https">
+        <host name="abiri-92ea4.firebaseapp.com" scheme="https">
             <path url="/__/auth/callback"/>
         </host>
     </universal-links>
