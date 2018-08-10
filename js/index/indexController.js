@@ -7,7 +7,7 @@ define(["app", "js/index/indexView"], function (app, View) {
         {
             element: '#btnFbSignin',
             event: 'click',
-            handler: facebookAuth
+            handler: fbAuthentication
         }, {
             element: '#btnGpSignin',
             event: 'click',
@@ -101,6 +101,9 @@ define(["app", "js/index/indexView"], function (app, View) {
             // send token to server
             console.log(idToken);
             app.f7.dialog.alert(idToken);
+        }).catch(function (error) {
+            console.log(error);
+            pp.f7.dialog.alert(JSON.stringify(error));
         });
         /*cordova.plugins.firebase.auth.signInWithFacebook().then(function(userInfo) {
             // user is signed in
