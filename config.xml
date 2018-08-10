@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="net.innoflash.abiri" version="1.0.4" xmlns="http://www.w3.org/ns/widgets"
-        xmlns:cdv="http://cordova.apache.org/ns/1.0">
+>
     <name>Abiri</name>
     <description>
         An Abiri travel app
@@ -29,29 +29,18 @@
     <plugin name="cordova-plugin-geolocation" spec="^4.0.1"/>
     <plugin name="cordova-plugin-vibration" spec="^3.0.1"/>
     <plugin name="cordova-plugin-contacts" spec="^3.0.1"/>
-    <!--    <plugin name="cordova-plugin-googleplus" spec="^5.2.1">
-            <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.257461127383-u88cduhulhocmdrg2rfm0mgk5f0u7sqa" />
-            <variable name="PLAY_SERVICES_VERSION" value="11.8.0" />
-        </plugin>-->
     <plugin name="cordova-plugin-x-socialsharing" spec="^5.3.2"/>
     <plugin name="cordova-plugin-device-motion" spec="^2.0.0"/>
     <plugin name="cordova-plugin-device-orientation" spec="^2.0.0"/>
     <plugin name="cordova-plugin-file-transfer" spec="^1.7.1"/>
-    <plugin name="cordova-plugin-buildinfo" spec="^2.0.1" />
-    <plugin name="cordova-universal-links-plugin" spec="^1.2.1" />
-    <plugin name="cordova-plugin-browsertab" spec="^0.2.0" />
-    <plugin name="cordova-plugin-inappbrowser" spec="^3.0.0" />
+    <plugin name="cordova-plugin-buildinfo" spec="^2.0.1"/>
+    <plugin name="cordova-universal-links-plugin" spec="^1.2.1"/>
+    <plugin name="cordova-plugin-browsertab" spec="^0.2.0"/>
+    <plugin name="cordova-plugin-inappbrowser" spec="^3.0.0"/>
+    <plugin name="cordova-plugin-firebase-authentication" spec="^1.0.1"/>
     <plugin name="cordova-plugin-customurlscheme" spec="^4.3.0">
-        <variable name="URL_SCHEME" value="zw.co.flashtech.abiri" />
+        <variable name="URL_SCHEME" value="zw.co.flashtech.abiri"/>
     </plugin>
-<!--    <plugin name="cordova-plugin-googlemaps" spec="2.2.8">
-        <variable name="API_KEY_FOR_ANDROID" value="AIzaSyAFu1-IjUEqHjTih3S9RDsXoQcjWklMJ5A"/>
-        <variable name="API_KEY_FOR_IOS" value="AIzaSyAXIlH8A18hdw0qJLqVwDdKyQaQqnLXD3w"/>
-        <variable name="PLAY_SERVICES_VERSION" value="11.8.0"/>
-        <variable name="ANDROID_SUPPORT_V4_VERSION" value="24.1.0"/>
-        <variable name="LOCATION_WHEN_IN_USE_DESCRIPTION" value="Maps in use"/>
-        <variable name="LOCATION_ALWAYS_USAGE_DESCRIPTION" value="maps always used"/>
-    </plugin>-->
     <plugin name="cordova-plugin-facebook4" source="npm" spec="1.7.4">
         <variable name="APP_ID" value="526123517788979"/>
         <variable name="APP_NAME" value="Abiri"/>
@@ -61,9 +50,9 @@
     <preference name="phonegap-version" value="cli-7.1.0"/>
     <preference name="AndroidPersistentFileLocation" value="Compatibility"/>
     <preference name="CameraUsesGeolocation" value="false"/>
-    <preference name="AndroidLaunchMode" value="singleTask" />
+    <preference name="AndroidLaunchMode" value="singleTask"/>
     <universal-links>
-        <host name="abiri.page.link" scheme="https" />
+        <host name="abiri.page.link" scheme="https"/>
         <host name="abiri-1516616618455.firebaseapp.com" scheme="https">
             <path url="/__/auth/callback"/>
         </host>

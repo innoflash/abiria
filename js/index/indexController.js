@@ -7,7 +7,7 @@ define(["app", "js/index/indexView"], function (app, View) {
         {
             element: '#btnFbSignin',
             event: 'click',
-            handler: fbAuthentication
+            handler: facebookAuth
         }, {
             element: '#btnGpSignin',
             event: 'click',
@@ -94,6 +94,17 @@ define(["app", "js/index/indexView"], function (app, View) {
     function onOut() {
         /*app.f7.dialog.close();*/
         console.log('index outting');
+    }
+    
+    function facebookAuth() {
+        cordova.plugins.firebase.auth.getIdToken().then(function(idToken) {
+            // send token to server
+            console.log(idToken);
+            app.f7.dialog.alert(idToken);
+        });
+        /*cordova.plugins.firebase.auth.signInWithFacebook().then(function(userInfo) {
+            // user is signed in
+        });*/
     }
 
     function gotoJourney() {
