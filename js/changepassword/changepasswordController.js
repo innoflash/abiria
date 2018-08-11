@@ -18,7 +18,7 @@ define(["app", "js/changepassword/changepasswordView"], function (app, View) {
 
 
     function changePassword() {
-        if (Cookies.get(cookienames.auth_side) == auth_side.abiri_direct) {
+        if (Cookies.get(cookienames.auth_side) == auth_side.abiri_direct + '') {
             var VF = [
                 $('#current_password'),
                 $('#new_password'),

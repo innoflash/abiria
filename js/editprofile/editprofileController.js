@@ -38,12 +38,14 @@ define(["app", "js/editprofile/editprofileView"], function (app, View) {
                         id: user.id,
                         first_name: $('#d_first_name').val(),
                         last_name: $('#d_last_name').val(),
-                        email: $('#d_email').val(),
-                        phone: $('#d_phone').val()
+                        newemail: $('#d_email').val(),
+                        newphone: $('#d_phone').val(),
+                        email: user.email,
+                        phone: user.phone
                     }
                 }).success(function (data) {
                     app.f7.dialog.alert(data.message, function () {
-                        if (data.success == 1) {
+                        if (data.success) {
                             Cookies.set(cookienames.user, data.user.original);
                             app.mainView.router.back({
                                 force: true,
