@@ -83,6 +83,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
         map.setZoom(18);
         map.setCenter(newPosition);
         positionMarker.setPosition(newPosition);
+        updateHeading(newPosition);
     }
 
     function locationError(error) {
@@ -116,8 +117,15 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
 
         var map = new GoogleMap(makeCoords(origin), makeCoords(destination));
         map.initialize();
+        updateHeading(makeCoords(origin));
     }
 
+    function updateHeading(currentPosition) {
+        console.log(currentPosition);
+        console.log(makeCoords(destination));
+        var heading = google.maps.geometry.spherical.computeHeading(currentPosition, makeCoords(destination));
+        map.setHeading(heading);
+    }
 
     function GoogleMap(origin, destination) {
         mapDiv = $('#rank_mapova');
@@ -126,10 +134,12 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
         };
 
         var showMap = function () {
+            console.log(midPoint(origin, destination));
             var mapOptions = {
                 zoom: 21,
                 center: midPoint(origin, destination),
-                mapTypeId: google.maps.MapTypeId.ROADMAP
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                tilt: 45
             };
 
             var map = new google.maps.Map(document.getElementById("rank_mapova"), mapOptions);
@@ -138,6 +148,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
             return map;
         };
     }
+
 
     function calcRoute(directionsService, directionsDisplay, origin, destination) {
         var request = {
@@ -192,21 +203,20 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
 
     function midPoint(origin, destination) {
         return {
-            lat: ((origin.lat + destination.lat) / 2).toFixed(5),
-            lng: ((origin.lng + destination.lng) / 2).toFixed(5),
+            lat: +((origin.lat + destination.lat) / 2).toFixed(5),
+            lng: +((origin.lng + destination.lng) / 2).toFixed(5),
         }
     }
 
     function makeCoords(latLng) {
         var coords = latLng.split(',');
-        var coordS = new google.maps.LatLng({
+        var coordS = {
             lat: +coords[0],
             lng: +coords[1]
-        });
-
-        return coordS;
+        };
+        console.log(coordS);
+        return new google.maps.LatLng(coordS);
     }
-
 
     function init() {
         preparePage();

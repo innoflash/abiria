@@ -254,7 +254,8 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
             var mapOptions = {
                 zoom: 13,
                 center: latLng,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                disableDefaultUI: true
             };
 
             var map = new google.maps.Map(document.getElementById("rank_canvas"), mapOptions);
