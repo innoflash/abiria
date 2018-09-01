@@ -124,6 +124,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
         console.log(currentPosition);
         console.log(makeCoords(destination));
         var heading = google.maps.geometry.spherical.computeHeading(currentPosition, makeCoords(destination));
+        console.log(heading);
         map.setHeading(heading);
     }
 
