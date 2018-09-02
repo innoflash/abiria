@@ -1,10 +1,10 @@
 define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
     var $ = jQuery;
     var $$ = Dom7;
-    var locationPopup = {};
+    var locationPopup, user, rankOptions = {};
     var cPosition = {};
-    var map, mapBounds, cPosition = {};
-    var positionCircle, currentPosition = null;
+    var map, mapBounds, cPosition, descriptionPopup = {};
+    var positionCircle, currentPosition, menuOptions = null;
     var positionMarker, rankMarker, myMarker, selectedRank = null;
 
     var bindings = [
@@ -16,6 +16,10 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
     ];
 
     function newLocation() {
+        menuOptions.open();
+    }
+
+    function openNewLocation() {
         app.f7.dialog.confirm('Do you wanna chose a new location to find ranks from?', function () {
             console.log('will choose a location');
             locationPopup.open();
@@ -24,6 +28,7 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
 
 
     function preparePage() {
+        user = Cookies.getJSON(cookienames.user);
         app.f7.dialog.preloader('Getting your location');
         positionMarker = 'img/icons/pedestrian.png';
         rankMarker = 'img/icons/tollgate.png';
@@ -42,6 +47,16 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
             }
         });
 
+        descriptionPopup = app.f7.popup.create({
+            el: '.popup-rank',
+            animate: true,
+            on: {
+                open: function () {
+                    //fill view
+                }
+            }
+        });
+
         navigator.geolocation.getCurrentPosition(locationSuccess.bind(this),
             locationError.bind(this),
             {
@@ -49,6 +64,127 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
                 timeout: 5000,
                 enableHighAccuracy: true
             });
+
+        menuOptions = app.f7.actions.create({
+            buttons: [
+                // First group
+                [
+                    {
+                        text: 'Rank Options',
+                        label: true
+                    },
+                    {
+                        text: 'Use another location',
+                        onClick: function () {
+                            openNewLocation();
+                        }
+                    },
+                    {
+                        text: 'Refresh taxi ranks',
+                        onClick: function () {
+                            refreshRanks();
+                        }
+                    }
+                ],
+                // Second group
+                [
+                    {
+                        text: 'Cancel',
+                        color: 'red'
+                    }
+                ]
+            ]
+        });
+        rankOptions = app.f7.actions.create({
+            buttons: [
+                // First group
+                [
+                    {
+                        text: 'Rank Options',
+                        label: true
+                    },
+                    {
+                        text: 'Navigate to',
+                        onClick: function () {
+                            navigateTo();
+                        }
+                    },
+                    {
+                        text: 'Get details',
+                        onClick: function () {
+                            getRankDetails();
+                        }
+                    }
+                ],
+                // Second group
+                [
+                    {
+                        text: 'Cancel',
+                        color: 'red'
+                    }
+                ]
+            ]
+        });
+    }
+
+    function navigateTo() {
+        app.mainView.router.navigate({
+            url: '/rankRoute/' + selectedRank.name + '/' + cPosition.lat + ',' + cPosition.lng + '/' + selectedRank.coordinates,
+            reloadPrevious: false
+        });
+        /* app.f7.dialog.confirm('Do you want to get directions to this taxi rank?', function () {
+             console.log('will load the routes to the given coords from the current');
+
+         });*/
+    }
+
+    function getRankDetails() {
+        console.log(selectedRank);
+        app.f7.dialog.preloader('Fetching details...')
+        $.ajax({
+            url: app_apis.abiri + 'abiri-getrank',
+            method: 'POST',
+            timeout: 5000,
+            data: {
+                phone: user.phone,
+                email: user.email,
+                rank_id: selectedRank.id
+            }
+        }).success(function (description) {
+            console.log(description);
+            View.fillDescription(description);
+            descriptionPopup.open();
+        }).error(function (error) {
+            console.log(error);
+            app.f7.dialog.alert(messages.server_error);
+        }).always(function () {
+            app.f7.dialog.close();
+        });
+        //descriptionPopup.open();
+    }
+
+    function refreshRanks() {
+        app.f7.dialog.preloader('Reloading taxi ranks');
+        $.ajax({
+            url: app_apis.abiri + 'abiri-taxiranks',
+            timeout: 3000,
+            method: 'POST',
+            data: {
+                phone: user.phone,
+                email: user.email
+            }
+        }).success(function (taxiRanks) {
+            console.log(taxiRanks);
+            localStorage.setItem(cookienames.taxi_ranks, JSON.stringify(taxiRanks));
+            Cookies.set(cookienames.has_taxi_ranks, true, {
+                expires: 21
+            });
+            app.f7.dialog.alert('Taxi ranks updated!');
+        }).error(function (error) {
+            console.log(error);
+        }).always(function () {
+            app.f7.dialog.close();
+        });
     }
 
     function searchResults() {
@@ -174,40 +310,41 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
     function showRanks(bounds) {
         var ranks = JSON.parse(localStorage.getItem(cookienames.taxi_ranks));
         // app.f7.dialog.alert(JSON.stringify(ranks));
-        ranks.forEach(function (rank, i) {
-            if (bounds.contains(makeCoords(rank.coordinates))) {
-                var rankIcon = new google.maps.Marker({
-                    position: makeCoords(rank.coordinates),
-                    map: map,
-                    title: rank.name,
-                    animation: google.maps.Animation.DROP
-                });
-                var div = document.createElement('div');
-                div.innerHTML = rank.name;
-                div.onclick = function () {
-                    promptWalk();
-                };
+        console.log(ranks);
+        if (ranks == null) {
+            app.f7.dialog.alert('Please refresh taxi ranks, we can`t seem to find any in your cache!', function () {
+                menuOptions.open();
+            });
+        } else {
+            ranks.forEach(function (rank, i) {
+                if (bounds.contains(makeCoords(rank.coordinates))) {
+                    var rankIcon = new google.maps.Marker({
+                        position: makeCoords(rank.coordinates),
+                        map: map,
+                        title: rank.name,
+                        animation: google.maps.Animation.DROP
+                    });
+                    var div = document.createElement('div');
+                    div.innerHTML = rank.name;
+                    div.onclick = function () {
+                        promptWalk();
+                    };
 
-                var infowindow = new google.maps.InfoWindow({
-                    content: div
-                });
-                rankIcon.addListener('click', function () {
-                    selectedRank = rank;
-                    infowindow.open(map, rankIcon);
-                });
-            }
-        });
+                    var infowindow = new google.maps.InfoWindow({
+                        content: div
+                    });
+                    rankIcon.addListener('click', function () {
+                        selectedRank = rank;
+                        infowindow.open(map, rankIcon);
+                    });
+                }
+            });
+        }
+
     }
 
     function promptWalk() {
-        app.f7.dialog.confirm('Do you want to get directions to this taxi rank?', function () {
-            console.log('will load the routes to the given coords from the current');
-            app.mainView.router.navigate({
-                //   url: '/rank/' + latLng.lat + ',' + latLng.lng + '/' + selectedRank.coordinates,
-                url: '/rankRoute/' + selectedRank.name + '/' + cPosition.lat + ',' + cPosition.lng + '/' + selectedRank.coordinates,
-                reloadPrevious: false
-            });
-        });
+        rankOptions.open();
     }
 
     function makeCoords(latLng) {
