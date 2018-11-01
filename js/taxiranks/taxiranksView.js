@@ -1,4 +1,4 @@
-define(["hbs!js/taxiranks/places"], function (placesTemplate) {
+define(["hbs!js/taxiranks/places", "hbs!js/taxiranks/description"], function (placesTemplate, descriptionTemplate) {
     var $$ = Dom7;
     var $ = jQuery;
 
@@ -8,6 +8,10 @@ define(["hbs!js/taxiranks/places"], function (placesTemplate) {
 
     function fillPlaces(places) {
         $('#originSuggests2').html(placesTemplate(places));
+    }
+
+    function fillDescription(description) {
+        $('#rankDescription').html(descriptionTemplate(description));
     }
 
 
@@ -24,7 +28,8 @@ define(["hbs!js/taxiranks/places"], function (placesTemplate) {
     return {
         render: render,
         fillPlaces: fillPlaces,
-        emptyPlaces: emptyPlaces
+        emptyPlaces: emptyPlaces,
+        fillDescription: fillDescription
     };
 });
 

@@ -324,7 +324,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
                 phone: user.phone
             }).success(function (tollgates) {
                 console.log(tollgates);
-                localStorage.setItem(cookienames.tollgates, JSON.stringify(tollgates));
+                localStorage.setItem(cookienames.tollgates, JSON.stringify(tollgates.data));
                 Cookies.set(cookienames.has_tollgates, true, {
                     expires: 21
                 });

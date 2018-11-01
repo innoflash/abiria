@@ -201,12 +201,12 @@ define(["app", "js/settings/settingsView"], function (app, View) {
             }
         }).success(function (tollgates) {
             console.log(tollgates);
-            localStorage.setItem(cookienames.tollgates, JSON.stringify(tollgates));
+            localStorage.setItem(cookienames.tollgates, JSON.stringify(tollgates.data));
             Cookies.set(cookienames.has_tollgates, true, {
                 expires: 21
             });
             app.f7.dialog.alert('Tollgates updated!');
-        }).error(function (error) {
+        }).fail(function (error) {
             console.log(error);
             app.f7.dialog.alert(messages.server_error);
         }).always(function () {
