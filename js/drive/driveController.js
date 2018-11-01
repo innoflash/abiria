@@ -3,7 +3,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
         var $$ = Dom7;
         var user = {};
         var car = {};
-        var position = 0;
+        var position, posUpdateCount = 0;
         var data = {};
         var route = {};
         var polyLine = {};
@@ -101,7 +101,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
 
         function tollUpdates() {
             console.log('will get toll gates according to the current position relative to destination');
-            if (functions.hasCookie(cookienames.has_tollgates) == false) {
+            if (functions.hasCookie(cookienames.has_tollgates) == false || functions.hasCookie(cookienames.has_tollgates) == 'false') {
                 getTollgates();
             } else {
                 calculateTollgates();
@@ -285,11 +285,6 @@ define(["app", "js/drive/driveView"], function (app, View) {
             map.setTilt(15);
             map.setCenter(newPosition);
             positionMarker.setPosition(newPosition);
-            //  reloadPosition(true);
-        }
-
-        function watchFail(error) {
-            console.log(error);
         }
 
         function locationSuccess(position) {
@@ -298,11 +293,13 @@ define(["app", "js/drive/driveView"], function (app, View) {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             });
-            map.setZoom(18);
-            map.setTilt(15);
-            map.setCenter(newPosition);
+            if (posUpdateCount == 0) {
+                map.setZoom(18);
+                map.setTilt(15);
+                map.setCenter(newPosition);
+            }
             positionMarker.setPosition(newPosition);
-            //   reloadPosition(true);
+            posUpdateCount++;
         }
 
         function locationError(error) {
@@ -349,7 +346,8 @@ define(["app", "js/drive/driveView"], function (app, View) {
             var tollOptionz = Cookies.get(cookienames.toll_options);
             if (tollOptionz == tollOptions.my_route) {
                 console.log('its my route');
-                tollgates.forEach(function (tollgate) {
+                console.log(tollgates.data);
+                tollgates.data.forEach(function (tollgate) {
                     if (google.maps.geometry.poly.isLocationOnEdge(makeCoords(tollgate.coordinates), polyLine, 10e-2) == true) {
                         validTolls.push(tollgate);
                     }
@@ -389,18 +387,39 @@ define(["app", "js/drive/driveView"], function (app, View) {
                 app.f7.dialog.alert('Its estimated that there are no tollgates on this route');
             } else {
                 //place markers onto the route
-                validTolls.forEach(function (tollgate) {
+                View.fillTollgates({
+                    tollgates: validTolls,
+                    car: car
+                });
+                tollgatesPopup.open();
+                console.log(validTolls);
+
+                $('*#tollgateDetails').on('click', function () {
+                    var tollgate_id = $(this).attr('tollgate_id');
+                    var theToll = validTolls.filter(function (tollgate) {
+                        return tollgate.id == tollgate_id;
+                    });
+                    showTollgate(theToll[0]);
+                });
+
+                $('*#showMarker').on('click', function () {
+                    var tollgate_id = $(this).attr('tollgate_id');
+                    var theToll = validTolls.filter(function (tollgate) {
+                        return tollgate.id == tollgate_id;
+                    });
+                    tollgatesPopup.close();
+
                     var tollmarker = new google.maps.Marker({
-                        position: mkCds(tollgate.coordinates),
+                        position: mkCds(theToll[0].coordinates),
                         map: map,
-                        title: tollgate.name,
+                        title: theToll[0].name,
                         animation: google.maps.Animation.DROP,
                         //        label: tollgate.name,
                         icon: routeGate
                     });
 
                     var div = document.createElement('div');
-                    div.innerHTML = tollgate.name;
+                    div.innerHTML = theToll[0].name;
                     div.onclick = function () {
                         showTollgate();
                     };
@@ -409,153 +428,29 @@ define(["app", "js/drive/driveView"], function (app, View) {
                         content: div
                     });
                     tollmarker.addListener('click', function () {
-                        selectedToll = tollgate;
+                        selectedToll = theToll[0];
                         infowindow.open(map, tollmarker);
                     });
                 });
                 app.f7.dialog.close();
-                app.f7.dialog.confirm('Would you like to know how much in tollgates you should be probably be expecting to use?', function () {
-                    var total = 0;
-                    validTolls.forEach(function (tollgate) {
-                        if (car.car_class == 1) {
-                            total += +tollgate.class_1_fee;
-                        } else if (car.car_class == 2) {
-                            total += +tollgate.class_2_fee;
-                        } else if (car.car_class == 3) {
-                            total += +tollgate.class_3_fee;
-                        } else {
-                            total += +tollgate.class_4_fee;
-                        }
-                    });
-                    var totalNotification = app.f7.notification.create({
-                        icon: '<i class="f7-icons">chat</i>',
-                        title: 'ABIRI',
-                        subtitle: 'Approximated total tollgates cost',
-                        text: 'R ' + total.toFixed(2),
-                        closeButton: true,
-                        timeout: 7000
-                    });
-                    totalNotification.open();
-                });
             }
-
-
-            /*tollgates.forEach(function (tollgate) {
-                if (tollOptionz == tollOptions.all_tolls) {
-                    if (google.maps.geometry.poly.isLocationOnEdge(makeCoords(tollgate.coordinates), polyLine, 10e-1)) {
-                        console.log('all contained', tollgate);
-                        validTolls.push(tollgate);
-                    } else {
-                        var marker = new google.maps.Marker({
-                            position: mkCds(tollgate.coordinates),
-                            map: map,
-                            title: tollgate.name,
-                            animation: google.maps.Animation.DROP,
-                          //  label: tollgate.name,
-                            icon: tollgateIcon
-                        });
-
-                        //  map.addMarker(marker);
-                        /!*map.addMarker({
-                            position: makeCoords(tollgate.coordinates),
-                            title: tollgate.name,
-                            snippet: tollgate.type,
-                            animation: plugin.google.maps.Animation.BOUNCE
-                        }, function (marker) {
-                            marker.addEventListener(plugin.google.maps.event.MARKER_CLICK, function () {
-                                marker.showInfoWindow();
-                            });
-
-                            marker.addEventListener(plugin.google.maps.event.INFO_CLICK, function () {
-                             //   loadTollgateInfo(tollgate);
-                            });
-                        });*!/
-                        console.log('not contained all tolls');
-
-                    }
-                } else {
-                    // console.log(google.maps.geometry.poly.isLocationOnEdge(makeCoords(tollgate.coordinates), polyLine));
-                    if (google.maps.geometry.poly.isLocationOnEdge(makeCoords(tollgate.coordinates), polyLine, 10e-1)) {
-                        console.log('routes contained', tollgate);
-                        validTolls.push(tollgate);
-                    } else {
-                        console.log('not contained route tolls');
-                    }
-                }
-
-                if (validTolls.length == 0) {
-                    app.f7.dialog.close();
-                    app.f7.dialog.alert('Its estimated that there are no tollgates on this route');
-                } else {
-                    //place markers onto the route
-                    validTolls.forEach(function (tollgate) {
-                        var tollmarker = new google.maps.Marker({
-                            position: mkCds(tollgate.coordinates),
-                            map: map,
-                            title: tollgate.name,
-                            animation: google.maps.Animation.DROP,
-                    //        label: tollgate.name,
-                            icon: routeGate
-                        });
-
-
-                       /!* map.addMarker({
-                            position: makeCoords(tollgate.coordinates),
-                            title: tollgate.name,
-                            snippet: tollgate.type,
-                            animation: plugin.google.maps.Animation.BOUNCE
-                        }, function (marker) {
-                            marker.setIcon("blue");
-                            marker.addEventListener(plugin.google.maps.event.INFO_CLICK, function () {
-                                loadTollgateInfo(tollgate);
-                            });
-
-                            marker.addEventListener(plugin.google.maps.event.MARKER_CLICK, function () {
-                                marker.showInfoWindow();
-                                selectedToll = tollgate;
-                            });
-                        });*!/
-                    });
-                    app.f7.dialog.close();
-                    app.f7.dialog.confirm('Would you like to know how much in tollgates you should be probably be expecting to use?', function () {
-                        var total = 0;
-                        validTolls.forEach(function (tollgate) {
-                            if (car.car_class == 1) {
-                                total += +tollgate.class_1_fee;
-                            } else if (car.car_class == 2) {
-                                total += +tollgate.class_2_fee;
-                            } else if (car.car_class == 3) {
-                                total += +tollgate.class_3_fee;
-                            } else {
-                                total += +tollgate.class_4_fee;
-                            }
-                        });
-                        var totalNotification = app.f7.notification.create({
-                            icon: '<i class="f7-icons">chat</i>',
-                            title: 'ABIRI',
-                            subtitle: 'Approximated total tollgates cost',
-                            text: 'R ' + total,
-                            closeButton: true,
-                            timeout: 5000
-                        });
-                        totalNotification.open();
-                    });
-                }
-
-            });*/
         }
 
-        function showTollgate() {
+        function showTollgate(tollgate) {
             console.log(selectedToll);
+            if (tollgate == null) {
+                tollgate = selectedToll;
+            }
             tollPopup = app.f7.popup.create({
                 el: '.popup-tollgate',
                 animate: true,
                 on: {
                     open: function () {
-                        View.fillTollgate(selectedToll);
+                        View.fillTollgate(tollgate);
                     }
                 }
             });
+            tollgatesPopup.close();
             tollPopup.open();
         }
 
@@ -575,7 +470,8 @@ define(["app", "js/drive/driveView"], function (app, View) {
                 }
             }).success(function (data) {
                 console.log(data);
-                app.f7.dialog.alert('This journey is estimated to use \n' + data.min.toFixed(2) + ' to ' + data.max.toFixed(2) + ' litres \nof fuel and \nR ' + data.cost_min.toFixed(2) + ' - R' + data.cost_max.toFixed(2) + ' in fuel costing');
+                View.fillConsumption(data);
+                consumptionPopup.open();
             }).error(function (error) {
                 console.log(error);
                 app.f7.dialog.alert(messages.server_error);
@@ -585,6 +481,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
         }
 
         function preparePage() {
+            initPopups();
             meIcon = 'img/icons/car.png';
             tollgateIcon = 'img/icons/tollgate.png';
             routeGate = 'img/icons/route.png';
@@ -607,6 +504,17 @@ define(["app", "js/drive/driveView"], function (app, View) {
             console.log(car);
             loadMap(position, data);
 
+        }
+
+        function initPopups() {
+            tollgatesPopup = app.f7.popup.create({
+                el: '.popup-tollgates',
+                animate: true
+            });
+            consumptionPopup = app.f7.popup.create({
+                el: '.popup-consumption',
+                animate: true
+            });
         }
 
         function getTurningPoints() {

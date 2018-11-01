@@ -21,15 +21,31 @@ define(['handlebars'], function (Handlebars) {
         }
     });
 
+    Handlebars.registerHelper('totalTollgatesBill', function (tollgates, car) {
+        var total = 0;
+        tollgates.forEach(function (tollgate) {
+            if (car.car_class == 1) {
+                total += +tollgate.class_1_fee;
+            } else if (car.car_class == 2) {
+                total += +tollgate.class_2_fee;
+            } else if (car.car_class == 3) {
+                total += +tollgate.class_3_fee;
+            } else {
+                total += +tollgate.class_4_fee;
+            }
+        });
+        return 'R ' + total.toFixed(2);
+    });
+
     Handlebars.registerHelper('chooseClass', function (c1, c2, c3, c4) {
         var car = Cookies.getJSON(cookienames.default_car);
         if (car.car_class == 1) {
             return c1;
-        }else if (car.car_class == 2){
+        } else if (car.car_class == 2) {
             return c2;
-        }else if(car.car_class == 3) {
+        } else if (car.car_class == 3) {
             return c3;
-        }else{
+        } else {
             return c4;
         }
     });

@@ -1,89 +1,85 @@
 {{#if this}}
     <div class="block-title">
-        {{ data.name }}
+        FUEL ESTIMATES
     </div>
     <div class="card">
-        <div class="card-content card-content-padding">
+        <div class="card-content-padding">
             <div class="row">
                 <div class="col-35">
-                    <div class="chip color-blue">
+                    <div class="chip color-green">
                         <div class="chip-media bg-color-theme">
                             <i class="icon f7-icons ios-only color-white">arrow_right</i>
                         </div>
                         <div class="chip-label">
-                            Type
+                            Min
                         </div>
                     </div>
                 </div>
                 <div class="col-65">
                     <div class="answer">
-                        Abiri Taxi Rank
+                        {{ this.min }} litres
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-35">
-                    <div class="chip color-blue">
+                    <div class="chip color-green">
                         <div class="chip-media bg-color-theme">
                             <i class="icon f7-icons ios-only color-white">arrow_right</i>
                         </div>
                         <div class="chip-label">
-                            Name
+                            Max
                         </div>
                     </div>
                 </div>
                 <div class="col-65">
                     <div class="answer">
-                        {{ data.name }}
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-35">
-                    <div class="chip color-blue">
-                        <div class="chip-media bg-color-theme">
-                            <i class="icon f7-icons ios-only color-white">arrow_right</i>
-                        </div>
-                        <div class="chip-label">
-                            Coords..
-                        </div>
-                    </div>
-                </div>
-                <div class="col-65">
-                    <div class="answer">
-                        {{ data.coordinates }}
+                        {{ this.max }} litres
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
+    <div class="block-title">
+        COSTS ESTIMATES
+    </div>
     <div class="card">
-        <div class="card-header">
-            DESCRIPTION
-        </div>
-        {{#compare data.details.length "==" 0}}
-            <div class="card-content card-content-padding">
-                Nothing has been added here as yet
+        <div class="card-content-padding">
+            <div class="row">
+                <div class="col-35">
+                    <div class="chip color-green">
+                        <div class="chip-media bg-color-theme">
+                            <i class="icon f7-icons ios-only color-white">arrow_right</i>
+                        </div>
+                        <div class="chip-label">
+                            Min
+                        </div>
+                    </div>
+                </div>
+                <div class="col-65">
+                    <div class="answer">
+                        R {{ this.cost_min }}
+                    </div>
+                </div>
             </div>
-        {{/compare}}
-        <div class="card-content card-content-padding">
-            <div class="list">
-                <ul>
-                    {{#each data.details}}
-                        <li class="item-content">
-                            <div class="item-media"><i class="fa fa-map-marker"></i></div>
-                            <div class="item-inner item-colors-details">
-                                <div class="pt10">
-                                    <p>
-                                        <a href="#">
-                                            {{ this }}
-                                        </a>
-                                    </p>
-                                </div>
-                            </div>
-                        </li>
-                    {{/each}}
-                </ul>
+            <div class="row">
+                <div class="col-35">
+                    <div class="chip color-green">
+                        <div class="chip-media bg-color-theme">
+                            <i class="icon f7-icons ios-only color-white">arrow_right</i>
+                        </div>
+                        <div class="chip-label">
+                            Max
+                        </div>
+                    </div>
+                </div>
+                <div class="col-65">
+                    <div class="answer">
+                        R {{ this.cost_max }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

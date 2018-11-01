@@ -1,4 +1,7 @@
-define(['hbs!js/drive/tolldetails'], function (tollgateTemplate) {
+define([
+    'hbs!js/drive/tolldetails',
+    'hbs!js/drive/tollgates',
+    'hbs!js/drive/consumption'], function (tollgateTemplate, tollgatesTemplate, consumptionTemplate) {
     var $$ = Dom7;
     var $ = jQuery;
 
@@ -10,6 +13,14 @@ define(['hbs!js/drive/tolldetails'], function (tollgateTemplate) {
         $('#mytollDetails').html(tollgateTemplate(tollgate));
     }
 
+    function fillTollgates(tollgates) {
+        $('#tripTollgates').html(tollgatesTemplate(tollgates));
+    }
+
+    function fillConsumption(consumption) {
+        $('#consumptionEstimates').html(consumptionTemplate(consumption));
+    }
+
     function bindEvents(bindings) {
         for (var i in bindings) {
             $$(bindings[i].element).on(bindings[i].event, bindings[i].handler);
@@ -18,7 +29,9 @@ define(['hbs!js/drive/tolldetails'], function (tollgateTemplate) {
 
     return {
         render: render,
-        fillTollgate: fillTollgate
+        fillTollgates: fillTollgates,
+        fillTollgate: fillTollgate,
+        fillConsumption: fillConsumption
     };
 });
 

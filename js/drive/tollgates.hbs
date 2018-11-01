@@ -1,0 +1,68 @@
+{{#if this}}
+    {{#compare this.tollgates.length "!=" 0}}
+        <div class="list accordion-list">
+            <ul>
+                {{#each this.tollgates}}
+                    <div class="accordion-item">
+                        <a href="#" class="item-content item-link">
+                            <div class="item-inner">
+                                <div class="item-title">
+                                    <!-- Item header, must be first child of item-title -->
+                                    <div class="item-header">
+                                        {{ name }}
+                                    </div>
+                                    {{ road }}
+                                    <!-- Item footer, must be last child of item-title -->
+                                    <div class="item-footer">
+                                        R {{chooseClass class_1_fee class_2_fee class_3_fee class_4_fee }}
+                                    </div>
+                                </div>
+                                <div class="item-after">
+                            <span class="badge color-blue">
+                                abiri
+                            </span>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="accordion-item-content">
+                            <div class="block">
+                                <div class="row">
+                                    <button class="button col color-blue"
+                                            tollgate_id="{{ id }}"
+                                            id="tollgateDetails">
+                                        Details
+                                    </button>
+                                    <button class="button col color-green"
+                                            tollgate_id="{{ id }}"
+                                            id="showMarker">
+                                        Show on map
+                                    </button>
+                                </div>
+                            </div>
+                            <br/>
+                        </div>
+                    </div>
+                {{/each}}
+
+            </ul>
+        </div>
+        <div class="block-header">
+            <div class="block-title">
+                Estimated Total Price
+            </div>
+        </div>
+        <div class="block-footer">
+            <button class="button button-fill-ios button-big-ios">
+                {{#totalTollgatesBill this.tollgates this.car}}{{/totalTollgatesBill}}
+            </button>
+        </div>
+    {{/compare}}
+
+    {{#compare this.tollgates.length "==" 0}}
+        <div class="block-header">
+            <div class="block-title">
+                NO TOLLGATES
+            </div>
+        </div>
+    {{/compare}}
+{{/if}}

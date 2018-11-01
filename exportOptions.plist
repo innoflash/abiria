@@ -11,7 +11,7 @@
     <key>provisioningProfiles</key>
     <dict>
       <key>net.innoflash.abiri</key>
-      <string>PROVISIONIG_PROFILE_UUID_WOULD_BE_HERE</string>
+      <string>1435802375</string>
     </dict>
     <key>signingStyle</key>
     <string>manual</string>
