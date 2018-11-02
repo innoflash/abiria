@@ -101,6 +101,15 @@ define('app', ['js/router'], function (Router) {
             }, {
                 path: '/rankRoute/:rankname/:origin/:destination',
                 url: 'pages/rankRoute.html'
+            }, {
+                path: '/convoys',
+                url: 'pages/convoys.html'
+            }, {
+                path: '/addconvoy',
+                url: 'pages/addconvoy.html'
+            }, {
+                path: '/convoy/:convoy_id',
+                url: 'pages/convoy.html'
             }
         ],
         theme: 'ios',

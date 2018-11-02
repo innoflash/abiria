@@ -17,3 +17,7 @@
 .home-icons{
     width: 100%;
 }
+#convoyDetails .item-header{
+    color: #0074BD;
+    font-weight: bold;
+}
