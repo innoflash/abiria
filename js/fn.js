@@ -13,7 +13,12 @@ var functions = {
         for ($x = 0; $x < validate_user_fields.length; $x++) {
             if (validate_user_fields[$x].val().length == 0) {
                 $string.push(validate_user_fields[$x]);
-                $error_msg += validate_user_fields[$x].attr('placeholder') + " can`t be blank<br/>";
+                if (validate_user_fields[$x].attr('placeholder') == '---') {
+                    $error_msg += validate_user_fields[$x].attr('name') + " can`t be blank<br/>";
+                }else{
+                    $error_msg += validate_user_fields[$x].attr('placeholder') + " can`t be blank<br/>";
+                }
+
             }
         }
         if ($string.length == 0) {

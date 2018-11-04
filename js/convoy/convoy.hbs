@@ -1,0 +1,152 @@
+{{#if this}}
+    <div class="block-title">
+        CONVOY DETAILS
+    </div>
+    <div class="card car">
+        <div class="card-content card-content-padding">
+            <div class="list">
+                <ul>
+                    <li class="item-content">
+                        <div class="item-media"><i class="icon f7-icons">layers</i></div>
+                        <div class="item-inner item-colors-details">
+                            <div class="pt10">
+                                <div class="item-title">
+                                    <!-- Item header, must be first child of item-title -->
+                                    <div class="item-header">Departure</div>
+                                </div>
+                                {{ departure.venue }}
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media">
+                                <i class="icon f7-icons">compass</i>
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title">
+                                    <!-- Item header, must be first child of item-title -->
+                                    <div class="item-header">Departure Point</div>
+                                    {{ departure.coordinates }}
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item-divider"></li>
+                    <li class="item-content">
+                        <div class="item-media"><i class="icon f7-icons">layers</i></div>
+                        <div class="item-inner item-colors-details">
+                            <div class="pt10">
+                                <div class="item-title">
+                                    <!-- Item header, must be first child of item-title -->
+                                    <div class="item-header">Destination</div>
+                                </div>
+                                {{ destination.venue }}
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media">
+                                <i class="icon f7-icons">compass</i>
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title">
+                                    <!-- Item header, must be first child of item-title -->
+                                    <div class="item-header">Destination Point</div>
+                                    {{ destination.coordinates }}
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item-divider"></li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media">
+                                <i class="icon f7-icons">alarm</i>
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title">
+                                    <!-- Item header, must be first child of item-title -->
+                                    <div class="item-header">Time</div>
+                                    {{ time.exact }}
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media">
+                                <i class="icon f7-icons">alarm</i>
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title">
+                                    <!-- Item header, must be first child of item-title -->
+                                    <div class="item-header">Approx</div>
+                                    {{ time.approx }}
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-content card-content-padding">
+            {{ purpose }}
+        </div>
+        <div class="card-footer">
+            Purpose
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-content">
+            <div class="list">
+                <ul>
+                    {{#each this.breaks}}
+                        <li class="item-content">
+                            <div class="item-media"><i class="fa fa-map-marker"></i></div>
+                            <div class="item-inner item-colors-details">
+                                <div class="pt10">
+                                    <p>
+                                        <a href="#">
+                                            {{ description }}
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+        <div class="card-footer">
+            Breaks
+        </div>
+    </div>
+
+    <div class="block-title">Members</div>
+    <div class="list media-list inset">
+        <ul>
+            {{#each this.invites.data}}
+                <li>
+                    <a href="#" class="item-link item-content">
+                        <div class="item-media">
+                            <img src="{{ image }}" width="44"/>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title">
+                                <div class="item-header">Name</div>
+                                <b>
+                                    {{ name }}
+                                </b>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+{{/if}}

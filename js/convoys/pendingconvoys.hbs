@@ -1,0 +1,44 @@
+{{#if this}}
+    <div class="block-title">
+        PENDING CONVOYS
+    </div>
+    {{#each this}}
+        <div class="card car">
+            <div class="card-content card-content-padding">
+                <div class="list">
+                    <ul>
+                        <li>
+                            <a href="/convoy/{{ id }}" class="item-link">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon f7-icons">persons</i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title">
+                                            <!-- Item header, must be first child of item-title -->
+                                            <div class="item-header">
+                                                {{ destination }}
+                                            </div>
+                                            {{ date }}
+                                            <!-- Item footer, must be last child of item-title -->
+                                            <div class="item-footer">
+                                                {{ initiator }}
+                                            </div>
+                                        </div>
+                                        <div class="item-after">
+                                            <span class="badge color-blue">
+                                                <small>
+                                                    <span class="badge color-blue">...</span>
+                                                </small>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+{{/if}}

@@ -1,0 +1,19 @@
+{{#if this}}
+    {{#each this}}
+        <li class="item-content" id="getLocation2" placeID="{{ place_id }}">
+            <div class="item-media">
+                <img src="{{ image }}" width="35"/>
+            </div>
+            <div class="item-inner item-colors-details">
+                <div class="pt10">
+                    <p>
+                        <a href="#">
+                            {{ name }}
+                        </a>
+                    </p>
+                </div>
+                <div class="item-after"><span class="badge" id="removeMember" index="{{ @index }}">X</span></div>
+            </div>
+        </li>
+    {{/each}}
+{{/if}}

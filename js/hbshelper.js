@@ -37,6 +37,15 @@ define(['handlebars'], function (Handlebars) {
         return 'R ' + total.toFixed(2);
     });
 
+    Handlebars.registerHelper('stateColor', function (state) {
+        if (state == 'accepted')
+            return 'color-green';
+        if (state == 'declined')
+            return 'color-red';
+        else
+            return 'color-blue'
+    });
+
     Handlebars.registerHelper('chooseClass', function (c1, c2, c3, c4) {
         var car = Cookies.getJSON(cookienames.default_car);
         if (car.car_class == 1) {

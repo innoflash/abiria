@@ -31,12 +31,17 @@ var tollOptions = {
     all_tolls: 'all_tolls'
 };
 
+var appDigits = {
+    timeout: 5000
+};
+
 var app_apis = {
     abiri: 'http://localhost:8001/api/'
     //abiri: 'https://v2.abiri.net/api/'
 };
 
 var messages = {
+    empty_invite: 'You have not added any member to your convoy, please add at least one!!',
     server_error: 'Could not connect to the server, check your internet and try again',
     location_error: 'Sorry, your device can`t pick your current location, can you allow this app to use your location services and if you will goto \"Settings\" and increase the postion interval!'
 };
@@ -53,6 +58,13 @@ var auth_side = {
 var keys = {
     google_maps: 'AIzaSyDk4ypmDfkMhJ9QGwmhO2YgqBRjtjSYzmQ'
 };
+
+var api = {
+    getPath: function (link) {
+        return 'http://localhost:8001/api/abiri-' + link;
+    }
+};
+
 var google = {
     // findPlaces: 'https://maps.googleapis.com/maps/api/place/textsearch/json?key=' + keys.google_maps + '&query=',
     // findPlaces: 'https://maps.googleapis.com/maps/api/place/autocomplete/json?components=country:za&key=' + keys.google_maps + '&input=',
