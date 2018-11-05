@@ -32,9 +32,9 @@ define(["app", "js/changepassword/changepasswordView"], function (app, View) {
                     } else {
                         app.f7.dialog.preloader('Changing password');
                         $.ajax({
-                            url: app_apis.abiri + 'abiri-updatepassword',
+                            url: api.getPath('updatepassword'),
                             method: 'POST',
-                            timeout: 3000,
+                            timeout: appDigits.timeout,
                             data: {
                                 password: $('#current_password').val(),
                                 new_password: $('#new_password').val(),

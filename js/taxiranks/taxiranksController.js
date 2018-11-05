@@ -142,9 +142,9 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
         console.log(selectedRank);
         app.f7.dialog.preloader('Fetching details...')
         $.ajax({
-            url: app_apis.abiri + 'abiri-getrank',
+            url: api.getPath('getrank'),
             method: 'POST',
-            timeout: 5000,
+            timeout: appDigits.timeout,
             data: {
                 phone: user.phone,
                 email: user.email,
@@ -166,8 +166,8 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
     function refreshRanks() {
         app.f7.dialog.preloader('Reloading taxi ranks');
         $.ajax({
-            url: app_apis.abiri + 'abiri-taxiranks',
-            timeout: 3000,
+            url: api.getPath('taxiranks'),
+            timeout: appDigits.timeout,
             method: 'POST',
             data: {
                 phone: user.phone,
@@ -191,7 +191,7 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
         if ($$("#originSearch2").val().length >= 5) {
             $.ajax({
                 url: google.findPlaces($('#originSearch2').val()),
-                timeout: 3000,
+                timeout: appDigits.timeout,
                 method: 'GET'
             }).success(function (data) {
                 if (data.status == 'OK') {
@@ -223,7 +223,7 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
         app.f7.dialog.preloader('Getting your location');
         $.ajax({
             url: google.findPlace + placeID,
-            timeout: 3000,
+            timeout: appDigits.timeout,
             method: 'GET'
         }).success(function (data) {
             console.log(data);
@@ -359,8 +359,8 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
     function getRanks(bounds) {
         app.f7.dialog.preloader('Getting ranks');
         $.ajax({
-            url: app_apis.abiri + 'abiri-taxiranks',
-            timeout: 3000,
+            url: api.getPath('taxiranks'),
+            timeout: appDigits.timeout,
             method: 'POST',
             data: {
                 phone: user.phone,

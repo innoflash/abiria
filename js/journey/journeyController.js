@@ -53,9 +53,9 @@ define(["app", "js/journey/journeyView"], function (app, View) {
     function loadJourney(id) {
         app.f7.dialog.preloader('Loading journey');
         $.ajax({
-            url: app_apis.abiri + 'abiri-getjourney',
+            url: api.getPath('getjourney'),
             method: 'POST',
-            timeout: 3000,
+            timeout: appDigits.timeout,
             data: {
                 id: id,
                 phone: user.phone,

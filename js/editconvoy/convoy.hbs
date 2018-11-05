@@ -1,0 +1,192 @@
+{{#if this}}
+    <div class="list no-hairlines-md inset" id="myCar">
+        <ul>
+            <li class="list-group-title">
+                Departure
+            </li>
+            <li class="item-content item-input">
+                <div class="item-media">
+                    <i class="icon fa fa-map"></i>
+                </div>
+                <div class="item-inner">
+                    <div class="item-title item-floating-label">Venue
+                    </div>
+                    <div class="item-input-wrap">
+                        <input type="text"
+                               name="Departure venue"
+                               value="{{ departure.venue }}"
+                               placeholder="---"
+                               id="dep_venue">
+                        <span class="input-clear-button"></span>
+                    </div>
+                </div>
+            </li>
+            <li class="item-content item-input">
+                <div class="item-media">
+                    <i class="icon fa fa-map-o"></i>
+                </div>
+                <div class="item-inner">
+                    <div class="item-title item-floating-label">Coordinates
+                    </div>
+                    <div class="item-input-wrap">
+                        <input type="text"
+                               name="Departure coordinates"
+                               placeholder="---"
+                               value="{{ departure.coordinates }}"
+                               id="dep_coordinates"
+                               disabled>
+                        <span class="input-clear-button"></span>
+                    </div>
+                </div>
+            </li>
+
+            <li class="item-divider"></li>
+            <li class="list-group-title">
+                Destination
+            </li>
+            <li class="item-content item-input">
+                <div class="item-media">
+                    <i class="icon fa fa-map"></i>
+                </div>
+                <div class="item-inner">
+                    <div class="item-title item-floating-label">Venue
+                    </div>
+                    <div class="item-input-wrap">
+                        <input type="text"
+                               name="Destination venue"
+                               value="{{ destination.venue }}"
+                               placeholder="---"
+                               id="dest_venue">
+                        <span class="input-clear-button"></span>
+                    </div>
+                </div>
+            </li>
+            <li class="item-content item-input">
+                <div class="item-media">
+                    <i class="icon fa fa-map-o"></i>
+                </div>
+                <div class="item-inner">
+                    <div class="item-title item-floating-label">Coordinates
+                    </div>
+                    <div class="item-input-wrap">
+                        <input type="text"
+                               name="Destination coordinates"
+                               placeholder="---"
+                               value="{{ destination.coordinates }}"
+                               id="dest_coordinates"
+                               disabled>
+                        <span class="input-clear-button"></span>
+                    </div>
+                </div>
+            </li>
+
+            <li class="item-divider"></li>
+            <li class="list-group-title">
+                Date
+            </li>
+            <li class="item-content item-input">
+                <div class="item-media">
+                    <i class="icon fa fa-calendar"></i>
+                </div>
+                <div class="item-inner">
+                    <div class="item-title item-floating-label">Date
+                    </div>
+                    <div class="item-input-wrap">
+                        <input type="text"
+                               name="Date"
+                               class="convoy-date"
+                               placeholder="---"
+                               value="{{ time.date }}"
+                               id="convoy_date">
+                        <span class="input-clear-button"></span>
+                    </div>
+                </div>
+            </li>
+            <li class="item-content item-input">
+                <div class="item-media">
+                    <i class="icon fa fa-hourglass"></i>
+                </div>
+                <div class="item-inner">
+                    <div class="item-title item-floating-label">Time
+                    </div>
+                    <div class="item-input-wrap">
+                        <input type="text"
+                               name="Time"
+                               placeholder="---"
+                               value="{{ time.time }}"
+                               id="timepicker">
+                        <span class="input-clear-button"></span>
+                    </div>
+                </div>
+            </li>
+
+            <li class="item-divider"></li>
+            <li class="list-group-title">
+                Purpose
+            </li>
+            <li class="item-content item-input">
+                <div class="item-media">
+                    <i class="icon fa fa-file-o"></i>
+                </div>
+                <div class="item-inner">
+                    <div class="item-title item-floating-label">Purpose
+                    </div>
+                    <div class="item-input-wrap">
+                        <input type="text"
+                               name="Purpose"
+                               value="{{ purpose }}"
+                               placeholder="---"
+                               id="convoy_purpose">
+                        <span class="input-clear-button"></span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="block-title">BREAK POINTS</div>
+    <div class="list inset">
+        <ul>
+            <li id="addEditBreak">
+                <div class="item-content">
+                    <div class="item-media"><i class="icon f7-icons">add</i></div>
+                    <div class="item-inner">
+                        <div class="item-title">Click here to add</div>
+                        <div class="item-after">
+                            <span class="badge color-blue">abiri</span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <div id="editBreakPoints">
+
+            </div>
+        </ul>
+    </div>
+
+    <div class="block-title">MEMBERS</div>
+    <div class="list inset">
+        <ul>
+            <li id="addEditMember">
+                <div class="item-content">
+                    <div class="item-media"><i class="icon f7-icons">add</i></div>
+                    <div class="item-inner">
+                        <div class="item-title">Click to add member</div>
+                        <div class="item-after">
+                            <span class="badge color-blue">abiri</span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <div id="convoyMembers">
+
+            </div>
+        </ul>
+    </div>
+
+    <div class="block">
+        <button class="button button-fill" id="editConvoy">
+            EDIT CONVOY
+        </button>
+    </div>
+{{/if}}

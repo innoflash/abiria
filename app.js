@@ -110,6 +110,9 @@ define('app', ['js/router'], function (Router) {
             }, {
                 path: '/convoy/:convoy_id',
                 url: 'pages/convoy.html'
+            }, {
+                path: '/editconvoy',
+                url: 'pages/editconvoy.html'
             }
         ],
         theme: 'ios',

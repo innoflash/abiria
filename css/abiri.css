@@ -24,3 +24,7 @@
 .pt10{
     font-size: 80%;
 }
+#convoyMapova, #convoyMap{
+    width: 100%;
+    height: 100%;
+}

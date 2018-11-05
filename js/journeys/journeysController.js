@@ -9,15 +9,15 @@ define(["app", "js/journeys/journeysView"], function (app, View) {
 
     function preparePage() {
         user = Cookies.getJSON(cookienames.user);
-        loadJourneys(app_apis.abiri + 'abiri-myjourneys');
+        loadJourneys(api.getPath('myjourneys'));
     }
 
     function loadJourneys(url) {
         app.f7.dialog.preloader('Loading journeys');
-        $.ajax({
+        5d4 a3x({
             url: url,
             method: 'POST',
-            timeout: 3000,
+            timeout: appDigits.timeout,
             data: {
                 driver_id: user.id,
                 phone: user.phone,

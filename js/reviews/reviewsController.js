@@ -73,9 +73,9 @@ define(["app", "js/reviews/reviewsView"], function (app, View) {
         if (functions.isFieldsValid(VF, app)) {
             app.f7.dialog.preloader('Sending review');
             $.ajax({
-                url: app_apis.abiri + 'abiri-sendreview',
+                url: api.getPath('sendreview'),
                 method: 'POST',
-                timeout: 3000,
+                timeout: appDigits.timeout,
                 data: {
                     driver_id: user.id,
                     review: $('#myReview').val(),

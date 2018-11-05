@@ -126,9 +126,9 @@ define(["app", "js/drive/driveView"], function (app, View) {
             if (j_id == 0) {
                 app.f7.dialog.preloader('Starting journey');
                 $.ajax({
-                    url: app_apis.abiri + 'abiri-makejourney',
+                    url: api.getPath('makejourney'),
                     method: 'POST',
-                    timeout: 5000,
+                    timeout: appDigits.timeout,
                     data: data
                 }).success(function (data) {
                     positionMarker = new google.maps.Marker({
@@ -185,9 +185,9 @@ define(["app", "js/drive/driveView"], function (app, View) {
         function alterJourney(statement, state) {
             app.f7.dialog.preloader(statement);
             $.ajax({
-                url: app_apis.abiri + 'abiri-updatejourney',
+                url: api.getPath('updatejourney'),
                 method: 'POST',
-                timeout: 5000,
+                timeout: appDigits.timeout,
                 data: {
                     j_id: j_id,
                     state: state,
@@ -259,13 +259,6 @@ define(["app", "js/drive/driveView"], function (app, View) {
                 });
             }
             if (updatePosition) {
-                /* navigator.geolocation.getCurrentPosition(locationSuccess.bind(this),
-                     locationError.bind(this),
-                     {
-                         maximumAge: 3000,
-                         timeout: 7000,
-                         enableHighAccuracy: true
-                     });*/
                 watchID = navigator.geolocation.watchPosition(watchSuccess.bind(this), locationError.bind(this), {
                     maximumAge: 3000,
                     timeout: 7000,
@@ -314,8 +307,8 @@ define(["app", "js/drive/driveView"], function (app, View) {
         function getTollgates() {
             app.f7.dialog.preloader('Getting tollgates');
             $.ajax({
-                url: app_apis.abiri + 'abiri-tollgates',
-                timeout: 5000,
+                url: api.getPath('tollagates'),
+                timeout: appDigits.timeout,
                 method: 'POST',
                 email: user.email,
                 phone: user.phone
@@ -457,9 +450,9 @@ define(["app", "js/drive/driveView"], function (app, View) {
         function fuelConsumption() {
             app.f7.dialog.preloader('Calculating consumption');
             $.ajax({
-                url: app_apis.abiri + 'abiri-fuelconsumption',
+                url: api.getPath('fuelconsumption'),
                 method: 'POST',
-                timeout: 5000,
+                timeout: appDigits.timeout,
                 data: {
                     weight: car.weight,
                     distance: route.legs[0].distance.value,

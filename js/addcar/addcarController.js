@@ -20,10 +20,6 @@ define(["app", "js/addcar/addcarView"], function (app, View) {
     }
 
     function onOut() {
-        /*  try {
-              app.f7.dialog.close();
-          } catch (e) {
-          }*/
         console.log('add car outting');
     }
 
@@ -88,9 +84,9 @@ define(["app", "js/addcar/addcarView"], function (app, View) {
         if (functions.isFieldsValid(VF, app)) {
             app.f7.dialog.preloader('Adding your car');
             $.ajax({
-                url: app_apis.abiri + 'abiri-addcar',
+                url: api.getPath('addcar'),
                 method: 'POST',
-                timeout: 3000,
+                timeout: appDigits.timeout,
                 data: {
                     driver_id: user.id,
                     model: $('#car_model').val(),

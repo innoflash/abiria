@@ -104,9 +104,9 @@ define(["app", "js/editcar/editcarView"], function (app, View) {
         if (functions.isFieldsValid(VF, app)) {
             app.f7.dialog.preloader('Updating your car');
             $.ajax({
-                url: app_apis.abiri + 'abiri-editcar',
+                url: api.getPath('editcar'),
                 method: 'POST',
-                timeout: 3000,
+                timeout: appDigits.timeout,
                 data: {
                     id: car.id,
                     model: $('#vehicle_model').val(),

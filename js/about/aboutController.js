@@ -22,12 +22,6 @@ define(["app", "js/about/aboutView"], function (app, View) {
     }
 
     function onOut() {
-       /* app.f7.dialog.close();
-        console.log(app.f7.dialog);
-        try {
-            app.f7.dialog.close();
-        } catch (e) {
-        }*/
         console.log('about outting');
     }
 

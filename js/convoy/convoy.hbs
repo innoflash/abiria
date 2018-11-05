@@ -6,13 +6,16 @@
         <div class="card-content card-content-padding">
             <div class="list">
                 <ul>
+                    <li class="list-group-title">
+                        Departure
+                    </li>
                     <li class="item-content">
                         <div class="item-media"><i class="icon f7-icons">layers</i></div>
                         <div class="item-inner item-colors-details">
                             <div class="pt10">
                                 <div class="item-title">
                                     <!-- Item header, must be first child of item-title -->
-                                    <div class="item-header">Departure</div>
+                                    <div class="item-header">Venue</div>
                                 </div>
                                 {{ departure.venue }}
                             </div>
@@ -26,20 +29,24 @@
                             <div class="item-inner">
                                 <div class="item-title">
                                     <!-- Item header, must be first child of item-title -->
-                                    <div class="item-header">Departure Point</div>
+                                    <div class="item-header">Coordinates</div>
                                     {{ departure.coordinates }}
                                 </div>
                             </div>
                         </div>
                     </li>
                     <li class="item-divider"></li>
+
+                    <li class="list-group-title">
+                        Destination
+                    </li>
                     <li class="item-content">
                         <div class="item-media"><i class="icon f7-icons">layers</i></div>
                         <div class="item-inner item-colors-details">
                             <div class="pt10">
                                 <div class="item-title">
                                     <!-- Item header, must be first child of item-title -->
-                                    <div class="item-header">Destination</div>
+                                    <div class="item-header">Venue</div>
                                 </div>
                                 {{ destination.venue }}
                             </div>
@@ -53,7 +60,7 @@
                             <div class="item-inner">
                                 <div class="item-title">
                                     <!-- Item header, must be first child of item-title -->
-                                    <div class="item-header">Destination Point</div>
+                                    <div class="item-header">Coordinates</div>
                                     {{ destination.coordinates }}
                                 </div>
                             </div>
@@ -84,6 +91,22 @@
                                     <!-- Item header, must be first child of item-title -->
                                     <div class="item-header">Approx</div>
                                     {{ time.approx }}
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="item-divider"></li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media">
+                                <i class="icon f7-icons">person</i>
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title">
+                                    <!-- Item header, must be first child of item-title -->
+                                    <div class="item-header">Initiated by</div>
+                                    {{ initiator }}
                                 </div>
                             </div>
                         </div>

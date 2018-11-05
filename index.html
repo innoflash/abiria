@@ -623,7 +623,6 @@
         <div class="view popup-view">
             <div class="page">
                 <div class="page-content">
-                    <div class="searchbar-backdrop"></div>
                     <form class="searchbar originSearchbar">
                         <div class="searchbar-inner">
                             <div class="searchbar-input-wrap">
@@ -649,11 +648,39 @@
         </div>
     </div>
 
+    <div class="popup popup-editconvoy">
+        <div class="view popup-view">
+            <div class="page">
+                <div class="page-content">
+                    <form class="searchbar originSearchbar">
+                        <div class="searchbar-inner">
+                            <div class="searchbar-input-wrap">
+                                <input type="search" placeholder="Search location" id="editPointSearch">
+                                <i class="searchbar-icon"></i>
+                                <span class="input-clear-button"></span>
+                            </div>
+                            <span class="searchbar-disable-button">Cancel</span>
+                        </div>
+                    </form>
+                    <div id="editPointSuggests">
+
+                    </div>
+                    <div class="row">
+                        <div class="col"></div>
+                        <button class="button col popup-close" data-popup=".popup-editconvoy"
+                                style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close Search
+                        </button>
+                        <div class="col"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="popup popup-members">
         <div class="view popup-view">
             <div class="page">
                 <div class="page-content">
-                    <div class="searchbar-backdrop"></div>
                     <form class="searchbar originSearchbar">
                         <div class="searchbar-inner">
                             <div class="searchbar-input-wrap">
@@ -674,6 +701,40 @@
                     <div class="row">
                         <div class="col"></div>
                         <button class="button col popup-close" data-popup=".popup-members"
+                                style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close Search
+                        </button>
+                        <div class="col"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="popup popup-editmembers">
+        <div class="view popup-view">
+            <div class="page">
+                <div class="page-content">
+                    <form class="searchbar originSearchbar">
+                        <div class="searchbar-inner">
+                            <div class="searchbar-input-wrap">
+                                <input type="search" placeholder="Search member" id="editMemberSearch">
+                                <i class="searchbar-icon"></i>
+                                <span class="input-clear-button"></span>
+                            </div>
+                            <span class="searchbar-disable-button">Cancel</span>
+                        </div>
+                    </form>
+                    <div>
+                        <div class="list inset">
+                            <ul id="editMemberSuggests">
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col"></div>
+                        <button class="button col popup-close" data-popup=".popup-editmembers"
                                 style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close Search
                         </button>
                         <div class="col"></div>
@@ -705,6 +766,20 @@
                     style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close Search
             </button>
             <div class="col"></div>
+        </div>
+    </div>
+
+    <div class="popup popup-convoymap">
+        <div class="page-content">
+            <div id="convoyMap">
+                tjhis is the map
+            </div>
+        </div>
+        <div class="fab fab-extended fab-center-bottom popup-close" data-popup=".popup-convoymap">
+            <a href="#">
+                <i class="icon f7-icons">close</i>
+                <!-- Element with FAB text  -->
+            </a>
         </div>
     </div>
 

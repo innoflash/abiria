@@ -34,8 +34,8 @@ define(["app", "js/settings/settingsView"], function (app, View) {
     function reloadRanks() {
         app.f7.dialog.preloader('Reloading taxi ranks');
         $.ajax({
-            url: app_apis.abiri + 'abiri-taxiranks',
-            timeout: 3000,
+            url: api.getPath('taxiranks'),
+            timeout: appDigits.timeout,
             method: 'POST',
             data: {
                 phone: user.phone,
@@ -57,8 +57,8 @@ define(["app", "js/settings/settingsView"], function (app, View) {
     function reloadEtolls() {
         app.f7.dialog.preloader('Reloading e-tolls');
         $.ajax({
-            url: app_apis.abiri + 'abiri-etolls',
-            timeout: 3000,
+            url: api.getPath('etolls'),
+            timeout: appDigits.timeout,
             method: 'POST',
             data: {
                 phone: user.phone,
@@ -192,8 +192,8 @@ define(["app", "js/settings/settingsView"], function (app, View) {
     function reloadTollgates() {
         app.f7.dialog.preloader('Reloading tollgates');
         $.ajax({
-            url: app_apis.abiri + 'abiri-tollgates',
-            timeout: 3000,
+            url: api.getPath('tollgates'),
+            timeout: appDigits.timeout,
             method: 'POST',
             data: {
                 phone: user.phone,
@@ -222,7 +222,6 @@ define(["app", "js/settings/settingsView"], function (app, View) {
     }
 
     function onOut() {
-        /*app.f7.dialog.close();*/
         console.log('settings outting');
         $('.page-previous').show();
     }

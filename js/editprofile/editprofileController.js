@@ -31,9 +31,9 @@ define(["app", "js/editprofile/editprofileView"], function (app, View) {
             if (functions.isFieldsValid(VF, app)) {
                 app.f7.dialog.preloader('Updating profile');
                 $.ajax({
-                    url: app_apis.abiri + 'abiri-editprofile',
+                    url: api.getPath('editprofile'),
                     method: 'POST',
-                    timeout: 3000,
+                    timeout: appDigits.timeout,
                     data: {
                         id: user.id,
                         first_name: $('#d_first_name').val(),
@@ -62,7 +62,6 @@ define(["app", "js/editprofile/editprofileView"], function (app, View) {
             }
         });
     }
-
 
 
     function init() {

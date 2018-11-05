@@ -95,9 +95,9 @@ define(["app", "js/index/indexView"], function (app, View) {
         /*app.f7.dialog.close();*/
         console.log('index outting');
     }
-    
+
     function facebookAuth() {
-        cordova.plugins.firebase.auth.getIdToken().then(function(idToken) {
+        cordova.plugins.firebase.auth.getIdToken().then(function (idToken) {
             // send token to server
             console.log(idToken);
             app.f7.dialog.alert(idToken);
@@ -123,9 +123,9 @@ define(["app", "js/index/indexView"], function (app, View) {
         console.log('ending current journey');
         app.f7.dialog.preloader("Ending journey");
         $.ajax({
-            url: app_apis.abiri + 'abiri-updatejourney',
+            url: api.getPath('updatejourney'),
             method: 'POST',
-            timeout: 5000,
+            timeout: appDigits.timeout,
             data: {
                 j_id: Cookies.get(cookienames.journey_id),
                 state: 1,
@@ -183,8 +183,8 @@ define(["app", "js/index/indexView"], function (app, View) {
         });
         notification.open();
         $.ajax({
-            url: app_apis.abiri + 'abiri-tollgates',
-            timeout: 5000,
+            url: api.getPath('tollgates'),
+            timeout: appDigits.timeout,
             method: 'POST',
             data: {
                 email: user.email,
@@ -204,8 +204,8 @@ define(["app", "js/index/indexView"], function (app, View) {
 
     function getEtolls() {
         $.ajax({
-            url: app_apis.abiri + 'abiri-etolls',
-            timeout: 5000,
+            url: api.getPath('etolls'),
+            timeout: appDigits.timeout,
             method: 'POST',
             data: {
                 email: user.email,
@@ -224,8 +224,8 @@ define(["app", "js/index/indexView"], function (app, View) {
 
     function getTaxiRanks() {
         $.ajax({
-            url: app_apis.abiri + 'abiri-taxiranks',
-            timeout: 5000,
+            url: api.getPath('taxiranks'),
+            timeout: appDigits.timeout,
             method: 'POST',
             data: {
                 email: user.email,
@@ -281,9 +281,9 @@ define(["app", "js/index/indexView"], function (app, View) {
             if (functions.isFieldsValid(VF, app)) {
                 app.f7.dialog.preloader('Activating account');
                 $.ajax({
-                    url: app_apis.abiri + 'abiri-activate',
+                    url: api.getPath('activate'),
                     method: 'POST',
-                    timeout: 5000,
+                    timeout: appDigits.timeout,
                     data: {
                         driver_id: user.id,
                         email: user.email,
@@ -317,9 +317,9 @@ define(["app", "js/index/indexView"], function (app, View) {
             app.f7.dialog.confirm('Are you sure you want to cancel your pending account?', function () {
                 app.f7.dialog.preloader('Please wait');
                 $.ajax({
-                    url: app_apis.abiri + 'abiri-deleteprofile',
+                    url: api.getPath('deleteprofile'),
                     method: 'POST',
-                    timeout: 5000,
+                    timeout: appDigits.timeout,
                     data: {
                         id: user.id,
                         email: user.email,
@@ -346,9 +346,9 @@ define(["app", "js/index/indexView"], function (app, View) {
                 console.log('sending reactivation code');
                 app.f7.dialog.preloader('Resending code');
                 $.ajax({
-                    url: app_apis.abiri + 'abiri-reactivate',
+                    url: api.getPath('reactivate'),
                     method: 'POST',
-                    timeout: 5000,
+                    timeout: appDigits.timeout,
                     data: {
                         driver_id: user.id,
                         email: user.email,
@@ -395,8 +395,8 @@ define(["app", "js/index/indexView"], function (app, View) {
             app.f7.dialog.preloader('Signing you in...');
             $.ajax({
                 method: 'POST',
-                url: app_apis.abiri + 'abiri-sociallogin',
-                timeout: 5000,
+                url: api.getPath('sociallogin'),
+                timeout: appDigits.timeout,
                 data: user
             }).success(function (data) {
                 app.f7.dialog.alert(data.message);
@@ -437,8 +437,8 @@ define(["app", "js/index/indexView"], function (app, View) {
             app.f7.dialog.preloader('Signing you in...');
             $.ajax({
                 method: 'POST',
-                url: app_apis.abiri + 'abiri-sociallogin',
-                timeout: 5000,
+                url: api.getPath('sociallogin'),
+                timeout: appDigits.timeout,
                 data: user
             }).success(function (data) {
                 app.f7.dialog.alert(data.message);
@@ -470,8 +470,8 @@ define(["app", "js/index/indexView"], function (app, View) {
             app.f7.dialog.preloader('Signing in...');
             $.ajax({
                 method: 'POST',
-                url: app_apis.abiri + 'abiri-login',
-                timeout: 5000,
+                url: api.getPath('login'),
+                timeout: appDigits.timeout,
                 data: {
                     email: $('#user_email').val(),
                     password: $('#user_password').val()
@@ -518,9 +518,9 @@ define(["app", "js/index/indexView"], function (app, View) {
             app.f7.dialog.confirm('Resetting the password makes us change your current one and give you a new one of our own, Proceed?', function () {
                 app.f7.dialog.preloader('Resetting password');
                 $.ajax({
-                    url: app_apis.abiri + 'abiri-forgot-password',
+                    url: api.getPath('forgot-password'),
                     method: 'POST',
-                    timeout: 5000,
+                    timeout: appDigits.timeout,
                     data: {
                         email: $('#forgot_email').val(),
                         phone: $('#forgot_phone').val()
@@ -559,8 +559,8 @@ define(["app", "js/index/indexView"], function (app, View) {
                     app.f7.dialog.preloader('Signing up...');
                     $.ajax({
                         method: 'POST',
-                        url: app_apis.abiri + 'abiri-reg',
-                        timeout: 5000,
+                        url: api.getPath('reg'),
+                        timeout: appDigits.timeout,
                         data: {
                             first_name: $('#first_name').val(),
                             last_name: $('#last_name').val(),

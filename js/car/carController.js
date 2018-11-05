@@ -159,9 +159,9 @@ define(["app", "js/car/carView"], function (app, View) {
     function loadCarJourneys(car) {
         app.f7.dialog.preloader('Getting journeys');
         $.ajax({
-            url: app_apis.abiri + 'abiri-carjourneys',
+            url: api.get('carjourneys'),
             method: 'POST',
-            timeout: 3000,
+            timeout: appDigits.timeout,
             data: {
                 car_id: car.id,
                 email: user.email,

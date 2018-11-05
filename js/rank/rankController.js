@@ -13,7 +13,7 @@ define(["app", "js/rank/rankView"], function (app, View) {
         app.f7.dialog.preloader('Getting routes');
         $.ajax({
             url: google.getWalkingDirections(origin, destination),
-            timeout: 3000,
+            timeout: appDigits.timeout,
             method: 'GET'
         }).success(function (routes) {
             if (routes.status == "OK") {

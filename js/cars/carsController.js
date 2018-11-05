@@ -31,8 +31,8 @@ define(["app", "js/cars/carsView"], function (app, View) {
         app.f7.dialog.preloader('Fetching your cars');
         $.ajax({
             method: 'POST',
-            timeout: 3000,
-            url: app_apis.abiri + 'abiri-getcars',
+            timeout: appDigits.timeout,
+            url: api.getPath('getcars'),
             data: {
                 id: user.id,
                 email: user.email,

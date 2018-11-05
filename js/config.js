@@ -23,7 +23,8 @@ var cookienames = {
     rank_routes: 'rank_routes',
     default_country: 'default_country',
     position_interval: 'position_interval',
-    social_activate: 'social_activate'
+    social_activate: 'social_activate',
+    convoyObject: 'convoy_object'
 };
 
 var tollOptions = {

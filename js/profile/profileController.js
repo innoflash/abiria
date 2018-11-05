@@ -163,9 +163,9 @@ define(["app", "js/profile/profileView"], function (app, View) {
             console.log('delete profile in progress');
             app.f7.dialog.preloader('Deleting profile');
             $.ajax({
-                url: app_apis.abiri + 'abiri-deleteprofile',
+                url: api.getPath('deleteprofile'),
                 method: 'POST',
-                timeout: 3000,
+                timeout: appDigits.timeout,
                 data: {
                     id: user.id,
                     phone: user.phone,

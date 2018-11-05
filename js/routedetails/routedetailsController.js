@@ -83,47 +83,6 @@ define(["app", "js/routedetails/routedetailsView"], function (app, View) {
 
     }
 
-    function startJourney() {
-        console.log(route);
-        app.f7.dialog.preloader('Starting journey');
-        $.ajax({
-            url: app_apis.abiri + 'abiri-makejourney',
-            method: 'POST',
-            timeout: 3000,
-            data: {
-                driver_id: user.id,
-                car_id: car.id,
-                from: route.legs[0].start_address,
-                from_coords: route.legs[0].start_location.lat + ',' + route.legs[0].start_location.lng,
-                to: route.legs[0].end_address,
-                to_coords: route.legs[0].end_location.lat + ',' + route.legs[0].end_location.lng,
-                route: JSON.stringify(route),
-                duration: route.legs[0].duration.text,
-                distance: route.legs[0].distance.text,
-                phone: user.phone,
-                email: user.email
-            }
-        }).success(function (data) {
-            var notification = app.f7.notification.create({
-                icon: '<i class="f7-icons">chat</i>',
-                subtitle: 'Journey alert !!!',
-                text: data.message,
-                closeOnClick: true,
-                titleRightText: 'now',
-                on: {
-                    close: function () {
-                        app.f7.dialog.alert('Notification closed');
-                    }
-                }
-            });
-            notification.open();
-        }).error(function (error) {
-            console.log(error);
-            app.f7.dialog.alert(messages.server_error);
-        }).always(function () {
-            app.f7.dialog.close();
-        });
-    }
 
     function drive() {
         if (Cookies.get(cookienames.journey_started) == true || Cookies.get(cookienames.journey_started) == "true") {
