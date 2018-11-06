@@ -67,7 +67,7 @@
     </plugin>
     <plugin name="cordova-plugin-local-notification" spec="^0.9.0-beta.2"/>
     <plugin name="cordova-plugin-camera" spec="^4.0.2"/>
-    <plugin name="cordova-plugin-googlemaps" spec="^2.2.8">
+    <plugin name="cordova-plugin-googlemaps" spec="2.2.8">
         <variable name="API_KEY_FOR_ANDROID" value="AIzaSyAFu1-IjUEqHjTih3S9RDsXoQcjWklMJ5A"/>
         <variable name="API_KEY_FOR_IOS" value="AIzaSyAXIlH8A18hdw0qJLqVwDdKyQaQqnLXD3w"/>
         <variable name="LOCATION_WHEN_IN_USE_DESCRIPTION" value="Maps in use"/>
