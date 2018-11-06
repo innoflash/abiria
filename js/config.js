@@ -62,7 +62,8 @@ var keys = {
 
 var api = {
     getPath: function (link) {
-        return 'http://localhost:8001/api/abiri-' + link;
+       // return 'http://localhost:8001/api/abiri-' + link;
+        return 'https://v2.abiri.net/api//abiri-' + link;
     }
 };
 
