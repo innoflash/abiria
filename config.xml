@@ -49,7 +49,7 @@
     <preference name="AndroidPersistentFileLocation" value="Compatibility"/>
     <preference name="CameraUsesGeolocation" value="false"/>
     <preference name="AndroidLaunchMode" value="singleTask"/>
-    <preference name="android-minSdkVersion" value="19" />
+    <preference name="android-minSdkVersion" value="19"/>
     <universal-links>
         <host name="https://innoflash.page.link/eNh4" scheme="https"/>
         <host name="abiri-92ea4.firebaseapp.com" scheme="https">
@@ -72,6 +72,8 @@
         <variable name="API_KEY_FOR_IOS" value="AIzaSyAXIlH8A18hdw0qJLqVwDdKyQaQqnLXD3w"/>
         <variable name="LOCATION_WHEN_IN_USE_DESCRIPTION" value="Maps in use"/>
         <variable name="LOCATION_ALWAYS_USAGE_DESCRIPTION" value="maps always used"/>
+        <variable name="PLAY_SERVICES_VERSION" value="15.0.1"/>
+        <variable name="ANDROID_SUPPORT_V4_VERSION" value="27.1.1"/>
     </plugin>
     <!-- for iPhone rendering -->
     <!--<preference name="phonegap-version" value="cli-6.3.1"/>-->
