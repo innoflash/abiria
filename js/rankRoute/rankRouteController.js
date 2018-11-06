@@ -119,6 +119,8 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
         var map = new GoogleMap(makeCoords(origin), makeCoords(destination));
         map.initialize();
         updateHeading(makeCoords(origin));
+
+
     }
 
     function updateHeading(currentPosition) {
@@ -130,6 +132,12 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
 /*        mapDiv.css({
             'transform': 'rotate(' + heading + 'deg)'
         });*/
+        var div = document.getElementById("rank_mapova");
+        googleMap = plugin.google.maps.Map.getMap(div);
+        googleMap.one(plugin.google.maps.event.MAP_READY, function() {
+            console.log("--> map_canvas3 : ready.");
+            app.f7.dialog.alert('yeeey i am ready');
+        });
     }
 
     function GoogleMap(origin, destination) {
