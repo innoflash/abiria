@@ -14,7 +14,7 @@ define(["app", "js/journeys/journeysView"], function (app, View) {
 
     function loadJourneys(url) {
         app.f7.dialog.preloader('Loading journeys');
-        5d4 a3x({
+        $.ajax({
             url: url,
             method: 'POST',
             timeout: appDigits.timeout,

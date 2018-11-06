@@ -159,7 +159,7 @@ define(["app", "js/car/carView"], function (app, View) {
     function loadCarJourneys(car) {
         app.f7.dialog.preloader('Getting journeys');
         $.ajax({
-            url: api.get('carjourneys'),
+            url: api.getPath('carjourneys'),
             method: 'POST',
             timeout: appDigits.timeout,
             data: {
