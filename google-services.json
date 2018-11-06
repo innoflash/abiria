@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "348946592496",
+    "firebase_url": "https://abiri-92ea4.firebaseio.com",
+    "project_id": "abiri-92ea4",
+    "storage_bucket": "abiri-92ea4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:348946592496:android:172dbb6eb3df2ece",
+        "android_client_info": {
+          "package_name": "net.innoflash.abiri"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "348946592496-2dngn3mm9k60o99f2feha47ad4nvh6kq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0ZGgW35HT6i0l1xFk6tankleYe5-rJrM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

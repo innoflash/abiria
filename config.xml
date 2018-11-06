@@ -34,7 +34,7 @@
     <!-- comment auth plugin to render on iPhone -->
     <plugin name="cordova-plugin-firebase-authentication" spec="^1.0.1"/>
     <plugin name="cordova-plugin-customurlscheme" spec="^4.3.0">
-        <variable name="URL_SCHEME" value="zw.co.flashtech.abiri"/>
+        <variable name="URL_SCHEME" value="net.flashtech.abiri"/>
     </plugin>
 
     <preference name="AndroidPersistentFileLocation" value="Compatibility"/>
