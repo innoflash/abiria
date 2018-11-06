@@ -49,7 +49,7 @@
     <preference name="AndroidPersistentFileLocation" value="Compatibility"/>
     <preference name="CameraUsesGeolocation" value="false"/>
     <preference name="AndroidLaunchMode" value="singleTask"/>
-    <preference name="android-minSdkVersion" value="19"/>
+    <preference name="android-minSdkVersion" value="20" />
     <universal-links>
         <host name="https://innoflash.page.link/eNh4" scheme="https"/>
         <host name="abiri-92ea4.firebaseapp.com" scheme="https">
