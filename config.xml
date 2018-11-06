@@ -22,6 +22,15 @@
         <allow-intent href="itms:*"/>
         <allow-intent href="itms-apps:*"/>
     </platform>
+    <platform name="android">
+        <resource-file src="google-services.json" target="google-services.json"/>
+        <allow-intent href="market:*"/>
+    </platform>
+    <platform name="ios">
+        <resource-file src="GoogleService-Info.plist"/>
+        <allow-intent href="itms:*"/>
+        <allow-intent href="itms-apps:*"/>
+    </platform>
     <engine name="browser" spec="^5.0.3"/>
     <icon src="img/abiri.png"/>
     <plugin name="cordova-plugin-whitelist" spec="^1.3.3"/>
@@ -57,14 +66,14 @@
     </plugin>
     <plugin name="cordova-plugin-local-notification" spec="^0.9.0-beta.2"/>
     <plugin name="cordova-plugin-camera" spec="^4.0.2"/>
-<!--    <plugin name="cordova-plugin-googlemaps" spec="^2.2.8">
-        <variable name="API_KEY_FOR_ANDROID" value="AIzaSyAFu1-IjUEqHjTih3S9RDsXoQcjWklMJ5A" />
-        <variable name="API_KEY_FOR_IOS" value="AIzaSyAXIlH8A18hdw0qJLqVwDdKyQaQqnLXD3w" />
-        <variable name="LOCATION_WHEN_IN_USE_DESCRIPTION" value="Maps in use" />
-        <variable name="LOCATION_ALWAYS_USAGE_DESCRIPTION" value="maps always used" />
-    </plugin>-->
+    <plugin name="cordova-plugin-googlemaps" spec="^2.2.8">
+        <variable name="API_KEY_FOR_ANDROID" value="AIzaSyAFu1-IjUEqHjTih3S9RDsXoQcjWklMJ5A"/>
+        <variable name="API_KEY_FOR_IOS" value="AIzaSyAXIlH8A18hdw0qJLqVwDdKyQaQqnLXD3w"/>
+        <variable name="LOCATION_WHEN_IN_USE_DESCRIPTION" value="Maps in use"/>
+        <variable name="LOCATION_ALWAYS_USAGE_DESCRIPTION" value="maps always used"/>
+    </plugin>
     <!-- for iPhone rendering -->
     <!--<preference name="phonegap-version" value="cli-6.3.1"/>-->
     <!-- for android rendering -->
-    <preference name="phonegap-version" value="cli-8.0.0" />
+    <preference name="phonegap-version" value="cli-8.0.0"/>
 </widget>
