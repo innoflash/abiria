@@ -72,6 +72,7 @@ define(["app", "js/addcar/addcarView"], function (app, View) {
     }
 
     function addCar() {
+        $('#addCar').unbind();
         var VF = [
             $('#car_brand'),
             $('#car_model'),

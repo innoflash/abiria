@@ -40,6 +40,7 @@ define(["app", "js/addconvoy/addconvoyView"], function (app, View) {
     }
 
     function addBreak() {
+        $('#addBreak').unbind();
         locationOpener = 'breaks';
         locationPopup.open();
     }

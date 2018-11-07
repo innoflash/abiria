@@ -21,10 +21,6 @@ define(["app", "js/index/indexView"], function (app, View) {
             event: 'click',
             handler: openForgotPassword
         }, {
-            element: '#btnCancelForgotPassword',
-            event: 'click',
-            handler: closeForgotPassword
-        }, {
             element: '#btnResetPassword',
             event: 'click',
             handler: resetPassword
@@ -111,6 +107,7 @@ define(["app", "js/index/indexView"], function (app, View) {
     }
 
     function gotoJourney() {
+        $('#gotoJourney').unbind();
         app.f7.fab.close('.fab-morph');
         console.log('will go to the current journey');
         app.mainView.router.navigate({
@@ -119,6 +116,7 @@ define(["app", "js/index/indexView"], function (app, View) {
     }
 
     function endJourney() {
+        $('#endJourney').unbind();
         app.f7.fab.close('.fab-morph');
         console.log('ending current journey');
         app.f7.dialog.preloader("Ending journey");
@@ -372,11 +370,13 @@ define(["app", "js/index/indexView"], function (app, View) {
     }
 
     function openForgotPassword() {
+        $('#btnForgotPassword').unbind();
         fgtPswdPopup.open();
     }
 
 
     function fbAuthentication() {
+        $('#btnFbSignin').unbind();
         console.log('doing facebook shit');
         var facebookProvider = new firebase.auth.FacebookAuthProvider();
         firebase.auth().signInWithRedirect(facebookProvider).then(function () {
@@ -419,6 +419,7 @@ define(["app", "js/index/indexView"], function (app, View) {
     }
 
     function googleAuth() {
+        $('#btnGpSignin').unbind();
         var googleProvider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().signInWithRedirect(googleProvider).then(function () {
             return firebase.auth().getRedirectResult();
@@ -461,6 +462,7 @@ define(["app", "js/index/indexView"], function (app, View) {
     }
 
     function phoneAuth() {
+        $('#btnSignIn').unbind();
         var VF = [
             $('#user_email'),
             $('#user_password')
@@ -509,6 +511,7 @@ define(["app", "js/index/indexView"], function (app, View) {
     }
 
     function resetPassword() {
+        $('#btnResetPassword').unbind();
         var VF = [
             $('#forgot_email'),
             $('#forgot_phone')
@@ -542,6 +545,7 @@ define(["app", "js/index/indexView"], function (app, View) {
     }
 
     function createAccount() {
+        $('#btnSignUp').unbind();
         var VF = [
             $('#first_name'),
             $('#last_name'),
@@ -612,6 +616,7 @@ define(["app", "js/index/indexView"], function (app, View) {
     }
 
     function logout() {
+        $('#btnMoreLogOff').unbind();
         var side = Cookies.get(cookienames.auth_side);
         app.f7.dialog.confirm('Are you sure you want to log out now?', function () {
             Cookies.remove(cookienames.auth_side);
@@ -630,10 +635,11 @@ define(["app", "js/index/indexView"], function (app, View) {
     }
 
     function loadHome() {
-
+        $('#linkHome').unbind();
     }
 
     function inviteOthers() {
+        $('#inviteOthers').unbind();
         var options = {
             message: "Hi, I am Abiri: the real innovation in motion. Try my new services and experience the fun of smart travelling. \n\nGet me from ", // not supported on some apps (Facebook, Instagram)
             subject: 'Abiri', // fi. for email

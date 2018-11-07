@@ -37,6 +37,12 @@ define(['handlebars'], function (Handlebars) {
         return 'R ' + total.toFixed(2);
     });
 
+    Handlebars.registerHelper('isPast', function (time) {
+        if (time.indexOf('from now') != -1) {
+            return 'pending-convoy';
+        }
+    });
+
     Handlebars.registerHelper('stateColor', function (state) {
         if (state == 'accepted')
             return 'color-green';

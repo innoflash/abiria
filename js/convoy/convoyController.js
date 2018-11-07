@@ -14,7 +14,96 @@ define(["app", "js/convoy/convoyView"], function (app, View) {
         user = Cookies.getJSON(cookienames.user);
         convoy_id = app.mainView.router.currentRoute.params.convoy_id;
         console.log(convoy_id);
+        initPopups();
         loadConvoy();
+    }
+
+    function initPopups() {
+        mapPopup = app.f7.popup.create({
+            el: '.popup-convoymap',
+            animate: true,
+            on: {
+                open: function () {
+                    directionsService = new google.maps.DirectionsService();
+                    directionsDisplay = new google.maps.DirectionsRenderer();
+
+                    map = new GoogleMap(makeCoords(convoy.departure.coordinates), makeCoords(convoy.destination.coordinates));
+                    map.initialize();
+                },
+                close: function () {
+
+                }
+            }
+        });
+
+        acceptPopup = app.f7.popup.create({
+            el: '.popup-accept',
+            animate: true,
+            on: {
+                open: function () {
+                    $('#accept_otp').val('');
+                    $('#accept_otp').focus();
+
+                    $('#btnAcceptInvite').unbind();
+                    $('#btnAcceptInvite').on('click', function () {
+                        var VF = [$('#accept_otp')];
+                        if (functions.isFieldsValid(VF, app)) {
+                            app.f7.dialog.preloader('Accepting your invite...');
+                            $.ajax({
+                                url: api.getPath('acceptconvoy'),
+                                timeout: appDigits.timeout,
+                                method: 'POST',
+                                data: {
+                                    phone: user.phone,
+                                    email: user.email,
+                                    user_id: user.id,
+                                    convoy_id: convoy.id,
+                                    otp: $('#accept_otp').val()
+                                }
+                            }).success(function (response) {
+                                console.log(response);
+                                app.f7.dialog.alert(response.message, function () {
+                                    if (response.success) {
+                                        acceptPopup.close();
+                                    }
+                                })
+                            }).error(function (error) {
+                                console.log(error);
+                                app.f7.dialog.alert(messages.server_error);
+                            }).always(function () {
+                                app.f7.dialog.close();
+                            });
+                        }
+                    });
+
+                    $('#resendOTP').unbind();
+                    $('#resendOTP').on('click', function () {
+                        app.f7.dialog.confirm('You didn`t receive you OTP as an SMS and you want to request for another one right?', function () {
+                            app.f7.dialog.preloader('Requesting OTP...');
+                            $.ajax({
+                                url: api.getPath('convoy-otp'),
+                                method: 'POST',
+                                timeout: appDigits.timeout,
+                                data: {
+                                    phone: user.phone,
+                                    email: user.email,
+                                    user_id: user.id,
+                                    convoy_id: convoy.id
+                                }
+                            }).success(function (response) {
+                                console.log(response);
+                                app.f7.dialog.alert(response.message);
+                            }).error(function (error) {
+                                console.log(error);
+                                app.f7.dialog.alert(messages.server_error);
+                            }).always(function () {
+                                app.f7.dialog.close();
+                            });
+                        });
+                    });
+                }
+            }
+        });
     }
 
     function convoyOptions() {
@@ -92,26 +181,85 @@ define(["app", "js/convoy/convoyView"], function (app, View) {
             });
         } else {
             console.log('u are invited');
+            cvyOptions = app.f7.actions.create({
+                buttons: [
+                    // First group
+                    [
+                        {
+                            text: 'Convoy Options',
+                            label: true
+                        },
+                        {
+                            text: 'Map',
+                            bold: true,
+                            onClick: function () {
+                                openMap(convoy);
+                            }
+                        },
+                        {
+                            text: 'Accept',
+                            bold: true,
+                            onClick: function () {
+                                acceptConvoy();
+                            }
+                        },
+                        {
+                            text: 'Decline',
+                            bold: true,
+                            color: 'red',
+                            onClick: function () {
+                                declineConvoy();
+                            }
+                        }
+                    ],
+                    // Second group
+                    [
+                        {
+                            text: 'Cancel',
+                            color: 'red'
+                        }
+                    ]
+                ]
+            });
         }
     }
 
-    function openMap(convoy) {
-        mapPopup = app.f7.popup.create({
-            el: '.popup-convoymap',
-            animate: true,
-            on: {
-                open: function () {
-                    directionsService = new google.maps.DirectionsService();
-                    directionsDisplay = new google.maps.DirectionsRenderer();
+    function acceptConvoy() {
+        console.log('will accept invite');
+        acceptPopup.open();
+    }
 
-                    map = new GoogleMap(makeCoords(convoy.departure.coordinates), makeCoords(convoy.destination.coordinates));
-                    map.initialize();
-                },
-                close: function () {
-
+    function declineConvoy() {
+        console.log('will decline convoy');
+        app.f7.dialog.confirm('Are you sure you don`t wanna be part of this arranged convoy?', function () {
+            app.f7.dialog.preloader('Declining invite...');
+            $.ajax({
+                url: api.getPath('declineconvoy'),
+                method: 'POST',
+                timeout: appDigits.timeout,
+                data: {
+                    phone: user.phone,
+                    email: user.email,
+                    user_id: user.id,
+                    convoy_id: convoy.id
                 }
-            }
+            }).success(function (response) {
+                console.log(response);
+                app.f7.dialog.alert(response.message, function () {
+                    if (response.success) {
+                        app.mainView.router.back();
+                    }
+                });
+            }).error(function (error) {
+                console.log(error);
+                app.f7.dialog.alert(messages.server_error);
+            }).always(function () {
+                app.f7.dialog.close();
+            });
         });
+    }
+
+    function openMap(convoy) {
         mapPopup.open();
     }
 
