@@ -44,12 +44,23 @@ define(['handlebars'], function (Handlebars) {
     });
 
     Handlebars.registerHelper('stateColor', function (state) {
-        if (state == 'accepted')
+        if (state === 'accepted')
             return 'color-green';
-        if (state == 'declined')
+        if (state === 'declined')
             return 'color-red';
         else
             return 'color-blue'
+    });
+
+    Handlebars.registerHelper('convoyState', function (state) {
+        if (state === 'started')
+            return 'color-green';
+        else if(state === 'canceled')
+            return 'color-red';
+        else if (state === 'pending')
+            return '';
+        else
+            return 'color-gray';
     });
 
     Handlebars.registerHelper('chooseClass', function (c1, c2, c3, c4) {

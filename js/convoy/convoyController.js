@@ -170,7 +170,32 @@ define(["app", "js/convoy/convoyView"], function (app, View) {
                             }
                         }
                     ],
-                    // Second group
+                    [
+                        {
+                            text: 'Start/End',
+                            bold: true,
+                            onClick: function () {
+                                toggleConvoy('toggle');
+                            }
+                        },
+                        {
+                            text: 'Cancel Convoy',
+                            color: 'red',
+                            bold: true,
+                            onClick: function () {
+                                toggleConvoy('cancel');
+                            }
+                        }
+                    ],
+                    [
+                        {
+                            text: 'Drive',
+                            bold: true,
+                            onClick: function () {
+                                driveInConvoy();
+                            }
+                        }
+                    ],
                     [
                         {
                             text: 'Cancel',
@@ -212,7 +237,15 @@ define(["app", "js/convoy/convoyView"], function (app, View) {
                             }
                         }
                     ],
-                    // Second group
+                    [
+                        {
+                            text: 'Drive',
+                            bold: true,
+                            onClick: function () {
+                                driveInConvoy();
+                            }
+                        }
+                    ],
                     [
                         {
                             text: 'Cancel',
@@ -222,6 +255,103 @@ define(["app", "js/convoy/convoyView"], function (app, View) {
                 ]
             });
         }
+    }
+
+    function toggleConvoy(action) {
+        if (action === 'cancel') {
+            if (convoy.state === 'ended') {
+                app.f7.dialog.alert('You can not cancel a convoy that`s already ended!');
+            } else if (convoy.state === 'canceled') {
+                app.f7.dialog.alert('You can not cancel a convoy that`s already canceled!');
+            } else if (convoy.state === 'started') {
+                app.f7.dialog.confirm('You can not cancel a convoy that`s already started, would you like to end it instead!', function () {
+                    toggleConvoy('toggle');
+                });
+            } else {
+                app.f7.dialog.preloader('Cancelling convoy ...');
+                $.ajax({
+                    url: api.getPath('cancelconvoy'),
+                    method: 'POST',
+                    timeout: appDigits.timeout,
+                    data: {
+                        phone: user.phone,
+                        email: user.email,
+                        user_id: user.id,
+                        convoy_id: convoy_id
+                    }
+                }).success(function (response) {
+                    console.log(response);
+                    app.f7.dialog.alert(response.message, function () {
+                        if (response.success) {
+                            app.mainView.router.back();
+                        }
+                    });
+                }).error(function (error) {
+                    console.log(error);
+                    app.f7.dialog.alert(messages.server_error);
+                }).always(function () {
+                    app.f7.dialog.close();
+                });
+
+            }
+        } else {
+            console.info('will do start and finish');
+            if (convoy.state === 'ended') {
+                app.f7.dialog.confirm('This convoy seems to have been ended, would you like to restart it if it was done by mistake?', function () {
+                    decideConvoy('start');
+                });
+            } else if (convoy.state === 'canceled') {
+                app.f7.dialog.confirm('This convoy is set to be canceled, do you wanna restart it?', function () {
+                    decideConvoy('start');
+                });
+            } else if (convoy.state === 'started') {
+                app.f7.dialog.confirm('This convoy seems to have been started, would you like to end it if it was done by mistake?', function () {
+                    decideConvoy('end');
+                });
+            } else {
+                decideConvoy('start');
+            }
+        }
+    }
+
+    function decideConvoy(decision) {
+        app.f7.dialog.preloader('Please wait...');
+        $.ajax({
+            url: api.getPath('decideconvoy'),
+            method: 'POST',
+            timeout: appDigits.timeout,
+            data: {
+                phone: user.phone,
+                email: user.email,
+                user_id: user.id,
+                convoy_id: convoy_id,
+                decision: decision
+            }
+        }).success(function (response) {
+            console.log(response);
+            app.f7.dialog.alert(response.message, function () {
+                if (response.success) {
+                    convoy = response.convoy;
+                    convoy.invites = {};
+                    convoy.invites.data = response.invites;
+                    localStorage.setItem(cookienames.convoyObject, JSON.stringify(convoy));
+                    console.log(convoy);
+                    View.fillConvoy(convoy);
+                    if (response.start) {
+                        app.mainView.router.navigate('/convoydrive');
+                    }
+                }
+            });
+        }).error(function (error) {
+            console.log(error);
+            app.f7.dialog.alert(messages.server_error);
+        }).always(function () {
+            app.f7.dialog.close();
+        });
+    }
+
+    function driveInConvoy() {
+
     }
 
     function acceptConvoy() {
