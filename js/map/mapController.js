@@ -2,123 +2,99 @@ define(["app", "js/map/mapView"], function (app, View) {
     var $ = jQuery;
     var $$ = Dom7;
     var position = 0;
-    var route = {};
+    var journey = {};
     var mapDiv;
 
     var bindings = [];
 
     function preparePage() {
-        route = JSON.parse(localStorage.getItem(cookienames.journey));
-        console.log(route);
+        journey = JSON.parse(localStorage.getItem(cookienames.journey));
+        console.log(journey);
         loadMap();
     }
 
-    function getTurningPoints() {
-        points = [];
-        route.legs[0].steps.forEach(function (value) {
-            points.push({
-                lat: value.start_location.lat,
-                lng: value.start_location.lng
-            });
-        });
-        return points;
-    }
-
-    function getBoundsZoomLevel(bounds, mapDim) {
-        var WORLD_DIM = {height: 256, width: 256};
-        var ZOOM_MAX = 21;
-
-        function latRad(lat) {
-            var sin = Math.sin(lat * Math.PI / 180);
-            var radX2 = Math.log((1 + sin) / (1 - sin)) / 2;
-            return Math.max(Math.min(radX2, Math.PI), -Math.PI) / 2;
-        }
-
-        function zoom(mapPx, worldPx, fraction) {
-            return Math.floor(Math.log(mapPx / worldPx / fraction) / Math.LN2);
-        }
-
-        var ne = data.routes[position].bounds.northeast;
-        var sw = data.routes[position].bounds.southwest;
-
-        var latFraction = (latRad(ne.lat) - latRad(sw.lat)) / Math.PI;
-
-        var lngDiff = ne.lng - sw.lng;
-        var lngFraction = ((lngDiff < 0) ? (lngDiff + 360) : lngDiff) / 360;
-
-        var latZoom = zoom(mapDim.height, WORLD_DIM.height, latFraction);
-        var lngZoom = zoom(mapDim.width, WORLD_DIM.width, lngFraction);
-
-        return Math.min(latZoom, lngZoom, ZOOM_MAX);
-    }
-
     function loadMap() {
-        var div = document.getElementById("journey_canvas")
+        directionsService = new google.maps.DirectionsService();
+        directionsDisplay = new google.maps.DirectionsRenderer();
+
+        var map = new GoogleMap(makeCoords(journey.departure.coordinates), makeCoords(journey.destination.coordinates));
+        map.initialize();
+        updateHeading(makeCoords(journey.departure.coordinates));
+
+
+    }
+
+    function updateHeading(currentPosition) {
+        console.log(currentPosition);
+        console.log(makeCoords(destination));
+        var heading = google.maps.geometry.spherical.computeHeading(currentPosition, makeCoords(destination));
+        console.log(heading);
+        map.setHeading(heading);
+        /*        mapDiv.css({
+                    'transform': 'rotate(' + heading + 'deg)'
+                });*/
+        var div = document.getElementById("rank_mapova");
+        googleMap = plugin.google.maps.Map.getMap(div);
+        googleMap.one(plugin.google.maps.event.MAP_READY, function() {
+            console.log("--> map_canvas3 : ready.");
+            app.f7.dialog.alert('yeeey i am ready');
+        });
+    }
+
+    function GoogleMap(origin, destination) {
         mapDiv = $('#journey_canvas');
-        map = plugin.google.maps.Map.getMap(div, {
-            controls: {
-                myLocationButton: true
-            },
-            gestures: {
-                'scroll': true,
-                'tilt': true,
-                'rotate': true,
-                'zoom': true
+        this.initialize = function () {
+            map = showMap();
+        };
+
+        var showMap = function () {
+            console.log(midPoint(origin, destination));
+            var mapOptions = {
+                zoom: 21,
+                center: midPoint(origin, destination),
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                tilt: 45,
+            };
+
+            var map = new google.maps.Map(document.getElementById("journey_canvas"), mapOptions);
+            directionsDisplay.setMap(map);
+            calcRoute(directionsService, directionsDisplay, origin, destination);
+            return map;
+        };
+    }
+
+
+    function calcRoute(directionsService, directionsDisplay, origin, destination) {
+        var request = {
+            origin: origin,
+            destination: destination,
+            travelMode: 'WALKING'
+        };
+        directionsService.route(request, function (result, status) {
+            if (status == 'OK') {
+                directionsDisplay.setDirections(result);
+                routeResult = result;
             }
+            console.log(result);
+            console.log(status);
         });
-        map.setMyLocationEnabled(true);
-        map.setAllGesturesEnabled(true);
-
-        map.setMapTypeId(plugin.google.maps.MapTypeId.ROADMAP);
-
-        startLat = route.legs[0].start_location.lat;
-        startLng = route.legs[0].start_location.lng;
-
-        endLat = route.legs[0].end_location.lat;
-        endLng = route.legs[0].end_location.lng;
-        address = route.legs[0].end_address;
-
-
-        // Wait until the map is ready status.
-        map.one(plugin.google.maps.event.MAP_READY, onMapReady);
     }
 
-    function getMidPoint(start, end) {
-        var mid = (start + end) / 2;
-        return mid.toFixed(6);
+    function midPoint(origin, destination) {
+        return {
+            lat: +((origin.lat + destination.lat) / 2).toFixed(5),
+            lng: +((origin.lng + destination.lng) / 2).toFixed(5),
+        }
     }
 
-    function onMapReady() {
-        $('.page-previous').hide();
-
-        map.animateCamera({
-            target: {lat: getMidPoint(startLat, endLat), lng: getMidPoint(startLng, endLng)},
-            zoom: 12,
-            /*     tilt: 20,
-                   bearing: 140,*/
-            duration: 3500
-        }, function () {
-            //add path
-            map.addPolyline({
-                points: getTurningPoints(),
-                'color': '#0c5806',
-                'width': 6,
-                'geodesic': true
-            });
-
-            // Add a maker
-            map.addMarker({
-                position: {lat: endLat, lng: endLng},
-                title: address,
-                snippet: 'my destination',
-                animation: plugin.google.maps.Animation.BOUNCE
-            }, function (marker) {
-
-                // Show the info window
-                marker.showInfoWindow();
-
-            });
-        });
+    function makeCoords(latLng) {
+        var coords = latLng.split(',');
+        var coordS = {
+            lat: +coords[0],
+            lng: +coords[1]
+        };
+        console.log(coordS);
+        return new google.maps.LatLng(coordS);
     }
 
     function init() {

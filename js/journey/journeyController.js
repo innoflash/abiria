@@ -63,8 +63,8 @@ define(["app", "js/journey/journeyView"], function (app, View) {
             }
         }).success(function (journey) {
             console.log(journey);
-            localStorage.setItem(cookienames.journey, JSON.stringify(journey.data.route));
-            View.fillJourney(journey);
+            localStorage.setItem(cookienames.journey, JSON.stringify(journey.data));
+            View.fillJourney(journey.data);
         }).error(function (error) {
             console.log(error);
             app.f7.dialog.alert(messages.server_error);
