@@ -69,6 +69,40 @@ define(["app", "js/index/indexView"], function (app, View) {
         if (!functions.hasCookie(cookienames.has_tollgates)) {
             getTollgates();
         }
+
+        showAds();
+    }
+
+    function showAds() {
+        adInterval = setInterval(function () {
+            $.ajax({
+                method: 'POST',
+                timeout: appDigits.timeout,
+                url: api.getPath('getad'),
+                data: {
+                    phone: user.phone,
+                    email: user.email,
+                    logs: Cookies.get(cookienames.viewed_logs)
+                }
+            }).success(function (ad) {
+                console.log(ad);
+                Cookies.remove(cookienames.viewed_logs);
+                $('*#ad_banner').attr('src', ad.data.banner);
+                $('*#ad_banner').unbind();
+                $('*#ad_banner').on('click', function () {
+                    console.log(Cookies.get(cookienames.viewed_logs));
+                    var myLogs = Cookies.get(cookienames.viewed_logs);
+                    if (myLogs === undefined) {
+                        Cookies.set(cookienames.viewed_logs, ad.data.id);
+                    } else {
+                        Cookies.set(cookienames.viewed_logs, myLogs + ',' + ad.data.id);
+                    }
+                    window.open(ad.data.link, '_system');
+                });
+            }).error(function (error) {
+                console.log(error);
+            });
+        }, appDigits.adInterval);
     }
 
     function init() {
@@ -90,6 +124,7 @@ define(["app", "js/index/indexView"], function (app, View) {
     function onOut() {
         /*app.f7.dialog.close();*/
         console.log('index outting');
+        clearInterval(adInterval);
     }
 
     function facebookAuth() {

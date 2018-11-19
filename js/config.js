@@ -24,7 +24,8 @@ var cookienames = {
     default_country: 'default_country',
     position_interval: 'position_interval',
     social_activate: 'social_activate',
-    convoyObject: 'convoy_object'
+    convoyObject: 'convoy_object',
+    viewed_logs: 'viewed_ad_logs',
 };
 
 var tollOptions = {
@@ -33,7 +34,8 @@ var tollOptions = {
 };
 
 var appDigits = {
-    timeout: 5000
+    timeout: 5000,
+    adInterval: 6000
 };
 
 var app_apis = {

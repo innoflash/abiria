@@ -17,7 +17,7 @@ define(['hbs!js/index/activation'], function (activationTemplate) {
             "img/cars/car6.jpg"
         ];
 
-        $('*#car_image').attr('src', car_pics[Math.floor(Math.random() * (car_pics.length + 1))]);
+        $('*#ad_banner').attr('src', car_pics[Math.floor(Math.random() * (car_pics.length + 1))]);
     }
 
     function fillActivation(user) {
