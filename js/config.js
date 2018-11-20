@@ -39,8 +39,8 @@ var appDigits = {
 };
 
 var app_apis = {
-    abiri: 'http://localhost:8001/api/'
-    //abiri: 'https://v2.abiri.net/api/'
+    //abiri: 'http://localhost:8001/api/'
+    abiri: 'https://v3.abiri.net/api/'
 };
 
 var messages = {
@@ -64,8 +64,8 @@ var keys = {
 
 var api = {
     getPath: function (link) {
-        return 'http://localhost:8001/api/abiri-' + link;
-      //  return 'https://v2.abiri.net/api/abiri-' + link;
+      //  return 'http://localhost:8001/api/abiri-' + link;
+        return 'https://v3.abiri.net/api/abiri-' + link;
     }
 };
 
