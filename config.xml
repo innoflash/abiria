@@ -57,7 +57,7 @@
         </host>
     </universal-links>
     <plugin name="cordova-plugin-vibration" spec="^3.0.1"/>
-    <plugin name="cordova-plugin-x-socialsharing" spec="^5.3.2"/>
+    <plugin name="cordova-plugin-x-socialsharing" source="npm"/>
     <plugin name="cordova-plugin-device-motion" spec="^2.0.0"/>
     <plugin name="cordova-plugin-device-orientation" spec="^2.0.0"/>
     <plugin name="cordova-plugin-buildinfo" spec="^2.0.1"/>
