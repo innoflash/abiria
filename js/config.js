@@ -35,7 +35,7 @@ var tollOptions = {
 
 var appDigits = {
     timeout: 5000,
-    adInterval: 6000
+    adInterval: 10000
 };
 
 var app_apis = {
