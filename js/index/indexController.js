@@ -82,6 +82,7 @@ define(["app", "js/index/indexView"], function (app, View) {
                 data: {
                     phone: user.phone,
                     email: user.email,
+                    driver_id: user.id,
                     logs: Cookies.get(cookienames.viewed_logs)
                 }
             }).success(function (ad) {
