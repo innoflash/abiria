@@ -90,8 +90,9 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
         console.log(error);
         app.f7.toast.create({
             text: messages.location_error,
-            closeTimeout: 2000,
+            closeTimeout: 2000
         }).open();
+        refreshPosition();
     }
 
     function openDetails() {
@@ -119,8 +120,6 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
         var map = new GoogleMap(makeCoords(origin), makeCoords(destination));
         map.initialize();
         updateHeading(makeCoords(origin));
-
-
     }
 
     function updateHeading(currentPosition) {
@@ -138,10 +137,12 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
             console.log("--> map_canvas3 : ready.");
             //app.f7.dialog.alert('yeeey i am ready');
             try {
-                googleMap.moveCamera({
+                googleMap.animateCamera({
                     tilt: 60,
                     bearing: heading,
-                    zoom: 18
+                    zoom: 18,
+                    target: makeCoords(destination),
+                    duration: 500
                 });
             } catch (e) {
                 app.f7.dialog.alert(e.toString());

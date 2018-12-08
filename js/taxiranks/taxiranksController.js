@@ -197,6 +197,7 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
                 if (data.status == 'OK') {
                     View.fillPlaces(data);
                     $('*#getLocation2').on('click', function () {
+                        $$('#originSearch2').val('');
                         var placeID = $(this).attr('placeID');
                         getOrigin(placeID);
                     });
