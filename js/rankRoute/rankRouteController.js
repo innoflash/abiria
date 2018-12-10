@@ -219,6 +219,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
     }
 
     function onOut() {
+      googleMap.remove();
         try {
             navigator.geolocation.clearWatch(watchID);
         } catch (e) {
