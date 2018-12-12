@@ -38,7 +38,7 @@ define(['handlebars'], function (Handlebars) {
     });
 
     Handlebars.registerHelper('isPast', function (time) {
-        if (time.indexOf('from now') != -1) {
+        if (time.indexOf('from now') !== -1) {
             return 'pending-convoy';
         }
     });
@@ -63,6 +63,19 @@ define(['handlebars'], function (Handlebars) {
             return 'color-gray';
     });
 
+    Handlebars.registerHelper('shortInvite', function (invite) {
+        if(invite === 'accepted')
+            return 'acc';
+        else if(invite === 'declined')
+            return 'dec';
+        else
+            return 'pdng';
+    });
+
+    Handlebars.registerHelper('convoyInitial', function (state) {
+        return state.charAt(0);
+    });
+
     Handlebars.registerHelper('chooseClass', function (c1, c2, c3, c4) {
         var car = Cookies.getJSON(cookienames.default_car);
         if (car.car_class == 1) {
@@ -77,9 +90,9 @@ define(['handlebars'], function (Handlebars) {
     });
 
     Handlebars.registerHelper('checkAuth', function (auth_type) {
-        if (auth_type == "Abiri Direct") {
+        if (auth_type === "Abiri Direct") {
             return 'person';
-        } else if (auth_type == "Facebook Auth") {
+        } else if (auth_type === "Facebook Auth") {
             return 'social_facebook';
         } else {
             return 'social_googleplus';

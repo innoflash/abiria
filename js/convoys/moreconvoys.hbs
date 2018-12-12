@@ -23,10 +23,13 @@
                                             </div>
                                         </div>
                                         <div class="item-after">
-                                            <span class="badge {{#stateColor state}}{{/stateColor}}">
+                                            <span class="badge {{#stateColor state.invite}}{{/stateColor}}">
                                                 <small>
-                                                    {{ state }}
+                                                    {{#shortInvite state.invite}}{{/shortInvite}}
                                                 </small>
+                                            </span>
+                                            <span class="badge {{#convoyState state.convoy}}{{/convoyState}}">
+                                                {{#convoyInitial state.convoy}}{{/convoyInitial}}
                                             </span>
                                         </div>
                                     </div>

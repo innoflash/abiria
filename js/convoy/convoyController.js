@@ -119,7 +119,8 @@ define(["app", "js/convoy/convoyView"], function (app, View) {
             data: {
                 phone: user.phone,
                 email: user.email,
-                convoy_id: convoy_id
+                convoy_id: convoy_id,
+                user_id: user.id,
             }
         }).success(function (cnvy) {
             console.log(cnvy);
