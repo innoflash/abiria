@@ -55,21 +55,29 @@ define(['handlebars'], function (Handlebars) {
     Handlebars.registerHelper('convoyState', function (state) {
         if (state === 'started')
             return 'color-green';
-        else if(state === 'canceled')
+        else if (state === 'canceled')
             return 'color-red';
         else if (state === 'pending')
             return '';
         else
-            return 'color-gray';
+            return 'color-blue';
     });
 
     Handlebars.registerHelper('shortInvite', function (invite) {
-        if(invite === 'accepted')
+        if (invite === 'accepted')
             return 'acc';
-        else if(invite === 'declined')
+        else if (invite === 'declined')
             return 'dec';
         else
             return 'pdng';
+    });
+
+    Handlebars.registerHelper('isYou', function (user_id) {
+        console.log('user_id', user_id);
+        user = Cookies.getJSON(cookienames.user);
+        if (user_id === user.id) {
+            return '(You)';
+        }
     });
 
     Handlebars.registerHelper('convoyInitial', function (state) {

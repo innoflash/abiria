@@ -65,6 +65,11 @@ define(["app", "js/convoy/convoyView"], function (app, View) {
                                 app.f7.dialog.alert(response.message, function () {
                                     if (response.success) {
                                         acceptPopup.close();
+                                        if (convoy.state.convoy === 'started') {
+                                            app.mainView.router.navigate('/convoydrive');
+                                        } else {
+                                            init();
+                                        }
                                     }
                                 })
                             }).error(function (error) {
@@ -140,7 +145,7 @@ define(["app", "js/convoy/convoyView"], function (app, View) {
 
     function initActions(convoy) {
         console.log(convoy);
-        if (user.id == convoy.driver_id) {
+        if (user.id == convoy.initiator.id) {
             cvyOptions = app.f7.actions.create({
                 buttons: [
                     // First group
@@ -352,7 +357,56 @@ define(["app", "js/convoy/convoyView"], function (app, View) {
     }
 
     function driveInConvoy() {
+        if (convoy.state.invite === 'accepted' && convoy.state.convoy === 'started') {
+            app.mainView.router.navigate('/convoydrive');
+        } else if (convoy.state.invite !== 'accepted') {
+            app.f7.dialog.confirm('You have not accepted the invite to this journey, would you like to do that now?', function () {
+                acceptConvoy();
+            });
+        } else {
+            if (convoy.state.convoy === 'canceled') {
+                app.f7.dialog.alert('This convoy is canceled already, you can`t make it');
+            } else if (convoy.state.convoy === 'ended') {
+                app.f7.dialog.alert('This convoy is already recorded ended, you can`t drive into it');
+            } else {
+                if (convoy.initiator.id === user.id) {
+                    app.f7.dialog.confirm('You are supposed to start this journey first before driving into it, would you like to start it right now?', function () {
+                        decideConvoy('start');
+                    });
+                }else{
+                    app.f7.dialog.confirm('This convoy is not yet yet started, would you like to remind ' + convoy.initiator.first_name + ' to start the convoy already?', function () {
+                        sendReminder();
+                    });
+                }
+            }
+        }
+    }
 
+    function sendReminder() {
+        app.f7.dialog.preloader('Sending your reminder...');
+        $.ajax({
+            url: api.getPath('convoyreminder'),
+            timeout: appDigits.timeout,
+            method: 'POST',
+            data: {
+                phone: user.phone,
+                email: user.email,
+                user_id: user.id,
+                convoy_id: convoy.id
+            }
+        }).success(function (response) {
+            console.log(response);
+            app.f7.dialog.alert(response.message, function () {
+                if (response.success) {
+                    app.mainView.router.back();
+                }
+            });
+        }).error(function (error) {
+            console.log(error);
+            app.f7.f7.dialog.alert(messages.server_error);
+        }).always(function () {
+            app.f7.dialog.close();
+        });
     }
 
     function acceptConvoy() {
@@ -463,7 +517,7 @@ define(["app", "js/convoy/convoyView"], function (app, View) {
             travelMode: 'DRIVING'
         };
         directionsService.route(request, function (result, status) {
-            if (status == 'OK') {
+            if (status === 'OK') {
                 directionsDisplay.setDirections(result);
                 routeResult = result;
                 pinBreaks(map);

@@ -118,7 +118,7 @@
                                 <div class="item-title">
                                     <!-- Item header, must be first child of item-title -->
                                     <div class="item-header">Initiated by</div>
-                                    {{ initiator }}
+                                    {{ initiator.full_name }} {{#isYou initiator.id}}{{/isYou}}
                                 </div>
                             </div>
                         </div>
@@ -175,7 +175,7 @@
                             <div class="item-title">
                                 <div class="item-header">Name</div>
                                 <b>
-                                    {{ name }}
+                                    {{ name }} {{#isYou id}}{{/isYou}}
                                 </b>
                             </div>
                         </div>

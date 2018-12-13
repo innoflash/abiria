@@ -7,6 +7,10 @@ define(["app", "js/convoydrive/convoydriveView"], function (app, View) {
     ];
 
     function preparePage() {
+        user = Cookies.getJSON(cookienames.user);
+        convoy = JSON.parse(localStorage.getItem(cookienames.convoyObject));
+        console.log(user);
+        console.log(convoy);
     }
 
 

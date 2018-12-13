@@ -22,7 +22,7 @@
                                             {{ date }}
                                             <!-- Item footer, must be last child of item-title -->
                                             <div class="item-footer">
-                                                {{ initiator }}
+                                                {{ initiator.full_name }} {{#isYou initiator.id}}{{/isYou}}
                                             </div>
                                         </div>
                                         <div class="item-after">

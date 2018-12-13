@@ -59,13 +59,16 @@ var auth_side = {
     google: 2
 };
 var keys = {
-    google_maps: 'AIzaSyDk4ypmDfkMhJ9QGwmhO2YgqBRjtjSYzmQ'
+    google_maps: 'AIzaSyDk4ypmDfkMhJ9QGwmhO2YgqBRjtjSYzmQ',
+    facebookID: '526123517788979',
+    facebookSecret: '7c2d04d0ceda9c52c18e076693ce5fd1'
+
 };
 
 var api = {
     getPath: function (link) {
-        return 'http://localhost:8001/api/abiri-' + link;
-        //  return 'https://v3.abiri.net/api/abiri-' + link;
+        //return 'http://localhost:8001/api/abiri-' + link;
+          return 'https://v3.abiri.net/api/abiri-' + link;
     }
 };
 

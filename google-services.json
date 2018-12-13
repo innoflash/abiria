@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "348946592496",
-    "firebase_url": "https://abiri-92ea4.firebaseio.com",
-    "project_id": "abiri-92ea4",
-    "storage_bucket": "abiri-92ea4.appspot.com"
+    "project_number": "697246898607",
+    "firebase_url": "https://abiri-1524908584483.firebaseio.com",
+    "project_id": "abiri-1524908584483",
+    "storage_bucket": "abiri-1524908584483.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:348946592496:android:172dbb6eb3df2ece",
+        "mobilesdk_app_id": "1:697246898607:android:172dbb6eb3df2ece",
         "android_client_info": {
           "package_name": "net.innoflash.abiri"
         }
       },
       "oauth_client": [
         {
-          "client_id": "348946592496-2dngn3mm9k60o99f2feha47ad4nvh6kq.apps.googleusercontent.com",
+          "client_id": "697246898607-vn774grtqbskmrheg2nh7oac3hbvs1he.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC0ZGgW35HT6i0l1xFk6tankleYe5-rJrM"
+          "current_key": "AIzaSyDgPP_iVi-YXUY66lZxloOInPf_A0A_-i0"
         }
       ],
       "services": {

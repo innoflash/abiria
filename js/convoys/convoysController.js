@@ -1,11 +1,16 @@
 define(["app", "js/convoys/convoysView"], function (app, View) {
     var $ = jQuery;
     var $$ = Dom7;
+    var fcmToken = 'test token 34';
 
     var bindings = [];
 
     function preparePage() {
         user = Cookies.getJSON(cookienames.user);
+        FCMPlugin.getToken(function(token){
+            console.log(token);
+            fcmToken = token;
+        });
         loadPending();
     }
 
@@ -18,7 +23,8 @@ define(["app", "js/convoys/convoysView"], function (app, View) {
             data: {
                 phone: user.phone,
                 email: user.email,
-                user_id: user.id
+                user_id: user.id,
+                token: fcmToken
             }
         }).success(function (convoys) {
             console.log(convoys);
@@ -61,7 +67,7 @@ define(["app", "js/convoys/convoysView"], function (app, View) {
 
             if (convoys.meta.pagination.current_page == convoys.meta.pagination.total_pages) {
                 $('#loadMoreConvoys').hide();
-            }else{
+            } else {
                 $('#loadMoreConvoys').unbind();
                 $('#loadMoreConvoys').on('click', function () {
                     loadMoreConvoys(convoys.meta.pagination.links.next);
