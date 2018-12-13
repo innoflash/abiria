@@ -91,17 +91,17 @@ var google = {
     findPlaces: function (input) {
         var countryPrefix;
         var defaultCountry = Cookies.get(cookienames.default_country);
-        if (defaultCountry == coutries.south_africa) {
+        if (defaultCountry === coutries.south_africa) {
             countryPrefix = 'za';
-        } else if (defaultCountry == coutries.botswana) {
+        } else if (defaultCountry === coutries.botswana) {
             countryPrefix = 'bw';
-        } else if (defaultCountry == coutries.zimbabwe) {
+        } else if (defaultCountry === coutries.zimbabwe) {
             countryPrefix = 'zw';
-        } else if (defaultCountry == coutries.namibia) {
+        } else if (defaultCountry === coutries.namibia) {
             countryPrefix = 'na';
-        } else if (defaultCountry == coutries.mozambique) {
+        } else if (defaultCountry === coutries.mozambique) {
             countryPrefix = 'mz';
-        } else if (defaultCountry == coutries.lesotho) {
+        } else if (defaultCountry === coutries.lesotho) {
             countryPrefix = 'ls';
         } else {
             countryPrefix = 'sz';
