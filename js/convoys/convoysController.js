@@ -8,16 +8,14 @@ define(["app", "js/convoys/convoysView"], function (app, View) {
     function preparePage() {
         user = Cookies.getJSON(cookienames.user);
         FCMPlugin.getToken(function(token){
-            console.log(token);
-            fcmToken = token;
-            app.f7.dialog.alert(token);
+            loadPending(token);
         }, function (error) {
             app.f7.dialog.alert(JSON.stringify(error));
+            loadPending('default token');
         });
-      //  loadPending();
     }
 
-    function loadPending() {
+    function loadPending(token) {
         app.f7.dialog.preloader('Loading pending convoys...');
         $.ajax({
             url: api.getPath('pendingconvoys'),
@@ -27,7 +25,7 @@ define(["app", "js/convoys/convoysView"], function (app, View) {
                 phone: user.phone,
                 email: user.email,
                 user_id: user.id,
-                token: fcmToken
+                token: token
             }
         }).success(function (convoys) {
             console.log(convoys);
