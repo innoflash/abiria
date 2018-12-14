@@ -1,7 +1,6 @@
 define(["app", "js/convoys/convoysView"], function (app, View) {
     var $ = jQuery;
     var $$ = Dom7;
-    var fcmToken = 'test token 34';
 
     var bindings = [];
 
@@ -10,8 +9,9 @@ define(["app", "js/convoys/convoysView"], function (app, View) {
         FCMPlugin.getToken(function(token){
             loadPending(token);
         }, function (error) {
-            app.f7.dialog.alert(JSON.stringify(error));
-            loadPending('default token');
+            app.f7.dialog.alert(JSON.stringify(error), function () {
+                loadPending('default token');
+            });
         });
     }
 

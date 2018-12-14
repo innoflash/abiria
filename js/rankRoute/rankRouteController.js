@@ -128,26 +128,6 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
         var heading = google.maps.geometry.spherical.computeHeading(currentPosition, makeCoords(destination));
         console.log(heading);
         map.setHeading(heading);
-        /*        mapDiv.css({
-                    'transform': 'rotate(' + heading + 'deg)'
-                });*/
-        var div = document.getElementById("rank_mapova");
-        googleMap = plugin.google.maps.Map.getMap(div);
-        googleMap.one(plugin.google.maps.event.MAP_READY, function () {
-            console.log("--> map_canvas3 : ready.");
-            //app.f7.dialog.alert('yeeey i am ready');
-            try {
-                googleMap.animateCamera({
-                    tilt: 60,
-                    bearing: heading,
-                    zoom: 18,
-                    target: makeCoords(destination),
-                    duration: 500
-                });
-            } catch (e) {
-                app.f7.dialog.alert(e.toString());
-            }
-        });
     }
 
     function GoogleMap(origin, destination) {
@@ -219,7 +199,6 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
     }
 
     function onOut() {
-      googleMap.remove();
         try {
             navigator.geolocation.clearWatch(watchID);
         } catch (e) {
