@@ -10,8 +10,11 @@ define(["app", "js/convoys/convoysView"], function (app, View) {
         FCMPlugin.getToken(function(token){
             console.log(token);
             fcmToken = token;
+            app.f7.dialog.alert(token);
+        }, function (error) {
+            app.f7.dialog.alert(JSON.stringify(error));
         });
-        loadPending();
+      //  loadPending();
     }
 
     function loadPending() {
@@ -28,7 +31,7 @@ define(["app", "js/convoys/convoysView"], function (app, View) {
             }
         }).success(function (convoys) {
             console.log(convoys);
-            if (convoys.data.length != 0) {
+            if (convoys.data.length !== 0) {
                 View.fillPending(convoys.data);
                 app.f7.dialog.confirm('Would you wanna load even more of your convoys?', function () {
                     loadMoreConvoys(api.getPath('convoys'));
