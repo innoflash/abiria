@@ -3,8 +3,87 @@ define(["app", "js/convoydrive/convoydriveView"], function (app, View) {
     var $$ = Dom7;
 
     var bindings = [
-
+        {
+            element: '#convoyDriveOptions',
+            event: 'click',
+            handler: convoyDriveOptions
+        }
     ];
+
+    function convoyDriveOptions() {
+        console.log('will pop up drive options');
+        var buttons = [
+            [
+                {
+                    text: 'Convoy Options',
+                    label: true
+                },
+                {
+                    text: 'Drive',
+                    bold: true,
+                    onClick: function () {
+                        drive();
+                    }
+                },
+                {
+                    text: 'Members',
+                    onClick: function () {
+                        membersPopup.open();
+                    }
+                }
+            ],
+            // Second group
+            [
+                {
+                    text: 'Cancel',
+                    color: 'red'
+                }
+            ]
+        ];
+        if (convoy.initiator.id === user.id) {
+            buttons[0].push({
+                text: 'End Convoy',
+                onClick: function () {
+                    endJourney();
+                }
+            });
+        }
+        app.f7.actions.create({
+            buttons: buttons
+        }).open();
+    }
+
+    function drive() {
+        console.log('is driving');
+    }
+
+    function endJourney() {
+        app.f7.dialog.preloader('Ending convoy...');
+        $.ajax({
+            url: api.getPath('decideconvoy'),
+            method: 'POST',
+            timeout: appDigits.timeout,
+            data: {
+                phone: user.phone,
+                email: user.email,
+                user_id: user.id,
+                convoy_id: convoy_id,
+                decision: 'end'
+            }
+        }).success(function (response) {
+            console.log(response);
+            app.f7.dialog.alert(response.message, function () {
+                if (response.success) {
+                    app.mainView.router.back();
+                }
+            });
+        }).error(function (error) {
+            console.log(error);
+            app.f7.dialog.alert(messages.server_error);
+        }).always(function () {
+            app.f7.dialog.close();
+        });
+    }
 
     function preparePage() {
         user = Cookies.getJSON(cookienames.user);
@@ -12,6 +91,47 @@ define(["app", "js/convoydrive/convoydriveView"], function (app, View) {
         console.log(user);
         console.log(convoy);
         openMap();
+
+        membersPopup = app.f7.popup.create({
+            el: '.popup-members',
+            on: {
+                open: function () {
+                    console.log('popup opened');
+                    View.fillMembers(convoy.invites.data);
+                    $('*#memberIntel').on('click', function () {
+                        var user_id = $(this).attr('member_id');
+                        console.log(user_id, user.id);
+                        if (user_id != user.id) {
+                            membersPopup.close();
+                            navigator.geolocation.getCurrentPosition(locationSuccess.bind(this),
+                                locationError.bind(this),
+                                {
+                                    maximumAge: 3000,
+                                    timeout: 5000,
+                                    enableHighAccuracy: true
+                                });
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    function locationSuccess(position) {
+        console.log(position);
+    }
+
+    function locationError(error) {
+        console.log(error);
+        app.f7.dialog.confirm('Couldn`t pick your location right now, would you wanna try again?', function () {
+            navigator.geolocation.getCurrentPosition(locationSuccess.bind(this),
+                locationError.bind(this),
+                {
+                    maximumAge: 3000,
+                    timeout: 5000,
+                    enableHighAccuracy: true
+                });
+        });
     }
 
     function openMap() {

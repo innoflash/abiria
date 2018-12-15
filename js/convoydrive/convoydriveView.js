@@ -1,9 +1,13 @@
-define([], function () {
+define(['hbs!js/convoydrive/members'], function (membersTemplate) {
     var $$ = Dom7;
     var $ = jQuery;
 
     function render(params) {
         bindEvents(params.bindings);
+    }
+
+    function fillMembers(members) {
+        $('#convoyPals').html(membersTemplate(members));
     }
 
     function bindEvents(bindings) {
@@ -13,7 +17,8 @@ define([], function () {
     }
 
     return {
-        render: render
+        render: render,
+        fillMembers: fillMembers
     };
 });
 

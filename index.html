@@ -505,415 +505,444 @@
                 </div>
             </div>
         </div>
+    </div>
+    <!-- report screen -->
+    <div class="popup popup-report">
+        <div class="content-block">
+            <div data-page="login" class="page no-navbar no-toolbar no-swipeback">
+                <div class="page-content login-screen-content">
+                    <div class="blur-landing"></div>
+                    <img src="img/login-logo.png" class="center-img" alt="">
 
-        <!-- report screen -->
-        <div class="popup popup-report">
-            <div class="content-block">
-                <div data-page="login" class="page no-navbar no-toolbar no-swipeback">
-                    <div class="page-content login-screen-content">
-                        <div class="blur-landing"></div>
-                        <img src="img/login-logo.png" class="center-img" alt="">
+                    <div class="login-screen-title" id="reportTitle">Report</div>
 
-                        <div class="login-screen-title" id="reportTitle">Report</div>
-
-                        <div class="block-strong inset">
-                            <div class="list no-hairlines-md">
-                                <ul>
-                                    <li class="item-content item-input">
-                                        <div class="item-media">
-                                            <i class="icon f7-icons">
-                                                chats
-                                            </i>
-                                        </div>
-                                        <div class="item-inner">
-                                            <div class="item-title item-floating-label">Review</div>
-                                            <div class="item-input-wrap">
+                    <div class="block-strong inset">
+                        <div class="list no-hairlines-md">
+                            <ul>
+                                <li class="item-content item-input">
+                                    <div class="item-media">
+                                        <i class="icon f7-icons">
+                                            chats
+                                        </i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title item-floating-label">Review</div>
+                                        <div class="item-input-wrap">
                                             <textarea class="resizable"
                                                       placeholder="Your review"
                                                       id="myReview"></textarea>
-                                                <span class="input-clear-button"></span>
-                                            </div>
+                                            <span class="input-clear-button"></span>
                                         </div>
-                                    </li>
-                                </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-25"></div>
+                        <div class="col-50">
+                            <button class="button button-fill button-big display-block color-green"
+                                    id="sendReview">
+                                SEND REVIEW
+                            </button>
+                            <br/>
+                            <button class="button button-fill display-block color-red popup-close"
+                                    data-popup=".popup-report">
+                                CANCEL
+                            </button>
+                        </div>
+
+                        <div class="col-25"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- tollgate details screen -->
+    <div class="popup popup-tollgate">
+        <div class="content-block">
+            <div data-page="login" class="page no-navbar no-toolbar no-swipeback">
+                <div class="page-content login-screen-content login_background">
+                    <div class="blur-landing"></div>
+                    <img src="img/login-logo.png" class="center-img" alt="">
+
+                    <div class="login-screen-title">Tollgate Details</div>
+
+
+                    <div class="block inset">
+                        <div class="block inset">
+                            <div class="block-strong">
+                                <div class="list" id="mytollDetails">
+
+                                </div>
+                                <!--<button class="button button-fill-ios color-green button-big-ios"
+                                        id="calculateDistance">
+                                    DISTANCE BETWEEN
+                                </button>-->
+                                <div class="list-block-label">
+                                    <p style="color: #fff; text-align: center;">
+                                        <a href="#" class="link popup-close" data-popup=".popup-tollgate">Close</a>
+                                        <br/>
+                                    </p>
+                                </div>
                             </div>
                         </div>
+
+                    </div>
+
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup popup-mylocation">
+        <form class="searchbar originSearchbar">
+            <div class="searchbar-inner">
+                <div class="searchbar-input-wrap">
+                    <input type="search" placeholder="Search location" id="originSearch">
+                    <i class="searchbar-icon"></i>
+                    <span class="input-clear-button"></span>
+                </div>
+                <span class="searchbar-disable-button">Cancel</span>
+            </div>
+        </form>
+        <div id="originSuggests">
+
+        </div>
+        <br/>
+        <br/>
+        <div class="row">
+            <div class="col"></div>
+            <button class="button col popup-close" data-popup=".popup-mylocation"
+                    style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close Search
+            </button>
+            <div class="col"></div>
+        </div>
+    </div>
+
+    <div class="popup popup-convoy">
+        <div class="view popup-view">
+            <div class="page">
+                <div class="page-content">
+                    <form class="searchbar originSearchbar">
+                        <div class="searchbar-inner">
+                            <div class="searchbar-input-wrap">
+                                <input type="search" placeholder="Search location" id="pointSearch">
+                                <i class="searchbar-icon"></i>
+                                <span class="input-clear-button"></span>
+                            </div>
+                            <span class="searchbar-disable-button">Cancel</span>
+                        </div>
+                    </form>
+                    <div id="pointSuggests">
+
+                    </div>
+                    <div class="row">
+                        <div class="col"></div>
+                        <button class="button col popup-close" data-popup=".popup-convoy"
+                                style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close Search
+                        </button>
+                        <div class="col"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup popup-editconvoy">
+        <div class="view popup-view">
+            <div class="page">
+                <div class="page-content">
+                    <form class="searchbar originSearchbar">
+                        <div class="searchbar-inner">
+                            <div class="searchbar-input-wrap">
+                                <input type="search" placeholder="Search location" id="editPointSearch">
+                                <i class="searchbar-icon"></i>
+                                <span class="input-clear-button"></span>
+                            </div>
+                            <span class="searchbar-disable-button">Cancel</span>
+                        </div>
+                    </form>
+                    <div id="editPointSuggests">
+
+                    </div>
+                    <div class="row">
+                        <div class="col"></div>
+                        <button class="button col popup-close" data-popup=".popup-editconvoy"
+                                style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close Search
+                        </button>
+                        <div class="col"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup popup-members">
+        <div class="view popup-view">
+            <div class="page">
+                <div class="page-content">
+                    <form class="searchbar originSearchbar">
+                        <div class="searchbar-inner">
+                            <div class="searchbar-input-wrap">
+                                <input type="search" placeholder="Search member" id="memberSearch">
+                                <i class="searchbar-icon"></i>
+                                <span class="input-clear-button"></span>
+                            </div>
+                            <span class="searchbar-disable-button">Cancel</span>
+                        </div>
+                    </form>
+                    <div>
+                        <div class="list inset">
+                            <ul id="memberSuggests">
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col"></div>
+                        <button class="button col popup-close" data-popup=".popup-members"
+                                style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close Search
+                        </button>
+                        <div class="col"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="popup popup-editmembers">
+        <div class="view popup-view">
+            <div class="page">
+                <div class="page-content">
+                    <form class="searchbar originSearchbar">
+                        <div class="searchbar-inner">
+                            <div class="searchbar-input-wrap">
+                                <input type="search" placeholder="Search member" id="editMemberSearch">
+                                <i class="searchbar-icon"></i>
+                                <span class="input-clear-button"></span>
+                            </div>
+                            <span class="searchbar-disable-button">Cancel</span>
+                        </div>
+                    </form>
+                    <div>
+                        <div class="list inset">
+                            <ul id="editMemberSuggests">
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col"></div>
+                        <button class="button col popup-close" data-popup=".popup-editmembers"
+                                style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close Search
+                        </button>
+                        <div class="col"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup popup-mylocation2">
+        <form class="searchbar originSearchbar2">
+            <div class="searchbar-inner">
+                <div class="searchbar-input-wrap">
+                    <input type="search" placeholder="Search location" id="originSearch2">
+                    <i class="searchbar-icon"></i>
+                    <span class="input-clear-button"></span>
+                </div>
+                <span class="searchbar-disable-button">Cancel</span>
+            </div>
+        </form>
+        <div id="originSuggests2">
+
+        </div>
+        <br/>
+        <br/>
+        <div class="row">
+            <div class="col"></div>
+            <button class="button col popup-close" data-popup=".popup-mylocation2"
+                    style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close Search
+            </button>
+            <div class="col"></div>
+        </div>
+    </div>
+
+    <div class="popup popup-convoymap">
+        <div class="page-content">
+            <div id="convoyMap">
+                tjhis is the map
+            </div>
+        </div>
+        <div class="fab fab-extended fab-center-bottom popup-close" data-popup=".popup-convoymap">
+            <a href="#">
+                <i class="icon f7-icons">close</i>
+                <!-- Element with FAB text  -->
+            </a>
+        </div>
+    </div>
+
+    <div class="popup popup-rank">
+        <div class="view popup-view">
+            <div class="page">
+                <div class="page-content">
+                    <div id="rankDescription">
+
+                    </div>
+                    <br/>
+                    <br/>
+                    <div class="row">
+                        <div class="col"></div>
+                        <button class="button col popup-close" data-popup=".popup-rank"
+                                style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close
+                        </button>
+                        <div class="col"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="popup popup-tollgates">
+        <div class="view popup-view">
+            <div class="page">
+                <div class="page-content">
+                    <div class="block-title">
+                        EXPECTED TOLLGATES
+                    </div>
+                    <div class="block" id="tripTollgates">
+
+                    </div>
+                    <div class="row">
+                        <div class="col"></div>
+                        <button class="button col popup-close" data-popup=".popup-tollgates"
+                                style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close
+                        </button>
+                        <div class="col"></div>
+                    </div>
+                    <br/>
+                    <div class="block">
                         <div class="row">
                             <div class="col-25"></div>
                             <div class="col-50">
-                                <button class="button button-fill button-big display-block color-green"
-                                        id="sendReview">
-                                    SEND REVIEW
-                                </button>
-                                <br/>
-                                <button class="button button-fill display-block color-red popup-close"
-                                        data-popup=".popup-report">
-                                    CANCEL
-                                </button>
+                                <img src="img/login-logo.png" style="width: 100%"/>
                             </div>
-
                             <div class="col-25"></div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- tollgate details screen -->
-        <div class="popup popup-tollgate">
-            <div class="content-block">
-                <div data-page="login" class="page no-navbar no-toolbar no-swipeback">
-                    <div class="page-content login-screen-content login_background">
-                        <div class="blur-landing"></div>
-                        <img src="img/login-logo.png" class="center-img" alt="">
+    </div>
 
-                        <div class="login-screen-title">Tollgate Details</div>
-
-
-                        <div class="block inset">
-                            <div class="block inset">
-                                <div class="block-strong">
-                                    <div class="list" id="mytollDetails">
-
-                                    </div>
-                                    <!--<button class="button button-fill-ios color-green button-big-ios"
-                                            id="calculateDistance">
-                                        DISTANCE BETWEEN
-                                    </button>-->
-                                    <div class="list-block-label">
-                                        <p style="color: #fff; text-align: center;">
-                                            <a href="#" class="link popup-close" data-popup=".popup-tollgate">Close</a>
-                                            <br/>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <br/>
-                        <br/>
-                        <br/>
-                        <br/>
+    <div class="popup popup-consumption">
+        <div class="view popup-view">
+            <div class="page">
+                <div class="page-content">
+                    <div class="block-title">
+                        EXPECTED FUEL CONSUMPTION
                     </div>
-                </div>
-            </div>
-        </div>
+                    <div id="consumptionEstimates">
 
-        <div class="popup popup-mylocation">
-            <form class="searchbar originSearchbar">
-                <div class="searchbar-inner">
-                    <div class="searchbar-input-wrap">
-                        <input type="search" placeholder="Search location" id="originSearch">
-                        <i class="searchbar-icon"></i>
-                        <span class="input-clear-button"></span>
                     </div>
-                    <span class="searchbar-disable-button">Cancel</span>
-                </div>
-            </form>
-            <div id="originSuggests">
+                    <div class="row">
+                        <div class="col"></div>
+                        <button class="button col popup-close" data-popup=".popup-consumption"
+                                style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close
+                        </button>
+                        <div class="col"></div>
+                    </div>
 
-            </div>
-            <br/>
-            <br/>
-            <div class="row">
-                <div class="col"></div>
-                <button class="button col popup-close" data-popup=".popup-mylocation"
-                        style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close Search
-                </button>
-                <div class="col"></div>
-            </div>
-        </div>
-
-        <div class="popup popup-convoy">
-            <div class="view popup-view">
-                <div class="page">
-                    <div class="page-content">
-                        <form class="searchbar originSearchbar">
-                            <div class="searchbar-inner">
-                                <div class="searchbar-input-wrap">
-                                    <input type="search" placeholder="Search location" id="pointSearch">
-                                    <i class="searchbar-icon"></i>
-                                    <span class="input-clear-button"></span>
-                                </div>
-                                <span class="searchbar-disable-button">Cancel</span>
-                            </div>
-                        </form>
-                        <div id="pointSuggests">
-
-                        </div>
+                    <br/>
+                    <div class="block">
                         <div class="row">
-                            <div class="col"></div>
-                            <button class="button col popup-close" data-popup=".popup-convoy"
-                                    style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close Search
-                            </button>
-                            <div class="col"></div>
+                            <div class="col-25"></div>
+                            <div class="col-50">
+                                <img src="img/login-logo.png" style="width: 100%"/>
+                            </div>
+                            <div class="col-25"></div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
 
-        <div class="popup popup-editconvoy">
-            <div class="view popup-view">
-                <div class="page">
-                    <div class="page-content">
-                        <form class="searchbar originSearchbar">
-                            <div class="searchbar-inner">
-                                <div class="searchbar-input-wrap">
-                                    <input type="search" placeholder="Search location" id="editPointSearch">
-                                    <i class="searchbar-icon"></i>
-                                    <span class="input-clear-button"></span>
-                                </div>
-                                <span class="searchbar-disable-button">Cancel</span>
-                            </div>
-                        </form>
-                        <div id="editPointSuggests">
+    </div>
 
-                        </div>
+    <div class="popup popup-members">
+        <div class="view popup-view">
+            <div class="page">
+                <div class="toolbar">
+                    <div class="toolbar-inner">
+                        <div class="left">Convoy Pals</div>
+                        <div class="right"><a class="link popup-close" data-popup=".popup-members" href="#">Close</a></div>
+                    </div>
+                </div>
+                <div class="page-content">
+                    <div id="convoyPals">
+
+                    </div>
+                    <br/>
+                    <div class="block">
                         <div class="row">
-                            <div class="col"></div>
-                            <button class="button col popup-close" data-popup=".popup-editconvoy"
-                                    style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close Search
-                            </button>
-                            <div class="col"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="popup popup-members">
-            <div class="view popup-view">
-                <div class="page">
-                    <div class="page-content">
-                        <form class="searchbar originSearchbar">
-                            <div class="searchbar-inner">
-                                <div class="searchbar-input-wrap">
-                                    <input type="search" placeholder="Search member" id="memberSearch">
-                                    <i class="searchbar-icon"></i>
-                                    <span class="input-clear-button"></span>
-                                </div>
-                                <span class="searchbar-disable-button">Cancel</span>
+                            <div class="col-25"></div>
+                            <div class="col-50">
+                                <img src="img/login-logo.png" style="width: 100%"/>
                             </div>
-                        </form>
-                        <div>
-                            <div class="list inset">
-                                <ul id="memberSuggests">
+                            <div class="col-25"></div>
+                        </div>
+                    </div>
 
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col"></div>
-                            <button class="button col popup-close" data-popup=".popup-members"
-                                    style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close Search
-                            </button>
-                            <div class="col"></div>
-                        </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- top up  screen -->
+    <div class="popup popup-activation">
+        <div class="content-block">
+            <div data-page="login" class="page no-navbar no-toolbar no-swipeback">
+                <div class="page-content login-screen-content login_background">
+                    <div class="blur-landing"></div>
+                    <img src="img/logo-login.png" class="center-img" alt="">
+
+                    <div class="login-screen-title">Activate Account</div>
+
+
+                    <div class="block inset" id="activationStaff">
+
+
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <!-- top up  screen -->
+    <div class="popup popup-social-activation">
+        <div class="content-block">
+            <div data-page="login" class="page no-navbar no-toolbar no-swipeback">
+                <div class="page-content login-screen-content login_background">
+                    <div class="blur-landing"></div>
+                    <img src="img/logo-login.png" class="center-img" alt="">
+
+                    <div class="login-screen-title">Activate Account</div>
 
 
-        <div class="popup popup-editmembers">
-            <div class="view popup-view">
-                <div class="page">
-                    <div class="page-content">
-                        <form class="searchbar originSearchbar">
-                            <div class="searchbar-inner">
-                                <div class="searchbar-input-wrap">
-                                    <input type="search" placeholder="Search member" id="editMemberSearch">
-                                    <i class="searchbar-icon"></i>
-                                    <span class="input-clear-button"></span>
-                                </div>
-                                <span class="searchbar-disable-button">Cancel</span>
-                            </div>
-                        </form>
-                        <div>
-                            <div class="list inset">
-                                <ul id="editMemberSuggests">
-
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col"></div>
-                            <button class="button col popup-close" data-popup=".popup-editmembers"
-                                    style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close Search
-                            </button>
-                            <div class="col"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="popup popup-mylocation2">
-            <form class="searchbar originSearchbar2">
-                <div class="searchbar-inner">
-                    <div class="searchbar-input-wrap">
-                        <input type="search" placeholder="Search location" id="originSearch2">
-                        <i class="searchbar-icon"></i>
-                        <span class="input-clear-button"></span>
-                    </div>
-                    <span class="searchbar-disable-button">Cancel</span>
-                </div>
-            </form>
-            <div id="originSuggests2">
-
-            </div>
-            <br/>
-            <br/>
-            <div class="row">
-                <div class="col"></div>
-                <button class="button col popup-close" data-popup=".popup-mylocation2"
-                        style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close Search
-                </button>
-                <div class="col"></div>
-            </div>
-        </div>
-
-        <div class="popup popup-convoymap">
-            <div class="page-content">
-                <div id="convoyMap">
-                    tjhis is the map
-                </div>
-            </div>
-            <div class="fab fab-extended fab-center-bottom popup-close" data-popup=".popup-convoymap">
-                <a href="#">
-                    <i class="icon f7-icons">close</i>
-                    <!-- Element with FAB text  -->
-                </a>
-            </div>
-        </div>
-
-        <div class="popup popup-rank">
-            <div class="view popup-view">
-                <div class="page">
-                    <div class="page-content">
-                        <div id="rankDescription">
-
-                        </div>
-                        <br/>
-                        <br/>
-                        <div class="row">
-                            <div class="col"></div>
-                            <button class="button col popup-close" data-popup=".popup-rank"
-                                    style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close
-                            </button>
-                            <div class="col"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="popup popup-tollgates">
-            <div class="view popup-view">
-                <div class="page">
-                    <div class="page-content">
-                        <div class="block-title">
-                            EXPECTED TOLLGATES
-                        </div>
-                        <div class="block" id="tripTollgates">
-
-                        </div>
-                        <div class="row">
-                            <div class="col"></div>
-                            <button class="button col popup-close" data-popup=".popup-tollgates"
-                                    style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close
-                            </button>
-                            <div class="col"></div>
-                        </div>
-                        <br/>
-                        <div class="block">
-                            <div class="row">
-                                <div class="col-25"></div>
-                                <div class="col-50">
-                                    <img src="img/login-logo.png" style="width: 100%"/>
-                                </div>
-                                <div class="col-25"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="popup popup-consumption">
-            <div class="view popup-view">
-                <div class="page">
-                    <div class="page-content">
-                        <div class="block-title">
-                            EXPECTED FUEL CONSUMPTION
-                        </div>
-                        <div id="consumptionEstimates">
-
-                        </div>
-                        <div class="row">
-                            <div class="col"></div>
-                            <button class="button col popup-close" data-popup=".popup-consumption"
-                                    style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close
-                            </button>
-                            <div class="col"></div>
-                        </div>
-
-                        <br/>
-                        <div class="block">
-                            <div class="row">
-                                <div class="col-25"></div>
-                                <div class="col-50">
-                                    <img src="img/login-logo.png" style="width: 100%"/>
-                                </div>
-                                <div class="col-25"></div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- top up  screen -->
-        <div class="popup popup-activation">
-            <div class="content-block">
-                <div data-page="login" class="page no-navbar no-toolbar no-swipeback">
-                    <div class="page-content login-screen-content login_background">
-                        <div class="blur-landing"></div>
-                        <img src="img/logo-login.png" class="center-img" alt="">
-
-                        <div class="login-screen-title">Activate Account</div>
+                    <div class="block inset" id="socialStaff">
 
 
-                        <div class="block inset" id="activationStaff">
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- top up  screen -->
-        <div class="popup popup-social-activation">
-            <div class="content-block">
-                <div data-page="login" class="page no-navbar no-toolbar no-swipeback">
-                    <div class="page-content login-screen-content login_background">
-                        <div class="blur-landing"></div>
-                        <img src="img/logo-login.png" class="center-img" alt="">
-
-                        <div class="login-screen-title">Activate Account</div>
-
-
-                        <div class="block inset" id="socialStaff">
-
-
-                        </div>
                     </div>
                 </div>
             </div>

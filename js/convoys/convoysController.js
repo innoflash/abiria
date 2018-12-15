@@ -6,12 +6,10 @@ define(["app", "js/convoys/convoysView"], function (app, View) {
 
     function preparePage() {
         user = Cookies.getJSON(cookienames.user);
-        FCMPlugin.getToken(function(token){
+        FCMPlugin.getToken(function (token) {
             loadPending(token);
         }, function (error) {
-            app.f7.dialog.alert(JSON.stringify(error), function () {
-                loadPending('default token');
-            });
+            loadPending('default token');
         });
     }
 

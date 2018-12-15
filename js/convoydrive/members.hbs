@@ -1,0 +1,29 @@
+{{#if this}}
+    <div class="list media-list">
+        <ul>
+            {{#each this}}
+                <li>
+                    <a href="#" class="item-link item-content" id="memberIntel" member_id="{{ id }}">
+                        <div class="item-media">
+                            <img src="{{ image }}" width="44"/>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title">
+                                <div class="item-header">Name</div>
+                                <b>
+                                    {{ name }} {{#isYou id}}{{/isYou}}
+                                </b>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+    <div class="card">
+        <div class="card-content card-content-padding">
+            Click on member to get intel on them
+        </div>
+    </div>
+
+{{/if}}
