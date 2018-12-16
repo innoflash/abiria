@@ -1,7 +1,7 @@
 define(["app", "js/addconvoy/addconvoyView"], function (app, View) {
     var $ = jQuery;
     var $$ = Dom7;
-    var locationOpener = null;
+    var locationOpener, car = null;
     var breakPoints = [];
     var membersInvited = [];
 
@@ -37,6 +37,18 @@ define(["app", "js/addconvoy/addconvoyView"], function (app, View) {
         $('#pointSearch').on('keyup', function () {
             searchPlaces();
         });
+
+        if (!functions.hasCookie(cookienames.default_car)) {
+            app.f7.dialog.confirm('Hi ', user.first_name + ', please be advised that you need to have a default car set' +
+                ' for this journey, would you like to set one before you continue?', function () {
+                app.mainView.router.navigate('/cars');
+            }, function () {
+                app.mainView.router.back();
+            });
+        } else {
+            car = JSON.parse(Cookies.get(cookienames.default_car));
+            console.log(car);
+        }
     }
 
     function addBreak() {
@@ -126,6 +138,7 @@ define(["app", "js/addconvoy/addconvoyView"], function (app, View) {
                     phone: user.phone,
                     email: user.email,
                     user_id: user.id,
+                    car_id: car.id,
                     departure: {
                         venue: $('#departure_venue').val(),
                         coordinates: $('#departure_coordinates').val()

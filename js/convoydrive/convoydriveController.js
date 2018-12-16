@@ -1,6 +1,7 @@
 define(["app", "js/convoydrive/convoydriveView"], function (app, View) {
     var $ = jQuery;
     var $$ = Dom7;
+    var member_id = 0;
 
     var bindings = [
         {
@@ -93,15 +94,16 @@ define(["app", "js/convoydrive/convoydriveView"], function (app, View) {
         openMap();
 
         membersPopup = app.f7.popup.create({
-            el: '.popup-members',
+            el: '.popup-convoy-members',
             on: {
                 open: function () {
                     console.log('popup opened');
                     View.fillMembers(convoy.invites.data);
                     $('*#memberIntel').on('click', function () {
-                        var user_id = $(this).attr('member_id');
-                        console.log(user_id, user.id);
-                        if (user_id != user.id) {
+                        member_id = $(this).attr('member_id');
+                        member_name = $(this).attr('member_name');
+                        console.log(member_name);
+                        if (member_id != user.id) {
                             membersPopup.close();
                             navigator.geolocation.getCurrentPosition(locationSuccess.bind(this),
                                 locationError.bind(this),
@@ -118,7 +120,29 @@ define(["app", "js/convoydrive/convoydriveView"], function (app, View) {
     }
 
     function locationSuccess(position) {
-        console.log(position);
+        getMemberDetails(position, member_id);
+    }
+
+    function getMemberDetails(position, member_id) {
+        app.f7.dialog.preloader('Getting intel on ' + member_name + '...');
+        $.ajax({
+            url: api.getPath('getlocation'),
+            method: 'POST',
+            timeout: appDigits.timeout,
+            data: {
+                member_id: member_id,
+                convoy_id: convoy.id,
+                phone: user.phone,
+                email: user.email
+            }
+        }).success(function (response) {
+            console.log(response);
+        }).error(function (error) {
+            console.log(error);
+            app.f7.dialog.alert(messages.server_error);
+        }).always(function () {
+            app.f7.dialog.close();
+        });
     }
 
     function locationError(error) {

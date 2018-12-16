@@ -1,6 +1,7 @@
 define([
-    'hbs!js/convoy/convoy'
-], function (convoyTemplate) {
+    'hbs!js/convoy/convoy',
+    'hbs!js/convoy/car',
+], function (convoyTemplate, carTemplate) {
     var $$ = Dom7;
     var $ = jQuery;
 
@@ -8,8 +9,16 @@ define([
         bindEvents(params.bindings);
     }
 
-    function fillConvoy(convoy) {
+    function fillConvoy(convoy, carCallback) {
         $('#convoyDetails').html(convoyTemplate(convoy));
+        if (typeof carCallback === 'function') {
+            carCallback();
+        }
+    }
+
+    function fillCar(car) {
+        console.log(car);
+        $('#carChoice').html(carTemplate(car));
     }
 
     function bindEvents(bindings) {
@@ -20,6 +29,7 @@ define([
 
     return {
         render: render,
-        fillConvoy: fillConvoy
+        fillConvoy: fillConvoy,
+        fillCar: fillCar
     };
 });

@@ -1,0 +1,32 @@
+{{#if this}}
+    <div class="card car">
+        <div class="card-content card-content-padding">
+            <div class="list">
+                <ul>
+                    <li>
+                        <a href="/carview/{{ id }}" class="item-link item-content">
+                            <div class="item-media"><i class="icon fa fa-car"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title">
+                                    <div class="item-header">{{ brand }} {{ model }}</div>
+                                    | {{ registration_number }}
+                                    <div class="item-footer">Class {{ car_class }}</div>
+                                </div>
+                                <div class="item-after">
+                                    {{{isDefault id}}}
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{{else}}
+    <div class="card">
+        <div class="card-content card-content-padding">
+            You did not set a default car and Abiri wants to know the one you will be using for the sake of your
+            convoy-mates, please open menu and "Change car" to set one
+        </div>
+    </div>
+{{/if}}

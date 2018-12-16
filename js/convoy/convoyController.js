@@ -1,6 +1,7 @@
 define(["app", "js/convoy/convoyView"], function (app, View) {
     var $ = jQuery;
     var $$ = Dom7;
+    var car = null;
 
     var bindings = [
         {
@@ -58,7 +59,8 @@ define(["app", "js/convoy/convoyView"], function (app, View) {
                                     email: user.email,
                                     user_id: user.id,
                                     convoy_id: convoy.id,
-                                    otp: $('#accept_otp').val()
+                                    otp: $('#accept_otp').val(),
+                                    car_id: car.id
                                 }
                             }).success(function (response) {
                                 console.log(response);
@@ -130,7 +132,15 @@ define(["app", "js/convoy/convoyView"], function (app, View) {
         }).success(function (cnvy) {
             console.log(cnvy);
             convoy = cnvy.data;
-            View.fillConvoy(convoy);
+            View.fillConvoy(convoy, function () {
+                console.log(Cookies.get(cookienames.default_car));
+                if (!functions.hasCookie(cookienames.default_car)) {
+                    View.fillCar(null);
+                } else {
+                    car = JSON.parse(Cookies.get(cookienames.default_car));
+                    View.fillCar(car);
+                }
+            });
             initActions(convoy);
             localStorage.setItem(cookienames.convoyObject, JSON.stringify(convoy));
         }).error(function (error) {
@@ -145,122 +155,95 @@ define(["app", "js/convoy/convoyView"], function (app, View) {
 
     function initActions(convoy) {
         console.log(convoy);
+        var buttons = [
+            [
+                {
+                    text: 'Convoy Options',
+                    label: true
+                },
+                {
+                    text: 'Map',
+                    bold: true,
+                    onClick: function () {
+                        openMap(convoy);
+                    }
+                }
+            ],
+            [
+                {
+                    text: 'Drive',
+                    bold: true,
+                    onClick: function () {
+                        driveInConvoy();
+                    }
+                },
+                {
+                    text: 'Change car',
+                    bold: true,
+                    onClick: function () {
+                        app.mainView.router.navigate('/cars');
+                    }
+                }
+            ],
+            [
+                {
+                    text: 'Cancel',
+                    color: 'red'
+                }
+            ]
+        ];
         if (user.id == convoy.initiator.id) {
-            cvyOptions = app.f7.actions.create({
-                buttons: [
-                    // First group
-                    [
-                        {
-                            text: 'Convoy Options',
-                            label: true
-                        },
-                        {
-                            text: 'Map',
-                            bold: true,
-                            onClick: function () {
-                                openMap(convoy);
-                            }
-                        },
-                        {
-                            text: 'Edit',
-                            bold: true,
-                            onClick: function () {
-                                editConvoy();
-                            }
-                        },
-                        {
-                            text: 'Delete',
-                            bold: true,
-                            onClick: function () {
-                                deleteConvoy();
-                            }
-                        }
-                    ],
-                    [
-                        {
-                            text: 'Start/End',
-                            bold: true,
-                            onClick: function () {
-                                toggleConvoy('toggle');
-                            }
-                        },
-                        {
-                            text: 'Cancel Convoy',
-                            color: 'red',
-                            bold: true,
-                            onClick: function () {
-                                toggleConvoy('cancel');
-                            }
-                        }
-                    ],
-                    [
-                        {
-                            text: 'Drive',
-                            bold: true,
-                            onClick: function () {
-                                driveInConvoy();
-                            }
-                        }
-                    ],
-                    [
-                        {
-                            text: 'Cancel',
-                            color: 'red'
-                        }
-                    ]
-                ]
+            buttons[0].push({
+                text: 'Edit',
+                bold: true,
+                onClick: function () {
+                    editConvoy();
+                }
+            }, {
+                text: 'Delete',
+                bold: true,
+                onClick: function () {
+                    deleteConvoy();
+                }
             });
+            buttons.splice(1, 0, [
+                {
+                    text: 'Start/End',
+                    bold: true,
+                    onClick: function () {
+                        toggleConvoy('toggle');
+                    }
+                },
+                {
+                    text: 'Cancel Convoy',
+                    color: 'red',
+                    bold: true,
+                    onClick: function () {
+                        toggleConvoy('cancel');
+                    }
+                }
+            ]);
         } else {
             console.log('u are invited');
-            cvyOptions = app.f7.actions.create({
-                buttons: [
-                    // First group
-                    [
-                        {
-                            text: 'Convoy Options',
-                            label: true
-                        },
-                        {
-                            text: 'Map',
-                            bold: true,
-                            onClick: function () {
-                                openMap(convoy);
-                            }
-                        },
-                        {
-                            text: 'Accept',
-                            bold: true,
-                            onClick: function () {
-                                acceptConvoy();
-                            }
-                        },
-                        {
-                            text: 'Decline',
-                            bold: true,
-                            color: 'red',
-                            onClick: function () {
-                                declineConvoy();
-                            }
-                        }
-                    ],
-                    [
-                        {
-                            text: 'Drive',
-                            bold: true,
-                            onClick: function () {
-                                driveInConvoy();
-                            }
-                        }
-                    ],
-                    [
-                        {
-                            text: 'Cancel',
-                            color: 'red'
-                        }
-                    ]
-                ]
-            });
+            buttons[0].push({
+                    text: 'Accept',
+                    bold: true,
+                    onClick: function () {
+                        acceptConvoy();
+                    }
+                },
+                {
+                    text: 'Decline',
+                    bold: true,
+                    color: 'red',
+                    onClick: function () {
+                        declineConvoy();
+                    }
+                });
         }
+        cvyOptions = app.f7.actions.create({
+            buttons: buttons
+        });
     }
 
     function toggleConvoy(action) {
@@ -373,7 +356,7 @@ define(["app", "js/convoy/convoyView"], function (app, View) {
                     app.f7.dialog.confirm('You are supposed to start this journey first before driving into it, would you like to start it right now?', function () {
                         decideConvoy('start');
                     });
-                }else{
+                } else {
                     app.f7.dialog.confirm('This convoy is not yet yet started, would you like to remind ' + convoy.initiator.first_name + ' to start the convoy already?', function () {
                         sendReminder();
                     });
@@ -411,7 +394,19 @@ define(["app", "js/convoy/convoyView"], function (app, View) {
 
     function acceptConvoy() {
         console.log('will accept invite');
-        acceptPopup.open();
+        if (car === null) {
+            app.f7.dialog.confirm('You do not have a car set for this convoy, would you wanna go to your list of cars ' +
+                'and select the car you want? NB> just make it default so that Abiri can pick it up', function () {
+                app.mainView.router.navigate('/cars');
+            });
+        } else {
+            {
+                if (convoy.state.invite !== 'accepted')
+                    acceptPopup.open();
+                else
+                    app.f7.dialog.alert('You have already accepted this convoy invite');
+            }
+        }
     }
 
     function declineConvoy() {
