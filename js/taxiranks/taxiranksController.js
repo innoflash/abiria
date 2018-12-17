@@ -404,7 +404,7 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
     function locationError(error) {
         app.f7.dialog.close();
         console.log(error);
-        app.f7.dialog.confirm(JSON.stringify(error)/*'Failed to auto pick your location, pick your location manually'*/, function () {
+        app.f7.dialog.confirm(error.message/*'Failed to auto pick your location, pick your location manually'*/, function () {
             locationPopup.open();
         }, function () {
             app.mainView.router.back();

@@ -108,7 +108,7 @@ define('app', ['js/router'], function (Router) {
                 path: '/addconvoy',
                 url: 'pages/addconvoy.html'
             }, {
-                path: '/convoy/:convoy_id',
+                path: '/convoy/:convoy_id/:invite_id',
                 url: 'pages/convoy.html'
             }, {
                 path: '/editconvoy',

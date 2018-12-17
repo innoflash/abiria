@@ -1,0 +1,205 @@
+{{#if this}}
+    <div class="row no-gutter">
+        <div class="col-30"></div>
+        <div class="col-40 tablet-100">
+            <br/>
+            <img class="full-width-image profile-pic" alt="profile photo" src="{{ user.image }}" id="user_image">
+        </div>
+        <div class="col-30"></div>
+    </div>
+    <div class="block-title">
+        Pal Details
+    </div>
+    <div class="list inset">
+        <ul>
+            <li>
+                <a href="#" class="item-link item-content">
+                    <div class="item-media"><i class="f7-icons">person</i></div>
+                    <div class="item-inner">
+                        <div class="item-title">
+                            <div class="item-header">Name</div>
+                            <b>
+                                {{ user.fullname }}
+                            </b>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="item-link item-content">
+                    <div class="item-media"><i class="f7-icons">email</i></div>
+                    <div class="item-inner">
+                        <div class="item-title">
+                            <div class="item-header">Email</div>
+                            <b>
+                                {{ user.email }}
+                            </b>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="item-link item-content">
+                    <div class="item-media"><i class="f7-icons">phone</i></div>
+                    <div class="item-inner">
+                        <div class="item-title">
+                            <div class="item-header">Phone</div>
+                            <b>
+                                {{ user.phone }}
+                            </b>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="block-title">
+        Car Details
+    </div>
+    <div class="list inset">
+        <ul>
+            <li>
+                <a href="#" class="item-link item-content">
+                    <div class="item-media"><i class="icon f7-icons fa fa-car"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title">
+                            <div class="item-header">Brand</div>
+                            <b>
+                                {{ vehicle.brand }}
+                            </b>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="item-link item-content">
+                    <div class="item-media"><i class="icon f7-icons fa fa-car"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title">
+                            <div class="item-header">Model</div>
+                            <b>
+                                {{ vehicle.model }}
+                            </b>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="item-link item-content">
+                    <div class="item-media"><i class="icon f7-icons fa fa-car"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title">
+                            <div class="item-header">Registration number</div>
+                            <b>
+                                {{ vehicle.reg_number }}
+                            </b>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="item-link item-content">
+                    <div class="item-media"><i class="icon f7-icons fa fa-car"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title">
+                            <div class="item-header">Weight</div>
+                            <b>
+                                {{ vehicle.weight }}
+                            </b>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="item-link item-content">
+                    <div class="item-media"><i class="icon f7-icons fa fa-car"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title">
+                            <div class="item-header">Class</div>
+                            <b>
+                                {{ vehicle.class }}
+                            </b>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="block-title">
+        Location Details
+    </div>
+    {{#if location.success}}
+        <div class="list inset">
+            <ul>
+                <li>
+                    <a href="#" class="item-link item-content">
+                        <div class="item-media"><i class="f7-icons">stopwatch</i></div>
+                        <div class="item-inner">
+                            <div class="item-title">
+                                <div class="item-header">Last updated</div>
+                                <b>
+                                    {{ location.last_updated }}
+                                </b>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="item-link item-content">
+                        <div class="item-media"><i class="f7-icons">compass</i></div>
+                        <div class="item-inner">
+                            <div class="item-title">
+                                <div class="item-header">Latitude</div>
+                                <b>
+                                    {{ location.position.coords.latitude }}
+                                </b>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="item-link item-content">
+                        <div class="item-media"><i class="f7-icons">compass</i></div>
+                        <div class="item-inner">
+                            <div class="item-title">
+                                <div class="item-header">Longitude</div>
+                                <b>
+                                    {{ location.position.coords.longitude }}
+                                </b>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="item-link item-content">
+                        <div class="item-media"><i class="f7-icons">compass</i></div>
+                        <div class="item-inner">
+                            <div class="item-title">
+                                <div class="item-header">Speed</div>
+                                <b>
+                                    {{ location.position.coords.speed }}
+                                </b>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="block" id="geocodeDetails">
+            <button class="button button-outline" id="geocodeUser">
+                GEOCODE LOCATION
+            </button>
+        </div>
+
+    {{else}}
+        <div class="card">
+            <div class="card-content card-content-padding">
+                {{ location.message }}
+            </div>
+        </div>
+    {{/if}}
+
+
+{{/if}}

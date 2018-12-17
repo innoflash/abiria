@@ -14,6 +14,7 @@ define(["app", "js/convoy/convoyView"], function (app, View) {
     function preparePage() {
         user = Cookies.getJSON(cookienames.user);
         convoy_id = app.mainView.router.currentRoute.params.convoy_id;
+        invite_id = app.mainView.router.currentRoute.params.invite_id;
         console.log(convoy_id);
         initPopups();
         loadConvoy();
@@ -58,7 +59,7 @@ define(["app", "js/convoy/convoyView"], function (app, View) {
                                     phone: user.phone,
                                     email: user.email,
                                     user_id: user.id,
-                                    convoy_id: convoy.id,
+                                    invite_id: invite_id,
                                     otp: $('#accept_otp').val(),
                                     car_id: car.id
                                 }
@@ -95,7 +96,7 @@ define(["app", "js/convoy/convoyView"], function (app, View) {
                                     phone: user.phone,
                                     email: user.email,
                                     user_id: user.id,
-                                    convoy_id: convoy.id
+                                    invite_id: invite_id
                                 }
                             }).success(function (response) {
                                 console.log(response);
@@ -127,7 +128,7 @@ define(["app", "js/convoy/convoyView"], function (app, View) {
                 phone: user.phone,
                 email: user.email,
                 convoy_id: convoy_id,
-                user_id: user.id,
+                invite_id: invite_id,
             }
         }).success(function (cnvy) {
             console.log(cnvy);
@@ -375,7 +376,7 @@ define(["app", "js/convoy/convoyView"], function (app, View) {
                 phone: user.phone,
                 email: user.email,
                 user_id: user.id,
-                convoy_id: convoy.id
+                convoy_id: convoy.id.convoy
             }
         }).success(function (response) {
             console.log(response);
@@ -420,8 +421,7 @@ define(["app", "js/convoy/convoyView"], function (app, View) {
                 data: {
                     phone: user.phone,
                     email: user.email,
-                    user_id: user.id,
-                    convoy_id: convoy.id
+                    invite_id: invite_id
                 }
             }).success(function (response) {
                 console.log(response);
@@ -457,7 +457,7 @@ define(["app", "js/convoy/convoyView"], function (app, View) {
                 data: {
                     phone: user.phone,
                     email: user.email,
-                    convoy_id: convoy.id,
+                    convoy_id: convoy.id.convoy,
                     user_id: user.id
                 }
             }).success(function (response) {

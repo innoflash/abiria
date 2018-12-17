@@ -2,6 +2,9 @@ define(["app", "js/convoydrive/convoydriveView"], function (app, View) {
     var $ = jQuery;
     var $$ = Dom7;
     var member_id = 0;
+    var invite_id, positionWatch = 0;
+    var locationData, currentPosition = null;
+    var driveStarted = false;
 
     var bindings = [
         {
@@ -55,7 +58,20 @@ define(["app", "js/convoydrive/convoydriveView"], function (app, View) {
     }
 
     function drive() {
+        driveStarted = true;
+        positionMarker = new google.maps.Marker({
+            position: {
+                lat: 0,
+                lng: 0
+            },
+            map: map,
+            title: "your position",
+            animation: google.maps.Animation.DROP,
+            icon: driverIcon
+        });
         console.log('is driving');
+        updatePosition();
+        updateOnlinePosition();
     }
 
     function endJourney() {
@@ -87,56 +103,175 @@ define(["app", "js/convoydrive/convoydriveView"], function (app, View) {
     }
 
     function preparePage() {
+        driverIcon = 'img/icons/car.png';
         user = Cookies.getJSON(cookienames.user);
         convoy = JSON.parse(localStorage.getItem(cookienames.convoyObject));
-        console.log(user);
-        console.log(convoy);
+        initPopups();
         openMap();
+    }
 
+    function updatePosition() {
+        navigator.geolocation.watchPosition(function (position) {
+            currentPosition = position;
+            var newPosition = new google.maps.LatLng({
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            });
+            map.setZoom(18);
+            map.setCenter(newPosition);
+            positionMarker.setPosition(newPosition);
+        }, null, {
+            maximumAge: 3000,
+            timeout: 7000,
+            enableHighAccuracy: true
+        });
+
+        positionWatch = setInterval(function () {
+            updateOnlinePosition();
+        }, appDigits.positionInterval);
+    }
+
+    function updateOnlinePosition() {
+        console.log(convoy);
+        if (currentPosition != null) {
+            $.ajax({
+                url: api.getPath('update-location'),
+                method: 'POST',
+                timeout: appDigits.timeout,
+                data: {
+                    invite_id: convoy.id.invite,
+                    position: currentPosition,
+                    phone: user.phone,
+                    email: user.email
+                }
+            }).success(function (response) {
+                console.log(response);
+            }).error(function (error) {
+                console.log(error);
+            });
+        }
+    }
+
+    function initPopups() {
         membersPopup = app.f7.popup.create({
             el: '.popup-convoy-members',
             on: {
                 open: function () {
                     console.log('popup opened');
+                    clearInterval(positionWatch);
                     View.fillMembers(convoy.invites.data);
                     $('*#memberIntel').on('click', function () {
+                        invite_id = $(this).attr('invite_id');
                         member_id = $(this).attr('member_id');
                         member_name = $(this).attr('member_name');
                         console.log(member_name);
                         if (member_id != user.id) {
                             membersPopup.close();
-                            navigator.geolocation.getCurrentPosition(locationSuccess.bind(this),
-                                locationError.bind(this),
-                                {
-                                    maximumAge: 3000,
-                                    timeout: 5000,
-                                    enableHighAccuracy: true
-                                });
+                            getMemberDetails(invite_id);
                         }
                     });
+                },
+                close: function () {
+                    View.fillMembers(null);
+                    console.log('members popup closed');
+                    updatePosition();
+                }
+            }
+        });
+
+        memberPopup = app.f7.popup.create({
+            el: '.popup-convoy-member',
+            on: {
+                open: function () {
+                    console.log(locationData);
+                    View.fillLocationDetails(locationData, function (locationData) {
+                        $('#geocodeUser').show(100);
+                        $('#geocodeUser').unbind();
+                        $('#geocodeUser').on('click', function () {
+                            if (currentPosition != null) {
+                                geocodeUser(currentPosition, locationData);
+                            } else {
+                                navigator.geolocation.getCurrentPosition(locationSuccess.bind(this),
+                                    locationError.bind(this),
+                                    {
+                                        maximumAge: 3000,
+                                        timeout: 5000,
+                                        enableHighAccuracy: true
+                                    });
+                            }
+                        });
+
+                    });
+                },
+                close: function () {
+                    openMap();
+                    console.log('popup closed');
                 }
             }
         });
     }
 
-    function locationSuccess(position) {
-        getMemberDetails(position, member_id);
+    function geocodeUser(currentPosition, locationData) {
+        $('#gapMap').css('height', '300px');
+        map = new GoogleMap({
+            lat: currentPosition.coords.latitude,
+            lng: currentPosition.coords.longitude
+        }, {
+            lat: +locationData.location.position.coords.latitude,
+            lng: +locationData.location.position.coords.longitude
+        }, "gapMap");
+        map.initialize();
+        var request = {
+            origin: {
+                lat: currentPosition.coords.latitude,
+                lng: currentPosition.coords.longitude
+            },
+            destination: {
+                lat: +locationData.location.position.coords.latitude,
+                lng: +locationData.location.position.coords.longitude
+            },
+            travelMode: 'DRIVING'
+        };
+        directionsService.route(request, function (result, status) {
+            if (status == 'OK') {
+                View.fillGeocode({
+                    distance: result.routes[0].legs[0].distance.text,
+                    duration: result.routes[0].legs[0].duration.text,
+                    summary: result.routes[0].summary,
+                    address: result.routes[0].legs[0].end_address
+                }, function () {
+                    $('#geocodeUser').hide(100);
+                    directionsDisplay.setDirections(result);
+                });
+                console.log(result);
+            }
+        });
     }
 
-    function getMemberDetails(position, member_id) {
+    function locationSuccess(position) {
+        currentPosition = position;
+        geocodeUser(currentPosition, locationData);
+    }
+
+    function getMemberDetails(invite_id) {
         app.f7.dialog.preloader('Getting intel on ' + member_name + '...');
         $.ajax({
             url: api.getPath('getlocation'),
             method: 'POST',
             timeout: appDigits.timeout,
             data: {
-                member_id: member_id,
-                convoy_id: convoy.id,
+                invite_id: invite_id,
                 phone: user.phone,
                 email: user.email
             }
         }).success(function (response) {
             console.log(response);
+            if (response.success === false) {
+                app.f7.dialog.alert(response.message);
+            } else {
+                locationData = response.data;
+                memberPopup.open();
+            }
         }).error(function (error) {
             console.log(error);
             app.f7.dialog.alert(messages.server_error);
@@ -147,7 +282,8 @@ define(["app", "js/convoydrive/convoydriveView"], function (app, View) {
 
     function locationError(error) {
         console.log(error);
-        app.f7.dialog.confirm('Couldn`t pick your location right now, would you wanna try again?', function () {
+        app.f7.dialog.confirm('Couldn`t pick your location right now, we want to use it to calculate the geometry ' +
+            'between you folks, would you wanna try again?', function () {
             navigator.geolocation.getCurrentPosition(locationSuccess.bind(this),
                 locationError.bind(this),
                 {
@@ -162,12 +298,15 @@ define(["app", "js/convoydrive/convoydriveView"], function (app, View) {
         directionsService = new google.maps.DirectionsService();
         directionsDisplay = new google.maps.DirectionsRenderer();
 
-        map = new GoogleMap(makeCoords(convoy.departure.coordinates), makeCoords(convoy.destination.coordinates));
+        map = new GoogleMap(makeCoords(convoy.departure.coordinates), makeCoords(convoy.destination.coordinates), "convoyDriveMap");
         map.initialize();
+        console.log(driveStarted);
+        if (driveStarted === true) {
+            drive();
+        }
     }
 
-    function GoogleMap(origin, destination) {
-        mapDiv = $('#convoyMap');
+    function GoogleMap(origin, destination, mapDiv) {
         this.initialize = function () {
             map = showMap();
         };
@@ -181,7 +320,7 @@ define(["app", "js/convoydrive/convoydriveView"], function (app, View) {
                 tilt: 45
             };
 
-            var map = new google.maps.Map(document.getElementById("convoyDriveMap"), mapOptions);
+            var map = new google.maps.Map(document.getElementById(mapDiv), mapOptions);
             directionsDisplay.setMap(map);
             calcRoute(directionsService, directionsDisplay, origin, destination, pinBreaks);
             return map;
@@ -251,10 +390,9 @@ define(["app", "js/convoydrive/convoydriveView"], function (app, View) {
     }
 
     function onOut() {
-        /*        try {
-                    app.f7.dialog.close();
-                } catch (e) {
-                }*/
+        clearInterval(positionWatch);
+        memberPopup.close();
+        membersPopup.close();
         console.log('convoydrive outting');
     }
 
