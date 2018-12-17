@@ -168,6 +168,13 @@ define(["app", "js/convoy/convoyView"], function (app, View) {
                     onClick: function () {
                         openMap(convoy);
                     }
+                },
+                {
+                    text: 'Demographics',
+                    bold: true,
+                    onClick: function () {
+                        convoyDemographics();
+                    }
                 }
             ],
             [
@@ -245,6 +252,10 @@ define(["app", "js/convoy/convoyView"], function (app, View) {
         cvyOptions = app.f7.actions.create({
             buttons: buttons
         });
+    }
+
+    function convoyDemographics() {
+        console.log('will load tollgates and fuel staff');
     }
 
     function toggleConvoy(action) {

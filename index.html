@@ -461,7 +461,14 @@
     <!-- top up  screen -->
     <div class="popup popup-accept">
         <div class="content-block">
-            <div data-page="login" class="page no-navbar no-toolbar no-swipeback">
+            <div data-page="login" class="page">
+                <div class="toolbar">
+                    <div class="toolbar-inner">
+                        <div class="left">Convoy</div>
+                        <div class="right"><a class="link popup-close" data-popup=".popup-accept"
+                                              href="#">Close</a></div>
+                    </div>
+                </div>
                 <div class="page-content login-screen-content login_background">
                     <div class="blur-landing"></div>
                     <img src="img/login-logo.png" class="center-img" alt="">
@@ -494,11 +501,6 @@
                                 <button class="button" id="resendOTP">
                                     Resend O.T.P
                                 </button>
-                                <div class="list-block-label">
-                                    <p style="color: #fff; text-align: center;">
-                                        <a href="#" data-popup=".popup-accept"
-                                           class="link popup-close">Cancel</a>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -509,7 +511,14 @@
     <!-- report screen -->
     <div class="popup popup-report">
         <div class="content-block">
-            <div data-page="login" class="page no-navbar no-toolbar no-swipeback">
+            <div data-page="login" class="page">
+                <div class="toolbar">
+                    <div class="toolbar-inner">
+                        <div class="left">Reviews</div>
+                        <div class="right"><a class="link popup-close" data-popup=".popup-report"
+                                              href="#">Close</a></div>
+                    </div>
+                </div>
                 <div class="page-content login-screen-content">
                     <div class="blur-landing"></div>
                     <img src="img/login-logo.png" class="center-img" alt="">
@@ -545,11 +554,6 @@
                                     id="sendReview">
                                 SEND REVIEW
                             </button>
-                            <br/>
-                            <button class="button button-fill display-block color-red popup-close"
-                                    data-popup=".popup-report">
-                                CANCEL
-                            </button>
                         </div>
 
                         <div class="col-25"></div>
@@ -563,13 +567,17 @@
     <!-- tollgate details screen -->
     <div class="popup popup-tollgate">
         <div class="content-block">
-            <div data-page="login" class="page no-navbar no-toolbar no-swipeback">
+            <div data-page="login" class="page">
+                <div class="toolbar">
+                    <div class="toolbar-inner">
+                        <div class="left">Tollgate</div>
+                        <div class="right"><a class="link popup-close" data-popup=".popup-tollgate"
+                                              href="#">Close</a></div>
+                    </div>
+                </div>
                 <div class="page-content login-screen-content login_background">
                     <div class="blur-landing"></div>
-                    <img src="img/login-logo.png" class="center-img" alt="">
-
                     <div class="login-screen-title">Tollgate Details</div>
-
 
                     <div class="block inset">
                         <div class="block inset">
@@ -577,25 +585,11 @@
                                 <div class="list" id="mytollDetails">
 
                                 </div>
-                                <!--<button class="button button-fill-ios color-green button-big-ios"
-                                        id="calculateDistance">
-                                    DISTANCE BETWEEN
-                                </button>-->
-                                <div class="list-block-label">
-                                    <p style="color: #fff; text-align: center;">
-                                        <a href="#" class="link popup-close" data-popup=".popup-tollgate">Close</a>
-                                        <br/>
-                                    </p>
-                                </div>
                             </div>
                         </div>
 
                     </div>
-
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
+                    <img src="img/login-logo.png" class="center-img" alt="">
                 </div>
             </div>
         </div>
@@ -629,6 +623,13 @@
     <div class="popup popup-convoy">
         <div class="view popup-view">
             <div class="page">
+                <div class="toolbar">
+                    <div class="toolbar-inner">
+                        <div class="left">Convoy</div>
+                        <div class="right"><a class="link popup-close" data-popup=".popup-convoy"
+                                              href="#">Close</a></div>
+                    </div>
+                </div>
                 <div class="page-content">
                     <form class="searchbar originSearchbar">
                         <div class="searchbar-inner">
@@ -643,13 +644,6 @@
                     <div id="pointSuggests">
 
                     </div>
-                    <div class="row">
-                        <div class="col"></div>
-                        <button class="button col popup-close" data-popup=".popup-convoy"
-                                style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close Search
-                        </button>
-                        <div class="col"></div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -658,6 +652,13 @@
     <div class="popup popup-editconvoy">
         <div class="view popup-view">
             <div class="page">
+                <div class="toolbar">
+                    <div class="toolbar-inner">
+                        <div class="left">Convoy</div>
+                        <div class="right"><a class="link popup-close" data-popup=".popup-editconvoy"
+                                              href="#">Close</a></div>
+                    </div>
+                </div>
                 <div class="page-content">
                     <form class="searchbar originSearchbar">
                         <div class="searchbar-inner">
@@ -672,13 +673,6 @@
                     <div id="editPointSuggests">
 
                     </div>
-                    <div class="row">
-                        <div class="col"></div>
-                        <button class="button col popup-close" data-popup=".popup-editconvoy"
-                                style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close Search
-                        </button>
-                        <div class="col"></div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -687,6 +681,13 @@
     <div class="popup popup-members">
         <div class="view popup-view">
             <div class="page">
+                <div class="toolbar">
+                    <div class="toolbar-inner">
+                        <div class="left">Pals</div>
+                        <div class="right"><a class="link popup-close" data-popup=".popup-members"
+                                              href="#">Close</a></div>
+                    </div>
+                </div>
                 <div class="page-content">
                     <form class="searchbar originSearchbar">
                         <div class="searchbar-inner">
@@ -705,13 +706,6 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col"></div>
-                        <button class="button col popup-close" data-popup=".popup-members"
-                                style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close Search
-                        </button>
-                        <div class="col"></div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -720,6 +714,13 @@
     <div class="popup popup-editmembers">
         <div class="view popup-view">
             <div class="page">
+                <div class="toolbar">
+                    <div class="toolbar-inner">
+                        <div class="left">Members</div>
+                        <div class="right"><a class="link popup-close" data-popup=".popup-editmembers"
+                                              href="#">Close</a></div>
+                    </div>
+                </div>
                 <div class="page-content">
                     <form class="searchbar originSearchbar">
                         <div class="searchbar-inner">
@@ -737,13 +738,6 @@
 
                             </ul>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col"></div>
-                        <button class="button col popup-close" data-popup=".popup-editmembers"
-                                style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close Search
-                        </button>
-                        <div class="col"></div>
                     </div>
                 </div>
             </div>
@@ -792,19 +786,19 @@
     <div class="popup popup-rank">
         <div class="view popup-view">
             <div class="page">
+                <div class="toolbar">
+                    <div class="toolbar-inner">
+                        <div class="left">Taxi Rank</div>
+                        <div class="right"><a class="link popup-close" data-popup=".popup-rank"
+                                              href="#">Close</a></div>
+                    </div>
+                </div>
                 <div class="page-content">
                     <div id="rankDescription">
 
                     </div>
                     <br/>
                     <br/>
-                    <div class="row">
-                        <div class="col"></div>
-                        <button class="button col popup-close" data-popup=".popup-rank"
-                                style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close
-                        </button>
-                        <div class="col"></div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -814,6 +808,13 @@
     <div class="popup popup-tollgates">
         <div class="view popup-view">
             <div class="page">
+                <div class="toolbar">
+                    <div class="toolbar-inner">
+                        <div class="left">Tollgates</div>
+                        <div class="right"><a class="link popup-close" data-popup=".popup-tollgates"
+                                              href="#">Close</a></div>
+                    </div>
+                </div>
                 <div class="page-content">
                     <div class="block-title">
                         EXPECTED TOLLGATES
@@ -821,14 +822,6 @@
                     <div class="block" id="tripTollgates">
 
                     </div>
-                    <div class="row">
-                        <div class="col"></div>
-                        <button class="button col popup-close" data-popup=".popup-tollgates"
-                                style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close
-                        </button>
-                        <div class="col"></div>
-                    </div>
-                    <br/>
                     <div class="block">
                         <div class="row">
                             <div class="col-25"></div>
@@ -847,6 +840,13 @@
     <div class="popup popup-consumption">
         <div class="view popup-view">
             <div class="page">
+                <div class="toolbar">
+                    <div class="toolbar-inner">
+                        <div class="left">Fuel consumption</div>
+                        <div class="right"><a class="link popup-close" data-popup=".popup-consumption"
+                                              href="#">Close</a></div>
+                    </div>
+                </div>
                 <div class="page-content">
                     <div class="block-title">
                         EXPECTED FUEL CONSUMPTION
@@ -854,14 +854,6 @@
                     <div id="consumptionEstimates">
 
                     </div>
-                    <div class="row">
-                        <div class="col"></div>
-                        <button class="button col popup-close" data-popup=".popup-consumption"
-                                style="width: 80%; text-align: center; display: block; margin: 0 auto;">Close
-                        </button>
-                        <div class="col"></div>
-                    </div>
-
                     <br/>
                     <div class="block">
                         <div class="row">

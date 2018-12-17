@@ -30,6 +30,13 @@ define(["app", "js/convoydrive/convoydriveView"], function (app, View) {
                     }
                 },
                 {
+                    text: 'Demographics',
+                    bold: true,
+                    onClick: function () {
+                        convoyDemographics();
+                    }
+                },
+                {
                     text: 'Members',
                     onClick: function () {
                         membersPopup.open();
@@ -55,6 +62,10 @@ define(["app", "js/convoydrive/convoydriveView"], function (app, View) {
         app.f7.actions.create({
             buttons: buttons
         }).open();
+    }
+
+    function convoyDemographics() {
+        console.log('will load tollgates and fuel staff');
     }
 
     function drive() {
@@ -155,6 +166,7 @@ define(["app", "js/convoydrive/convoydriveView"], function (app, View) {
     function initPopups() {
         membersPopup = app.f7.popup.create({
             el: '.popup-convoy-members',
+            animate: true,
             on: {
                 open: function () {
                     console.log('popup opened');
@@ -181,6 +193,7 @@ define(["app", "js/convoydrive/convoydriveView"], function (app, View) {
 
         memberPopup = app.f7.popup.create({
             el: '.popup-convoy-member',
+            animate: true,
             on: {
                 open: function () {
                     console.log(locationData);
