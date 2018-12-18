@@ -255,7 +255,14 @@ define(["app", "js/convoy/convoyView"], function (app, View) {
     }
 
     function convoyDemographics() {
-        console.log('will load tollgates and fuel staff');
+        if (car === null)
+            app.f7.dialog.confirm(messages.no_car, function () {
+                app.mainView.router.navigate('/cars');
+            });
+        else
+            functions.checkTollgates(app, user, function () {
+                functions.calculateTollgates(app, car, convoy, View);
+            });
     }
 
     function toggleConvoy(action) {
@@ -407,8 +414,7 @@ define(["app", "js/convoy/convoyView"], function (app, View) {
     function acceptConvoy() {
         console.log('will accept invite');
         if (car === null) {
-            app.f7.dialog.confirm('You do not have a car set for this convoy, would you wanna go to your list of cars ' +
-                'and select the car you want? NB> just make it default so that Abiri can pick it up', function () {
+            app.f7.dialog.confirm(messages.no_car, function () {
                 app.mainView.router.navigate('/cars');
             });
         } else {

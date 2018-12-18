@@ -12,7 +12,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
         var initialCoords = {};
         var selectedToll = {};
         var tollPopup = {};
-        var positionMarker = null;
+        var positionMarker, currentPosition = null;
         var updatePosition = true;
         var mapDiv;
         var map = null;
@@ -98,7 +98,6 @@ define(["app", "js/drive/driveView"], function (app, View) {
 
         }
 
-
         function tollUpdates() {
             console.log('will get toll gates according to the current position relative to destination');
             if (functions.hasCookie(cookienames.has_tollgates) == false || functions.hasCookie(cookienames.has_tollgates) == 'false') {
@@ -181,7 +180,6 @@ define(["app", "js/drive/driveView"], function (app, View) {
             }
         }
 
-
         function alterJourney(statement, state) {
             app.f7.dialog.preloader(statement);
             $.ajax({
@@ -215,35 +213,6 @@ define(["app", "js/drive/driveView"], function (app, View) {
             });
         }
 
-        function refreshPosition() {
-            var interval = Cookies.get(cookienames.position_interval);
-            if (interval == undefined) {
-                interval = 375;
-            }
-            if (positionMarker == null) {
-                positionMarker = new google.maps.Marker({
-                    position: new google.maps.LatLng({
-                        lat: startLat,
-                        lng: startLng
-                    }),
-                    animation: google.maps.Animation.DROP,
-                    draggable: false,
-                    map: map,
-                    title: 'Me',
-                    icon: meIcon
-                });
-            }
-            refreshID = setInterval(function () {
-                navigator.geolocation.getCurrentPosition(locationSuccess.bind(this),
-                    locationError.bind(this),
-                    {
-                        maximumAge: 3000,
-                        timeout: 5000,
-                        enableHighAccuracy: true
-                    });
-            }, interval);
-        }
-
         function reloadPosition(state) {
             if (positionMarker == null) {
                 positionMarker = new google.maps.Marker({
@@ -270,6 +239,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
 
         function watchSuccess(position) {
             console.log(position);
+            currentPosition = position;
             var newPosition = new google.maps.LatLng({
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
@@ -278,21 +248,6 @@ define(["app", "js/drive/driveView"], function (app, View) {
             map.setTilt(15);
             map.setCenter(newPosition);
             positionMarker.setPosition(newPosition);
-        }
-
-        function locationSuccess(position) {
-            console.log(position);
-            var newPosition = new google.maps.LatLng({
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            });
-            if (posUpdateCount == 0) {
-                map.setZoom(18);
-                map.setTilt(15);
-                map.setCenter(newPosition);
-            }
-            positionMarker.setPosition(newPosition);
-            posUpdateCount++;
         }
 
         function locationError(error) {
@@ -305,24 +260,8 @@ define(["app", "js/drive/driveView"], function (app, View) {
         }
 
         function getTollgates() {
-            app.f7.dialog.preloader('Getting tollgates');
-            $.ajax({
-                url: api.getPath('tollagates'),
-                timeout: appDigits.timeout,
-                method: 'POST',
-                email: user.email,
-                phone: user.phone
-            }).success(function (tollgates) {
-                console.log(tollgates);
-                localStorage.setItem(cookienames.tollgates, JSON.stringify(tollgates.data));
-                Cookies.set(cookienames.has_tollgates, true, {
-                    expires: 21
-                });
+            functions.checkTollgates(app, user, function () {
                 calculateTollgates();
-            }).error(function (error) {
-                console.log(error);
-            }).always(function () {
-                app.f7.dialog.close();
             });
         }
 
@@ -375,7 +314,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
                 });
             }
 
-            if (validTolls.length == 0) {
+            if (validTolls.length === 0) {
                 app.f7.dialog.close();
                 app.f7.dialog.alert('Its estimated that there are no tollgates on this route');
             } else {
@@ -387,11 +326,14 @@ define(["app", "js/drive/driveView"], function (app, View) {
                 tollgatesPopup.open();
                 console.log(validTolls);
 
+                $('*#tollgateDetails').unbind();
                 $('*#tollgateDetails').on('click', function () {
                     var tollgate_id = $(this).attr('tollgate_id');
                     var theToll = validTolls.filter(function (tollgate) {
                         return tollgate.id == tollgate_id;
                     });
+                    console.log(theToll[0]);
+                    selectedToll = theToll[0];
                     showTollgate(theToll[0]);
                 });
 
@@ -400,38 +342,43 @@ define(["app", "js/drive/driveView"], function (app, View) {
                     var theToll = validTolls.filter(function (tollgate) {
                         return tollgate.id == tollgate_id;
                     });
+                    selectedToll = theToll[0];
                     tollgatesPopup.close();
+                    showMarker(theToll[0]);
 
-                    var tollmarker = new google.maps.Marker({
-                        position: mkCds(theToll[0].coordinates),
-                        map: map,
-                        title: theToll[0].name,
-                        animation: google.maps.Animation.DROP,
-                        //        label: tollgate.name,
-                        icon: routeGate
-                    });
-
-                    var div = document.createElement('div');
-                    div.innerHTML = theToll[0].name;
-                    div.onclick = function () {
-                        showTollgate();
-                    };
-
-                    var infowindow = new google.maps.InfoWindow({
-                        content: div
-                    });
-                    tollmarker.addListener('click', function () {
-                        selectedToll = theToll[0];
-                        infowindow.open(map, tollmarker);
-                    });
                 });
                 app.f7.dialog.close();
             }
         }
 
+        function showMarker(tollgate) {
+            var tollmarker = new google.maps.Marker({
+                position: mkCds(tollgate.coordinates),
+                map: map,
+                title: tollgate.name,
+                animation: google.maps.Animation.DROP,
+                //        label: tollgate.name,
+                icon: routeGate
+            });
+
+            var div = document.createElement('div');
+            div.innerHTML = tollgate.name;
+            div.onclick = function () {
+                showTollgate(tollgate);
+            };
+
+            var infowindow = new google.maps.InfoWindow({
+                content: div
+            });
+            tollmarker.addListener('click', function () {
+                selectedToll = tollgate;
+                infowindow.open(map, tollmarker);
+            });
+        }
+
         function showTollgate(tollgate) {
-            console.log(selectedToll);
-            if (tollgate == null) {
+            console.log(tollgate);
+            if (tollgate === null) {
                 tollgate = selectedToll;
             }
             tollPopup = app.f7.popup.create({
@@ -439,14 +386,37 @@ define(["app", "js/drive/driveView"], function (app, View) {
                 animate: true,
                 on: {
                     open: function () {
-                        View.fillTollgate(tollgate);
+                        View.fillTollgate(selectedToll, function (tollgate) {
+                            $('*#showTollMarker').unbind();
+                            $('*#showTollMarker').on('click', function () {
+                                tollPopup.close();
+                                showMarker(tollgate);
+                            });
+
+                            $('*#calculateDistance').unbind();
+                            $('*#calculateDistance').on('click', function () {
+                                tollPopup.close();
+                                if (currentPosition == null)
+                                    navigator.geolocation.getCurrentPosition(function (position) {
+                                      functions.calculateDistance(app, position, tollgate, user);
+                                    }, function (error) {
+                                        console.log(error);
+                                        app.f7.dialog.alert(error.message);
+                                    });
+                                else
+                                    functions.calculateDistance(app, position, tollgate, user);
+                            });
+                        });
+                    },
+                    close: function () {
+                        View.fillTollgate(null);
                     }
                 }
             });
             tollgatesPopup.close();
             tollPopup.open();
         }
-
+        
         function fuelConsumption() {
             app.f7.dialog.preloader('Calculating consumption');
             $.ajax({

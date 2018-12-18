@@ -9,12 +9,16 @@ define([
         bindEvents(params.bindings);
     }
 
-    function fillTollgate(tollgate) {
+    function fillTollgate(tollgate, tollCallback) {
         $('#mytollDetails').html(tollgateTemplate(tollgate));
+        if(typeof tollCallback === 'function')
+            tollCallback(tollgate);
     }
 
-    function fillTollgates(tollgates) {
+    function fillTollgates(tollgates, tollCallback) {
         $('#tripTollgates').html(tollgatesTemplate(tollgates));
+        if(typeof tollCallback === 'function')
+            tollCallback(tollgates);
     }
 
     function fillConsumption(consumption) {

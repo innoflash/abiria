@@ -65,7 +65,34 @@ define(["app", "js/convoydrive/convoydriveView"], function (app, View) {
     }
 
     function convoyDemographics() {
-        console.log('will load tollgates and fuel staff');
+        if (car === null)
+            app.f7.dialog.confirm(messages.no_car, function () {
+                app.mainView.router.navigate('/cars');
+            });
+        else
+            functions.checkTollgates(app, user, function () {
+              functions.calculateTollgates(app, car, convoy, View, true, {
+                showMarker: function(tollgate){
+                  console.log(tollgate);
+                  functions.showMarker(map, tollgate);
+                },
+                calculateDistance: function(tollgate){
+                  if (currentPosition == null) {
+                    navigator.geolocation.getCurrentPosition(function(position){
+                      functions.calculateDistance(app, position, tollgate, user);
+                    }, function(error){
+                      app.f7.dialog.alert(error.message);
+                    }, {
+                        maximumAge: 3000,
+                        timeout: 5000,
+                        enableHighAccuracy: true
+                    });
+                  }else{
+                    functions.calculateDistance(app, currentPosition, tollgate, user);
+                  }
+                }
+              });
+            });
     }
 
     function drive() {
@@ -117,6 +144,7 @@ define(["app", "js/convoydrive/convoydriveView"], function (app, View) {
         driverIcon = 'img/icons/car.png';
         user = Cookies.getJSON(cookienames.user);
         convoy = JSON.parse(localStorage.getItem(cookienames.convoyObject));
+        car = JSON.parse(Cookies.get(cookienames.default_car));
         initPopups();
         openMap();
     }

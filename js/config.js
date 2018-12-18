@@ -47,6 +47,7 @@ var app_apis = {
 var messages = {
     empty_invite: 'You have not added any member to your convoy, please add at least one!!',
     server_error: 'Could not connect to the server, check your internet and try again',
+    no_car: 'You do not have a car set for this convoy, would you wanna go to your list of cars and select the car you want? NB. just make it default so that Abiri can pick it up',
     location_error: 'Sorry, your device can`t pick your current location, can you allow this app to use your location services and if you will goto \"Settings\" and increase the postion interval!'
 };
 
