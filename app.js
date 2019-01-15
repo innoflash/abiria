@@ -20,104 +20,12 @@ define('app', ['js/router'], function (Router) {
     var f7 = new Framework7({
         root: '#app',
         name: 'ABIRI',
-        id: 'zw,co.flashtech.abiri',
+        id: 'net.innoflash.abiri',
         animateNavBackIcon: true,
         panel: {
             swipe: 'left',
         },
-        routes: [
-            {
-                path: '/index',
-                url: 'index.html'
-            }, {
-                path: '/planjourney',
-                url: 'pages/destination.html'
-            }, {
-                path: '/cars',
-                url: 'pages/cars.html'
-            }, {
-                path: '/addcar',
-                url: 'pages/addcar.html'
-            }, {
-                path: "/editcar/:id",
-                url: 'pages/editcar.html'
-            }, {
-                path: '/routes/:place_id',
-                url: 'pages/routes.html'
-            }, {
-                path: '/carview/:id',
-                url: 'pages/car.html'
-            }, {
-                path: '/routedetails/:position',
-                url: 'pages/routedetails.html'
-            }, {
-                path: '/drive/:position',
-                url: 'pages/drive.html'
-            }, {
-                path: '/profile',
-                url: 'pages/profile.html'
-            }, {
-                path: '/editprofile',
-                url: 'pages/editprofile.html'
-            }, {
-                path: '/changepassword',
-                url: 'pages/changepassword.html'
-            }, {
-                path: '/journeys',
-                url: 'pages/journeys.html'
-            }, {
-                path: '/addjourney',
-                url: 'pages/destination.html'
-            }, {
-                path: '/journey/:id',
-                url: 'pages/journey.html'
-            }, {
-                path: '/map',
-                url: 'pages/map.html'
-            }, {
-                path: '/tollhistory/:id',
-                url: 'pages/tollhistory.html'
-            }, {
-                path: '/contact',
-                url: 'pages/contact.html'
-            }, {
-                path: '/reviews',
-                url: 'pages/reviews.html'
-            }, {
-                path: '/about',
-                url: 'pages/about.html'
-            }, {
-                path: '/settings',
-                url: 'pages/settings.html'
-            }, {
-                path: '/taxiranks',
-                url: 'pages/taxiranks.html'
-            }, {
-                path: '/rank/:origin/:destination',
-                url: 'pages/rank.html'
-            }, {
-                path: '/rankDetails/:position',
-                url: 'pages/rankDetails.html'
-            }, {
-                path: '/rankRoute/:rankname/:origin/:destination',
-                url: 'pages/rankRoute.html'
-            }, {
-                path: '/convoys',
-                url: 'pages/convoys.html'
-            }, {
-                path: '/addconvoy',
-                url: 'pages/addconvoy.html'
-            }, {
-                path: '/convoy/:convoy_id/:invite_id',
-                url: 'pages/convoy.html'
-            }, {
-                path: '/editconvoy',
-                url: 'pages/editconvoy.html'
-            }, {
-                path: '/convoydrive',
-                url: 'pages/convoydrive.html'
-            }
-        ],
+        routes: routes,
         theme: 'ios',
         upscroller: {
             text: 'Go down',

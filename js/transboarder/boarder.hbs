@@ -1,0 +1,111 @@
+{{#if this}}
+<div class="block-title">
+  BOARDER
+</div>
+<div class="list no-hairlines-md inset" id="myCar">
+  <ul>
+    <li class="item-content item-input">
+      <div class="item-media">
+        <i class="icon fa fa-map-marker"></i>
+      </div>
+      <div class="item-inner">
+        <div class="item-title item-floating-label">Boarder post
+        </div>
+        <div class="item-input-wrap">
+          <input type="text" value="{{ boarder.post }}" disabled>
+          <span class="input-clear-button"></span>
+        </div>
+      </div>
+    </li>
+    <li class="item-content item-input">
+      <div class="item-media">
+        <i class="icon fa fa-globe"></i>
+      </div>
+      <div class="item-inner">
+        <div class="item-title item-floating-label">Country
+        </div>
+        <div class="item-input-wrap">
+          <input type="text" value="{{ country.name }}" disabled>
+          <span class="input-clear-button"></span>
+        </div>
+      </div>
+    </li>
+    <li class="item-content item-input">
+      <div class="item-media">
+        <i class="icon fa fa-dollar"></i>
+      </div>
+      <div class="item-inner">
+        <div class="item-title item-floating-label">Fee
+        </div>
+        <div class="item-input-wrap">
+          <input type="text" value="{{ boarder.fee }}" disabled>
+          <span class="input-clear-button"></span>
+        </div>
+      </div>
+    </li>
+    <li class="item-content item-input">
+      <div class="item-media">
+        <i class="icon fa fa-map-marker"></i>
+      </div>
+      <div class="item-inner">
+        <div class="item-title item-floating-label">Route
+        </div>
+        <div class="item-input-wrap">
+          <input type="text" value="{{ boarder.route }}" disabled>
+          <span class="input-clear-button"></span>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="block-title">
+  CURRENCY
+</div>
+<div class="list no-hairlines-md inset" id="myCar">
+  <ul>
+    <li class="item-content item-input">
+      <div class="item-media">
+        <i class="icon fa fa-dollar"></i>
+      </div>
+      <div class="item-inner">
+        <div class="item-title item-floating-label">Currency
+        </div>
+        <div class="item-input-wrap">
+          <input type="text" value="{{ currency.name }}" disabled>
+          <span class="input-clear-button"></span>
+        </div>
+      </div>
+    </li>
+    <li class="item-content item-input">
+      <div class="item-media">
+        <i class="icon fa fa-dollar"></i>
+      </div>
+      <div class="item-inner">
+        <div class="item-title item-floating-label">Rate
+        </div>
+        <div class="item-input-wrap">
+          <input type="text" value="{{ currency.rate }}" disabled>
+          <span class="input-clear-button"></span>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div class="block-title">
+  PERMITS
+</div>
+<div class="list inset">
+  <ul>
+    {{#each country.permits}}
+    <li>
+      <a href="#" class="item-link item-content">
+        <div class="item-inner">
+          <div class="item-title">{{ this }}</div>
+        </div>
+      </a>
+    </li>
+    {{/each}}
+  </ul>
+</div>
+{{/if}}
