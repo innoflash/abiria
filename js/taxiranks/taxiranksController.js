@@ -61,7 +61,7 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
             locationError.bind(this),
             {
                 maximumAge: 3000,
-                timeout: 5000,
+                timeout: appDigits.timeout,
                 enableHighAccuracy: true
             });
 
