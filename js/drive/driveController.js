@@ -447,6 +447,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
 
   function preparePage() {
     initPopups();
+    window.plugins.insomnia.keepAwake()
     $('#speedometer').hide()
     meIcon = 'img/icons/car.png';
     tollgateIcon = 'img/icons/tollgate.png';
@@ -646,6 +647,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
 
   function onOut() {
     updatePosition = false;
+    window.plugins.insomnia.allowSleepAgain()
     try {
       navigator.geolocation.clearWatch(watchID);
       // clearInterval(refreshID);

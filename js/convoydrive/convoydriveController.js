@@ -165,6 +165,7 @@ define(["app", "js/convoydrive/convoydriveView"], function (app, View) {
   }
 
   function preparePage() {
+    window.plugins.insomnia.keepAwake()
     $('#speedometer').hide();
     driverIcon = 'img/icons/car.png';
     user = Cookies.getJSON(cookienames.user);
@@ -446,6 +447,7 @@ define(["app", "js/convoydrive/convoydriveView"], function (app, View) {
     memberPopup.close();
     membersPopup.close();
     navigator.geolocation.clearWatch(positionID)
+    window.plugins.insomnia.allowSleepAgain()
     console.log('convoydrive outting');
   }
 

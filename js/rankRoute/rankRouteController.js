@@ -140,6 +140,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
     data = JSON.parse(localStorage.getItem(cookienames.rankRoutes));
     loadMap();
     console.log(origin, destination);
+    window.plugins.insomnia.keepAwake()
   }
 
   function loadMap() {
@@ -213,6 +214,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
   }
 
   function onOut() {
+    window.plugins.insomnia.allowSleepAgain()
     try {
       navigator.geolocation.clearWatch(watchID);
       clearInterval(updateID)
