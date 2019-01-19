@@ -97,6 +97,15 @@ define(['handlebars'], function (Handlebars) {
         }
     });
 
+    Handlebars.registerHelper('speedCalculator', function(speed){
+      if (speed === null) {
+        return 'n/a'
+      }else{
+        speed = Math.round((speed/1000)/3600) + ' km/hr'
+        return speed
+      }
+    })
+
     Handlebars.registerHelper('checkAuth', function (auth_type) {
         if (auth_type === "Abiri Direct") {
             return 'person';

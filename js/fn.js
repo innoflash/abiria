@@ -284,7 +284,7 @@ var positionRefresh = {
   updateSpeed: function(position, mode){
     var speed = position.coords.speed;
     if (mode === undefined || mode === null || mode == 'DRIVING') {
-      speed = Math.round((speed/1000)/3600) + ' km/s'
+      speed = Math.round((speed/1000)/3600) + ' km/hr'
     }else{
       speed = speed.toFixed(2) + 'm/s'
     }
@@ -318,10 +318,10 @@ var positionRefresh = {
   },
   updateDirection: function(directResult){
     var firstStep = directResult.routes[0].legs[0].steps[0];
-    $('#routeDescription').html(firstStep.instructions)
-    $('#travelMode').text('| abiri ('+directResult.request.travelMode+')')
-    $('#routeDetails').text( firstStep.distance.text + ' / ' + firstStep.duration.text)
-    console.log('firstStedp', firstStep)
+    $('*#routeDescription').html(firstStep.instructions)
+    $('*#travelMode').text('| abiri ('+directResult.request.travelMode+')')
+    $('*#routeDetails').text( firstStep.distance.text + ' / ' + firstStep.duration.text)
+    console.log('firstStep', firstStep)
   }
 }
 var maps = {
