@@ -281,8 +281,13 @@ var functions = {
 };
 
 var positionRefresh = {
-  updateSpeed: function(position){
+  updateSpeed: function(position, mode){
     var speed = position.coords.speed;
+    if (mode === undefined || mode === null || mode == 'DRIVING') {
+      speed = Math.round((speed/1000)/3600) + ' km/s'
+    }else{
+      speed = speed.toFixed(2) + 'm/s'
+    }
     console.log('speed is :', speed)
     $('#speedometer').show(100)
     $('#speed').text(speed)
