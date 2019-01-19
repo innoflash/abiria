@@ -132,10 +132,6 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
             url: '/rankRoute/' + selectedRank.name + '/' + cPosition.lat + ',' + cPosition.lng + '/' + selectedRank.coordinates,
             reloadPrevious: false
         });
-        /* app.f7.dialog.confirm('Do you want to get directions to this taxi rank?', function () {
-             console.log('will load the routes to the given coords from the current');
-
-         });*/
     }
 
     function getRankDetails() {
@@ -253,7 +249,6 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
             app.f7.dialog.close();
         });
     }
-
 
     function locationSuccess(position) {
         cPosition.lat = position.coords.latitude;
@@ -404,11 +399,17 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
     function locationError(error) {
         app.f7.dialog.close();
         console.log(error);
-        app.f7.dialog.confirm(error.message/*'Failed to auto pick your location, pick your location manually'*/, function () {
-            locationPopup.open();
-        }, function () {
-            app.mainView.router.back();
-        });
+        watchID = navigator.geolocation.watchPosition(function(position){
+          navigator.geolocation.clearWatch(watchID)
+          locationSuccess(position)
+        }, function(error) {
+          app.f7.dialog.confirm('Failed to auto pick your location, pick your location manually', function () {
+              locationPopup.open();
+              navigator.geolocation.clearWatch(watchID)
+          }, function () {
+              app.mainView.router.back();
+          });
+        })
     }
 
 
