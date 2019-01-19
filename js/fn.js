@@ -328,5 +328,11 @@ var maps = {
     };
     console.log(coordS);
     return new google.maps.LatLng(coordS);
+  },
+  getMidPoint: function(origin, destination){
+    return {
+        lat: +((origin.lat + destination.lat) / 2).toFixed(5),
+        lng: +((origin.lng + destination.lng) / 2).toFixed(5),
+    }
   }
 }

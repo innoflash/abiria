@@ -4,7 +4,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
   var position = -1;
   var data = {};
   var route = {};
-  var directionsService, directionsDisplay = null;
+  var directionsService, directionsDisplay, currentPosition = null;
   var positionMarker, map, pedestrianIcon, watchID = null;
   var origin, destination, rankname, user, routeResult = null;
 
@@ -64,6 +64,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
       icon: pedestrianIcon
     });
     refreshPosition();
+    updateCompass()
   }
 
   function refreshPosition() {
@@ -75,6 +76,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
   }
 
   function locationSuccess(position) {
+    currentPosition = position
     var waitForIt = false
     console.log('position success called')
     console.log(position);
@@ -82,33 +84,33 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
       lat: position.coords.latitude,
       lng: position.coords.longitude
     });
-    map.setZoom(18);
+    map.setZoom(20);
     map.setCenter(newPosition);
     positionMarker.setPosition(newPosition);
     updateHeading(newPosition);
     positionRefresh.updateSpeed(position)
+  }
 
-    if (!waitForIt) {
-      navigator.geolocation.clearWatch(watchID);
-      doCompassUpdate(position)
-    }
+  function updateCompass() {
+    updateID = setInterval(function(){
+      console.log('running an interval refresh')
+      if (currentPosition != null) {
+        doCompassUpdate(currentPosition)
+      }
+    }, appDigits.posUpdate)
   }
 
   function doCompassUpdate(position) {
+  //  navigator.geolocation.clearWatch(watchID);
     positionRefresh.calculateRoute(position, destination, directionsService, 'WALKING').then((result, status) => {
-      if (status === 'OVER_QUERY_LIMIT' || result === null) {
-        waitForIt = true
-        console.log('over query limit')
-        setTimeout(function(){
-          doCompassUpdate(position)
-        }, appDigits.positionRefresh)
+      if (result === null) {
+        console.log('do compass update')
       }else{
-        waitForIt = false;
         positionRefresh.updateDirection(result)
       }
       console.log('result found:', result)
     }).catch(err => console.log(err)).finally(()=> {
-      refreshPosition()
+//      refreshPosition()
     })
   }
 
@@ -164,12 +166,14 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
     };
 
     var showMap = function () {
-      console.log(midPoint(origin, destination));
+      console.log(maps.getMidPoint(origin, destination));
       var mapOptions = {
         zoom: 21,
-        center: midPoint(origin, destination),
+        center: maps.getMidPoint(origin, destination),
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         tilt: 45,
+        styles: mapStyles,
+        disableDefaultUI: true
       };
 
       var map = new google.maps.Map(document.getElementById("rank_mapova"), mapOptions);
@@ -197,13 +201,6 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
     });
   }
 
-  function midPoint(origin, destination) {
-    return {
-      lat: +((origin.lat + destination.lat) / 2).toFixed(5),
-      lng: +((origin.lng + destination.lng) / 2).toFixed(5),
-    }
-  }
-
   function init() {
     preparePage();
     View.render({
@@ -218,6 +215,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
   function onOut() {
     try {
       navigator.geolocation.clearWatch(watchID);
+      clearInterval(updateID)
     } catch (e) {
     }
     console.log('rankRoute outting');
