@@ -397,12 +397,12 @@ define(["app", "js/taxiranks/taxiranksView"], function (app, View) {
     }
 
     function locationError(error) {
-        app.f7.dialog.close();
         console.log(error);
         watchID = navigator.geolocation.watchPosition(function(position){
           navigator.geolocation.clearWatch(watchID)
           locationSuccess(position)
         }, function(error) {
+          app.f7.dialog.close();
           app.f7.dialog.confirm('Failed to auto pick your location, pick your location manually', function () {
               locationPopup.open();
               navigator.geolocation.clearWatch(watchID)
