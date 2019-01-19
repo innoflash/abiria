@@ -88,7 +88,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
     map.setCenter(newPosition);
     positionMarker.setPosition(newPosition);
     updateHeading(newPosition);
-    positionRefresh.updateSpeed(position)
+    positionRefresh.updateSpeed(position, 'WALKING')
   }
 
   function updateCompass() {
