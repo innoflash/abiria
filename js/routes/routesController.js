@@ -96,12 +96,18 @@ define(["app", "js/routes/routesView"], function (app, View) {
 
     function locationError(error) {
         console.log(error);
-        app.f7.dialog.close();
-        app.f7.dialog.confirm('Failed to auto pick your location, pick your location manually', function () {
-            locationPopup.open();
-        }, function () {
-            app.mainView.router.back();
-        });
+        watchID = navigator.geolocation.watchPosition(position => {
+          navigator.geolocation.clearWatch(watchID)
+          locationSuccess(position)
+        }, error => {
+          navigator.geolocation.clearWatch(watchID)
+          app.f7.dialog.close();
+          app.f7.dialog.confirm('Failed to auto pick your location, pick your location manually', function () {
+              locationPopup.open();
+          }, function () {
+              app.mainView.router.back();
+          });
+        })
     }
 
     function getDestination(origin) {

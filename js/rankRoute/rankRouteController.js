@@ -84,7 +84,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
       lat: position.coords.latitude,
       lng: position.coords.longitude
     });
-    map.setZoom(20);
+    map.setZoom(18);
     map.setCenter(newPosition);
     positionMarker.setPosition(newPosition);
     updateHeading(newPosition);

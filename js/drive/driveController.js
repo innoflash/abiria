@@ -150,7 +150,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
         Cookies.set(cookienames.journey_id, data.j_id);
         Cookies.set(cookienames.position, position);
 
-        map.setZoom(20);
+        map.setZoom(18);
         map.setCenter(new google.maps.LatLng({
           lat: startLat,
           lng: startLng
@@ -245,7 +245,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
       lat: position.coords.latitude,
       lng: position.coords.longitude
     });
-    map.setZoom(20);
+    map.setZoom(18);
     map.setTilt(15);
     map.setCenter(newPosition);
     positionMarker.setPosition(newPosition);
@@ -492,7 +492,7 @@ define(["app", "js/drive/driveView"], function (app, View) {
       }
     }, appDigits.posUpdate)
   }
-  
+
   function doCompassUpdate(position) {
     //  navigator.geolocation.clearWatch(watchID);
     positionRefresh.calculateRoute(position, endLat +','+endLng, directionsService, 'DRIVING').then((result, status) => {

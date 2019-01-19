@@ -60,7 +60,7 @@ define(["app", "js/destination/destinationView"], function (app, View) {
 
     function reinit() {
         console.log('reinitialising');
-        app.mainView.router.refreshPage();
+        init()
     }
 
     function restorePages() {
