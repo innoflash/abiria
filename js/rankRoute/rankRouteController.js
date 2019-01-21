@@ -68,11 +68,7 @@ define(["app", "js/rankRoute/rankRouteView"], function (app, View) {
   }
 
   function refreshPosition() {
-    watchID = navigator.geolocation.watchPosition(locationSuccess.bind(this), locationError.bind(this), {
-      maximumAge: 3000,
-      timeout: 7000,
-      enableHighAccuracy: true
-    });
+    watchID = navigator.geolocation.watchPosition(locationSuccess.bind(this), locationError.bind(this), google.locationOptions)
   }
 
   function locationSuccess(position) {

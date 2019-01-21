@@ -77,6 +77,11 @@ var api = {
 };
 
 var google = {
+  locationOptions: {
+    maximumAge: 3000,
+    timeout: appDigits.timeout,
+    enableHighAccuracy: true
+  },
   // findPlaces: 'https://maps.googleapis.com/maps/api/place/textsearch/json?key=' + keys.google_maps + '&query=',
   // findPlaces: 'https://maps.googleapis.com/maps/api/place/autocomplete/json?components=country:za&key=' + keys.google_maps + '&input=',
   findPlace: 'https://maps.googleapis.com/maps/api/place/details/json?key=' + keys.google_maps + '&placeid=',

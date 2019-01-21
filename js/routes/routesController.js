@@ -13,13 +13,7 @@ define(["app", "js/routes/routesView"], function (app, View) {
         place_id = app.mainView.router.currentRoute.params.place_id;
         console.log(app.mainView.router.currentRoute.params);
 
-        navigator.geolocation.getCurrentPosition(locationSuccess.bind(this),
-            locationError.bind(this),
-            {
-                maximumAge: 3000,
-                timeout: 5000,
-                enableHighAccuracy: true
-            });
+        navigator.geolocation.getCurrentPosition(locationSuccess.bind(this), locationError.bind(this), google.locationOptions);
         locationPopup = app.f7.popup.create({
             el: '.popup-mylocation',
             animate: true,
@@ -107,7 +101,7 @@ define(["app", "js/routes/routesView"], function (app, View) {
           }, function () {
               app.mainView.router.back();
           });
-        })
+        }, google.locationOptions)
     }
 
     function getDestination(origin) {
